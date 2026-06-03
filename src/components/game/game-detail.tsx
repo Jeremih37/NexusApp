@@ -9,7 +9,8 @@ import { Button } from '@/components/ui/button'
 import { StarRating } from '@/components/review/star-rating'
 import { ReviewList } from '@/components/review/review-list'
 import { ReviewModal } from '@/components/review/review-modal'
-import { useGame, useFavorites, useCurrentUser, useToggleFavorite } from '@/hooks/use-games'
+import { useGame, useFavorites, useToggleFavorite } from '@/hooks/use-games'
+import { useAuth } from '@/lib/auth-context'
 
 interface GameDetailProps {
   id: string
@@ -17,9 +18,9 @@ interface GameDetailProps {
 
 export function GameDetail({ id }: GameDetailProps) {
   const { data: game, isLoading } = useGame(id)
-  const { data: userId } = useCurrentUser()
-  const { data: favorites = [] } = useFavorites(userId ?? '')
-  const toggleFavorite = useToggleFavorite(userId ?? '')
+  const { user, isAuthenticated } = useAuth()
+  const { data: favorites = [] } = useFavorites()
+  const toggleFavorite = useToggleFavorite()
   const [showTrailer, setShowTrailer] = useState(false)
   const [showReviewModal, setShowReviewModal] = useState(false)
   const router = useRouter()
@@ -45,6 +46,22 @@ export function GameDetail({ id }: GameDetailProps) {
   }
 
   const isFavorite = favorites.includes(game.id)
+
+  const handleToggleFavorite = () => {
+    if (!isAuthenticated) {
+      router.push('/login')
+      return
+    }
+    toggleFavorite.mutate(game.id)
+  }
+
+  const handleWriteReview = () => {
+    if (!isAuthenticated) {
+      router.push('/login')
+      return
+    }
+    setShowReviewModal(true)
+  }
 
   return (
     <div className="relative">
@@ -88,7 +105,7 @@ export function GameDetail({ id }: GameDetailProps) {
                 <p className="text-gray-400 text-lg">{game.developer} &middot; {game.publisher}</p>
               </div>
               <button
-                onClick={() => toggleFavorite.mutate(game.id)}
+                onClick={handleToggleFavorite}
                 className={cn(
                   'p-3 rounded-full transition-all',
                   isFavorite
@@ -142,7 +159,7 @@ export function GameDetail({ id }: GameDetailProps) {
                 </a>
               )}
               <Button
-                onClick={() => setShowReviewModal(true)}
+                onClick={handleWriteReview}
                 variant="outline"
                 className="flex items-center gap-2 px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium transition-colors border-gray-600 h-12"
               >

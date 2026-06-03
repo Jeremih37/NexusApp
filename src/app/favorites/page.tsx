@@ -6,12 +6,11 @@ import { Button } from '@/components/ui/button'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
 import { GameCard } from '@/components/game/game-card'
-import { useFavoriteGames, useCurrentUser, useToggleFavorite } from '@/hooks/use-games'
+import { useFavoriteGames, useToggleFavorite } from '@/hooks/use-games'
 
 export default function FavoritesPage() {
-  const { data: userId } = useCurrentUser()
-  const { data: favoriteGames = [], isLoading } = useFavoriteGames(userId ?? '')
-  const toggleFavorite = useToggleFavorite(userId ?? '')
+  const { data: favoriteGames = [], isLoading } = useFavoriteGames()
+  const toggleFavorite = useToggleFavorite()
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-white flex flex-col">

@@ -2,11 +2,10 @@
 
 import Link from 'next/link'
 import { Heart, ChevronRight, Star } from 'lucide-react'
-import { useFavoriteGames, useCurrentUser } from '@/hooks/use-games'
+import { useFavoriteGames } from '@/hooks/use-games'
 
 export function FavoritesPreview() {
-  const { data: userId } = useCurrentUser()
-  const { data: favoriteGames = [], isLoading } = useFavoriteGames(userId ?? '')
+  const { data: favoriteGames = [], isLoading } = useFavoriteGames()
 
   if (isLoading || favoriteGames.length === 0) return null
 

@@ -12,7 +12,8 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog'
 import { StarRatingInput } from './star-rating-input'
-import { useCreateReview, useCurrentUser } from '@/hooks/use-games'
+import { useCreateReview } from '@/hooks/use-games'
+import { useAuth } from '@/lib/auth-context'
 
 interface ReviewModalProps {
   open: boolean
@@ -24,7 +25,7 @@ interface ReviewModalProps {
 export function ReviewModal({ open, onOpenChange, gameId, gameTitle }: ReviewModalProps) {
   const [rating, setRating] = useState(5)
   const [comment, setComment] = useState('')
-  const { data: user } = useCurrentUser()
+  const { user } = useAuth()
   const createReview = useCreateReview()
 
   const handleSubmit = () => {

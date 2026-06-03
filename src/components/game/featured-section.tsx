@@ -2,13 +2,12 @@
 
 import { Star } from 'lucide-react'
 import { GameCard } from './game-card'
-import { useGames, useFavorites, useCurrentUser, useToggleFavorite } from '@/hooks/use-games'
+import { useGames, useFavorites, useToggleFavorite } from '@/hooks/use-games'
 
 export function FeaturedSection() {
   const { data: games = [], isLoading } = useGames({ sort: 'rating' })
-  const { data: userId } = useCurrentUser()
-  const { data: favorites = [] } = useFavorites(userId ?? '')
-  const toggleFavorite = useToggleFavorite(userId ?? '')
+  const { data: favorites = [] } = useFavorites()
+  const toggleFavorite = useToggleFavorite()
 
   if (isLoading) return null
 

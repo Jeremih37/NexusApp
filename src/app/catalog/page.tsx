@@ -8,7 +8,7 @@ import { Footer } from '@/components/layout/footer'
 import { GameCard } from '@/components/game/game-card'
 import { GameCardSkeleton } from '@/components/game/game-card-skeleton'
 import { SearchFilters } from '@/components/catalog/search-filters'
-import { useGames, useCategories, useFavorites, useCurrentUser, useToggleFavorite } from '@/hooks/use-games'
+import { useGames, useCategories, useFavorites, useToggleFavorite } from '@/hooks/use-games'
 
 export default function CatalogPage() {
   const searchParams = useSearchParams()
@@ -21,9 +21,8 @@ export default function CatalogPage() {
   const [selectedCategory, setSelectedCategory] = useState(initialCategory)
   const [sortBy, setSortBy] = useState('rating')
 
-  const { data: userId } = useCurrentUser()
-  const { data: favorites = [] } = useFavorites(userId ?? '')
-  const toggleFavorite = useToggleFavorite(userId ?? '')
+  const { data: favorites = [] } = useFavorites()
+  const toggleFavorite = useToggleFavorite()
   const { data: categories = [] } = useCategories()
 
   const { data: games = [], isLoading } = useGames({

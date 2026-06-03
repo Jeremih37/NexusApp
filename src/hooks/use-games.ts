@@ -1,8 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api'
+import { useAuth } from '@/lib/auth-context'
 import type { Game, Category, Favorite } from '@/types'
-
-const CURRENT_USER_EMAIL = 'carlos@nexusapp.com'
 
 export function useGames(params?: { category?: string; search?: string; sort?: string }) {
   return useQuery({
@@ -26,7 +25,9 @@ export function useCategories() {
   })
 }
 
-export function useFavorites(userId: string) {
+export function useFavorites() {
+  const { user } = useAuth()
+  const userId = user?.id || ''
   return useQuery({
     queryKey: ['favorites', userId],
     queryFn: () => api.favorites.list(userId),
@@ -35,8 +36,10 @@ export function useFavorites(userId: string) {
   })
 }
 
-export function useFavoriteGames(userId: string) {
-  const favoritesQuery = useFavorites(userId)
+export function useFavoriteGames() {
+  const { user } = useAuth()
+  const userId = user?.id || ''
+  const favoritesQuery = useFavorites()
   const gamesQuery = useGames()
 
   const favoriteIds = favoritesQuery.data ?? []
@@ -50,7 +53,9 @@ export function useFavoriteGames(userId: string) {
   }
 }
 
-export function useToggleFavorite(userId: string) {
+export function useToggleFavorite() {
+  const { user } = useAuth()
+  const userId = user?.id || ''
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -94,8 +99,6 @@ export function useCreateReview() {
 }
 
 export function useCurrentUser() {
-  return useQuery({
-    queryKey: ['currentUser'],
-    queryFn: () => api.users.getByEmail(CURRENT_USER_EMAIL),
-  })
+  const { user, isLoading } = useAuth()
+  return { data: user, isLoading }
 }
