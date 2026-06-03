@@ -1,0 +1,161 @@
+================================================================================
+    REGLAS OBLIGATORIAS DEL PROYECTO - PLATAFORMA WEB DE VIDEOJUEGOS (NexusApp)
+================================================================================
+
+ANTES DE GENERAR CÓDIGO, ANALIZAR O MODIFICAR ARCHIVOS, DEBES CUMPLIR ESTAS
+REGLAS OBLIGATORIAS:
+
+--------------------------------------------------------------------------------
+1. ARQUITECTURA FIJA
+--------------------------------------------------------------------------------
+
+* Frontend: React + Tailwind CSS.
+* Backend: Node.js + Express.
+* Base de datos: PostgreSQL.
+* Autenticación: Firebase Authentication.
+* Almacenamiento de imágenes: Cloudinary.
+* No cambiar ninguna tecnología sin autorización explícita.
+
+--------------------------------------------------------------------------------
+2. DISEÑO DEL CÓDIGO
+--------------------------------------------------------------------------------
+
+* Utilizar arquitectura modular.
+* Separar Controllers, Routes, Services y Models.
+* Aplicar principios SOLID cuando sea posible.
+* Evitar código duplicado.
+* Documentar funciones complejas.
+
+--------------------------------------------------------------------------------
+3. BASE DE DATOS
+--------------------------------------------------------------------------------
+
+* No eliminar tablas existentes.
+* No modificar claves primarias sin autorización.
+* Mantener compatibilidad con:
+  - Usuarios
+  - Juegos
+  - Reseñas
+  - Categorías
+  - Favoritos
+  - Descargas
+  - Seguidores
+  - Notificaciones
+
+--------------------------------------------------------------------------------
+4. FUNCIONALIDADES OBLIGATORIAS
+--------------------------------------------------------------------------------
+
+* Registro e inicio de sesión.
+* Perfil de usuario.
+* Sistema de reseñas.
+* Sistema de puntuaciones.
+* Lista de deseos.
+* Búsqueda avanzada.
+* Categorías.
+* Panel administrativo.
+* Estadísticas.
+
+--------------------------------------------------------------------------------
+5. SISTEMA DE RESEÑAS
+--------------------------------------------------------------------------------
+
+* Calificación de 1 a 5 estrellas.
+* Comentarios.
+* Puntuación promedio.
+* Ranking de videojuegos.
+* Moderación de contenido.
+
+--------------------------------------------------------------------------------
+6. APIs EXTERNAS
+--------------------------------------------------------------------------------
+
+* Priorizar RAWG.
+* Utilizar IGDB como alternativa.
+* Nunca eliminar integración con APIs sin autorización.
+
+--------------------------------------------------------------------------------
+7. SEGURIDAD
+--------------------------------------------------------------------------------
+
+* JWT para sesiones del backend.
+* Contraseñas hasheadas.
+* Validación de datos.
+* Protección contra spam.
+* Verificación de correo.
+
+--------------------------------------------------------------------------------
+8. EXPERIENCIA DE USUARIO
+--------------------------------------------------------------------------------
+
+* Diseño moderno.
+* Responsive para móvil y escritorio.
+* Optimización de rendimiento.
+* Accesibilidad básica.
+
+--------------------------------------------------------------------------------
+9. AL GENERAR CÓDIGO
+--------------------------------------------------------------------------------
+
+* Explicar qué archivo crear.
+* Explicar dónde ubicarlo.
+* Explicar dependencias necesarias.
+* Mostrar estructura de carpetas cuando sea relevante.
+
+--------------------------------------------------------------------------------
+10. RESTRICCIONES
+--------------------------------------------------------------------------------
+
+* No eliminar funcionalidades existentes.
+* No cambiar nombres de tablas sin autorización.
+* No reemplazar tecnologías principales.
+* No generar código incompleto.
+* No asumir información faltante.
+
+--------------------------------------------------------------------------------
+11. SI OCURRE UN ERROR
+--------------------------------------------------------------------------------
+
+Antes de modificar código:
+
+* Identificar la causa exacta.
+* Explicar el problema.
+* Mostrar la solución propuesta.
+* Esperar confirmación antes de realizar cambios estructurales.
+
+--------------------------------------------------------------------------------
+12. MODO DESARROLLADOR
+--------------------------------------------------------------------------------
+
+Cada respuesta debe incluir:
+
+* Objetivo.
+* Archivos afectados.
+* Cambios realizados.
+* Riesgos potenciales.
+* Próximo paso recomendado.
+
+================================================================================
+    PROTOCOLO DE MODIFICACIÓN EN APLICACIÓN EXISTENTE
+================================================================================
+
+DETENTE.
+
+Estás modificando una aplicación existente.
+
+Antes de generar código:
+
+1. Analiza la arquitectura actual.
+2. No elimines funcionalidades existentes.
+3. No modifiques la base de datos sin justificarlo.
+4. No cambies tecnologías del proyecto.
+5. Explica qué vas a cambiar y por qué.
+6. Muestra los archivos afectados.
+7. Indica posibles consecuencias.
+8. Propón la solución más pequeña posible.
+9. Si existen varias soluciones, compáralas.
+10. Prioriza compatibilidad hacia atrás.
+
+================================================================================
+    FIN DEL DOCUMENTO DE REGLAS
+================================================================================
