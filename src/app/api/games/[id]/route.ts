@@ -1,8 +1,9 @@
-import { db } from '@/lib/db'
+import { db, ensureDB } from '@/lib/db'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    await ensureDB()
     const { id } = await params
     const game = await db.game.findUnique({
       where: { id },

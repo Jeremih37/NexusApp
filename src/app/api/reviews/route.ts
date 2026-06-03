@@ -1,8 +1,9 @@
-import { db } from '@/lib/db'
+import { db, ensureDB } from '@/lib/db'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
   try {
+    await ensureDB()
     const { searchParams } = new URL(request.url)
     const gameId = searchParams.get('gameId')
 
@@ -27,6 +28,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    await ensureDB()
     const body = await request.json()
     const { userId, gameId, rating, comment } = body
 
@@ -44,7 +46,6 @@ export async function POST(request: NextRequest) {
       create: { userId, gameId, rating, comment },
     })
 
-    // Recalculate game rating
     const reviews = await db.review.findMany({ where: { gameId } })
     const avgRating = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
     await db.game.update({

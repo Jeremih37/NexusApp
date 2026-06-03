@@ -1,8 +1,9 @@
-import { db } from '@/lib/db'
+import { db, ensureDB } from '@/lib/db'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
   try {
+    await ensureDB()
     const { searchParams } = new URL(request.url)
     const category = searchParams.get('category')
     const search = searchParams.get('search')

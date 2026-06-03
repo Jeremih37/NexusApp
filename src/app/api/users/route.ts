@@ -1,8 +1,9 @@
-import { db } from '@/lib/db'
+import { db, ensureDB } from '@/lib/db'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
   try {
+    await ensureDB()
     const { searchParams } = new URL(request.url)
     const email = searchParams.get('email')
 
@@ -11,7 +12,6 @@ export async function GET(request: NextRequest) {
       if (user) return NextResponse.json(user)
     }
 
-    // Default: return first user (simulating logged-in user)
     const user = await db.user.findFirst({ where: { role: 'user' } })
     if (!user) {
       return NextResponse.json({ error: 'No user found' }, { status: 404 })
