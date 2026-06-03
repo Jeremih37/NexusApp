@@ -1,25 +1,27 @@
-import { db, ensureDB } from '@/lib/db'
+import { userService } from '@/services/user.service'
+import { handleApiError, ApiError } from '@/lib/api-error'
+import { userQuerySchema } from '@/schemas/user.schema'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
   try {
-    await ensureDB()
     const { searchParams } = new URL(request.url)
-    const email = searchParams.get('email')
+    const validated = userQuerySchema.parse({
+      email: searchParams.get('email') || undefined,
+    })
 
-    if (email) {
-      const user = await db.user.findUnique({ where: { email } })
+    if (validated.email) {
+      const user = await userService.findByEmail(validated.email)
       if (user) return NextResponse.json(user)
     }
 
-    const user = await db.user.findFirst({ where: { role: 'user' } })
+    const user = await userService.findDefault()
     if (!user) {
-      return NextResponse.json({ error: 'No user found' }, { status: 404 })
+      throw new ApiError(404, 'No se encontró usuario')
     }
 
     return NextResponse.json(user)
   } catch (error) {
-    console.error('Error fetching user:', error)
-    return NextResponse.json({ error: 'Error al obtener usuario' }, { status: 500 })
+    return handleApiError(error)
   }
 }

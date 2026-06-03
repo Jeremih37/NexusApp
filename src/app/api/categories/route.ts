@@ -1,19 +1,12 @@
-import { db, ensureDB } from '@/lib/db'
+import { categoryService } from '@/services/category.service'
+import { handleApiError } from '@/lib/api-error'
 import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {
-    await ensureDB()
-    const categories = await db.category.findMany({
-      include: {
-        _count: { select: { games: true } }
-      },
-      orderBy: { name: 'asc' }
-    })
-
+    const categories = await categoryService.findAll()
     return NextResponse.json(categories)
   } catch (error) {
-    console.error('Error fetching categories:', error)
-    return NextResponse.json({ error: 'Error al obtener categorías' }, { status: 500 })
+    return handleApiError(error)
   }
 }
