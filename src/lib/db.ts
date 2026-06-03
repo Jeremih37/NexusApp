@@ -1,7 +1,4 @@
 import { PrismaClient } from '@prisma/client'
-import { execSync } from 'child_process'
-import fs from 'fs'
-import path from 'path'
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
@@ -14,39 +11,6 @@ function getDatabaseUrl() {
   return process.env.DATABASE_URL || 'file:./db/custom.db'
 }
 
-let dbInitialized = false
-
-function initVercelDB() {
-  if (process.env.VERCEL !== '1' || dbInitialized) return
-  
-  const tmpDbPath = '/tmp/nexusapp.db'
-  
-  // If DB already exists at /tmp, use it
-  if (fs.existsSync(tmpDbPath)) {
-    dbInitialized = true
-    return
-  }
-  
-  try {
-    // Push schema to create tables
-    process.env.DATABASE_URL = `file:${tmpDbPath}`
-    execSync('npx prisma db push --skip-generate', { 
-      stdio: 'pipe',
-      env: { ...process.env, DATABASE_URL: `file:${tmpDbPath}` }
-    })
-    console.log('Schema pushed to /tmp/nexusapp.db')
-  } catch (e) {
-    console.error('Failed to push schema:', e)
-  }
-  
-  dbInitialized = true
-}
-
-// For Vercel: initialize DB on module load
-if (process.env.VERCEL === '1') {
-  initVercelDB()
-}
-
 export const db =
   globalForPrisma.prisma ??
   new PrismaClient({
@@ -56,23 +20,92 @@ export const db =
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = db
 
-// Auto-seed function for Vercel
-let seeded = false
+// SQL statements from Prisma migrate diff
+const SCHEMA_SQL = `
+CREATE TABLE IF NOT EXISTS "User" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "avatar" TEXT,
+    "role" TEXT NOT NULL DEFAULT 'user',
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS "Category" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
+    "icon" TEXT
+);
+CREATE TABLE IF NOT EXISTS "Game" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "title" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "imageUrl" TEXT NOT NULL,
+    "coverUrl" TEXT,
+    "trailerUrl" TEXT,
+    "downloadUrl" TEXT,
+    "developer" TEXT NOT NULL,
+    "publisher" TEXT NOT NULL,
+    "releaseDate" TEXT NOT NULL,
+    "rating" REAL NOT NULL DEFAULT 0,
+    "ratingCount" INTEGER NOT NULL DEFAULT 0,
+    "categoryId" TEXT NOT NULL,
+    "platforms" TEXT NOT NULL,
+    "featured" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "Game_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "Review" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "userId" TEXT NOT NULL,
+    "gameId" TEXT NOT NULL,
+    "rating" INTEGER NOT NULL,
+    "comment" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "Review_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Review_gameId_fkey" FOREIGN KEY ("gameId") REFERENCES "Game" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "Favorite" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "userId" TEXT NOT NULL,
+    "gameId" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "Favorite_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Favorite_gameId_fkey" FOREIGN KEY ("gameId") REFERENCES "Game" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "User_email_key" ON "User"("email");
+CREATE UNIQUE INDEX IF NOT EXISTS "Category_name_key" ON "Category"("name");
+CREATE UNIQUE INDEX IF NOT EXISTS "Category_slug_key" ON "Category"("slug");
+CREATE UNIQUE INDEX IF NOT EXISTS "Game_slug_key" ON "Game"("slug");
+CREATE UNIQUE INDEX IF NOT EXISTS "Review_userId_gameId_key" ON "Review"("userId", "gameId");
+CREATE UNIQUE INDEX IF NOT EXISTS "Favorite_userId_gameId_key" ON "Favorite"("userId", "gameId");
+`
+
+let dbInitialized = false
+
 export async function ensureDB() {
-  if (seeded) return
-  if (process.env.VERCEL !== '1') { seeded = true; return }
-  
+  if (dbInitialized) return
+
   try {
-    const count = await db.game.count()
-    if (count > 0) { seeded = true; return }
-    
-    // Call the seed API to populate data
-    const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : ''
-    if (baseUrl) {
-      await fetch(`${baseUrl}/api/seed`)
-    }
-  } catch (e) {
-    console.error('ensureDB error:', e)
+    // Try a simple query first
+    await db.game.count()
+    dbInitialized = true
+    return
+  } catch {
+    // Tables don't exist, need to create them
   }
-  seeded = true
+
+  try {
+    // Create schema using raw SQL (from Prisma's own migration diff)
+    const statements = SCHEMA_SQL.split(';').map(s => s.trim()).filter(s => s.length > 0)
+    for (const stmt of statements) {
+      await db.$executeRawUnsafe(stmt)
+    }
+    console.log('Database schema created successfully')
+  } catch (e) {
+    console.error('Failed to create schema:', e)
+  }
+
+  dbInitialized = true
 }
