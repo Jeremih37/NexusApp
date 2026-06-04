@@ -179,11 +179,11 @@ export function GameDetail({ id }: GameDetailProps) {
 
   const handleMainDownload = () => {
     if (!hasDownloads) return
-    if (!isAuthenticated) {
-      router.push('/login')
-      return
-    }
     setShowDownloads(true)
+    // Scroll to downloads section
+    setTimeout(() => {
+      document.getElementById('downloads-section')?.scrollIntoView({ behavior: 'smooth' })
+    }, 100)
   }
 
   return (
@@ -318,9 +318,9 @@ export function GameDetail({ id }: GameDetailProps) {
           </div>
         </div>
 
-        {/* Download Section - Expanded */}
-        {hasDownloads && showDownloads && (
-          <div className="mt-10 reveal">
+        {/* Download Section - Always visible when game has downloads */}
+        {hasDownloads && (
+          <div id="downloads-section" className="mt-10 reveal">
             <div className="gradient-line mb-8" />
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl font-bold flex items-center gap-3">
