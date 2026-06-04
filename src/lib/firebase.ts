@@ -1,5 +1,5 @@
 import { initializeApp, getApps, FirebaseApp } from 'firebase/app'
-import { getAuth, Auth } from 'firebase/auth'
+import { getAuth, Auth, GoogleAuthProvider } from 'firebase/auth'
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || '',
@@ -14,17 +14,27 @@ export const isFirebaseConfigured = !!(firebaseConfig.apiKey && firebaseConfig.a
 
 let app: FirebaseApp | null = null
 let authInstance: Auth | null = null
+let googleProvider: GoogleAuthProvider | null = null
 
 if (isFirebaseConfigured) {
   try {
     app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0]
     authInstance = getAuth(app)
+    googleProvider = new GoogleAuthProvider()
+    // Request additional scopes
+    googleProvider.addScope('profile')
+    googleProvider.addScope('email')
+    // Always show account selector
+    googleProvider.setCustomParameters({
+      prompt: 'select_account',
+    })
   } catch (error) {
     console.warn('Firebase initialization failed:', error)
     app = null
     authInstance = null
+    googleProvider = null
   }
 }
 
-// Export auth - will be null if Firebase is not configured
 export const auth = authInstance
+export { googleProvider }

@@ -83,5 +83,15 @@ export const api = {
       if (!res.ok) throw new Error('Error fetching user')
       return res.json()
     },
+    upsert: async (data: { name: string; email: string; avatar?: string }): Promise<{ id: string; name: string; email: string; avatar?: string; role?: string }> => {
+      const headers = await getAuthHeaders()
+      const res = await fetch(`${BASE_URL}/api/users`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(data),
+      })
+      if (!res.ok) throw new Error('Error creating/updating user')
+      return res.json()
+    },
   },
 }

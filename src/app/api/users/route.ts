@@ -1,6 +1,6 @@
 import { userService } from '@/services/user.service'
 import { handleApiError, ApiError } from '@/lib/api-error'
-import { userQuerySchema } from '@/schemas/user.schema'
+import { userQuerySchema, userUpsertSchema } from '@/schemas/user.schema'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
@@ -19,6 +19,19 @@ export async function GET(request: NextRequest) {
     if (!user) {
       throw new ApiError(404, 'No se encontró usuario')
     }
+
+    return NextResponse.json(user)
+  } catch (error) {
+    return handleApiError(error)
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json()
+    const validated = userUpsertSchema.parse(body)
+
+    const user = await userService.upsert(validated)
 
     return NextResponse.json(user)
   } catch (error) {

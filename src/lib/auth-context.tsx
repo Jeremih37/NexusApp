@@ -5,12 +5,13 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  signInWithPopup,
   signOut as firebaseSignOut,
   updateProfile,
   User as FirebaseUser,
   Auth,
 } from 'firebase/auth'
-import { auth, isFirebaseConfigured } from '@/lib/firebase'
+import { auth, isFirebaseConfigured, googleProvider } from '@/lib/firebase'
 import { api, setAuthTokenGetter } from '@/lib/api'
 
 // Demo user for when Firebase is not configured
@@ -38,6 +39,7 @@ interface AuthContextType {
   isAuthenticated: boolean
   login: (email: string, password: string) => Promise<void>
   register: (name: string, email: string, password: string) => Promise<void>
+  loginWithGoogle: () => Promise<void>
   logout: () => Promise<void>
   getIdToken: () => Promise<string | null>
 }
@@ -54,6 +56,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     firebaseUserRef.current = firebaseUser
   }, [firebaseUser])
+
+  // Helper: sync a Firebase user to our DB and local state
+  const syncUserToDb = async (fbUser: FirebaseUser) => {
+    try {
+      // Upsert user in our DB (creates if doesn't exist, updates if does)
+      const userData = await api.users.upsert({
+        name: fbUser.displayName || fbUser.email?.split('@')[0] || 'Usuario',
+        email: fbUser.email!,
+        avatar: fbUser.displayName?.charAt(0)?.toUpperCase() || fbUser.email?.charAt(0)?.toUpperCase() || 'U',
+      })
+      setUser({
+        id: userData.id,
+        name: userData.name,
+        email: userData.email,
+        avatar: userData.avatar || fbUser.displayName?.charAt(0)?.toUpperCase() || 'U',
+        role: userData.role || 'user',
+      })
+    } catch {
+      // Fallback: set user without DB id
+      setUser({
+        id: '',
+        name: fbUser.displayName || '',
+        email: fbUser.email || '',
+        avatar: fbUser.displayName?.charAt(0)?.toUpperCase() || 'U',
+        role: 'user',
+      })
+    }
+  }
 
   useEffect(() => {
     // Set up the auth token getter for API calls
@@ -84,26 +114,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const unsubscribe = onAuthStateChanged(auth, async (fbUser) => {
       setFirebaseUser(fbUser)
       if (fbUser) {
-        try {
-          // Try to find user in our DB by email
-          const userData = await api.users.getByEmail(fbUser.email!)
-          setUser({
-            id: userData.id,
-            name: userData.name || fbUser.displayName || '',
-            email: userData.email || fbUser.email || '',
-            avatar: userData.avatar || fbUser.displayName?.charAt(0)?.toUpperCase() || 'U',
-            role: userData.role || 'user',
-          })
-        } catch {
-          // User exists in Firebase but not in our DB yet - create profile
-          setUser({
-            id: '',
-            name: fbUser.displayName || '',
-            email: fbUser.email || '',
-            avatar: fbUser.displayName?.charAt(0)?.toUpperCase() || 'U',
-            role: 'user',
-          })
-        }
+        await syncUserToDb(fbUser)
       } else {
         setUser(null)
       }
@@ -133,13 +144,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const register = async (name: string, email: string, password: string) => {
     if (!isFirebaseConfigured || !auth) {
-      // Demo mode: cannot register new users
       throw new Error('El modo demo no permite registro. Configura Firebase para habilitarlo.')
     }
 
     const credential = await createUserWithEmailAndPassword(auth, email, password)
     await updateProfile(credential.user, { displayName: name })
     // onAuthStateChanged will handle setting the user
+  }
+
+  const loginWithGoogle = async () => {
+    if (!isFirebaseConfigured || !auth || !googleProvider) {
+      throw new Error('Google Sign-In requiere Firebase configurado. Configura las variables de entorno de Firebase.')
+    }
+
+    const result = await signInWithPopup(auth, googleProvider)
+    // onAuthStateChanged will handle syncing user to DB
+    // But we can also do it here for immediate feedback
+    if (result.user) {
+      await syncUserToDb(result.user)
+    }
   }
 
   const logout = async () => {
@@ -180,6 +203,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isAuthenticated: !!user,
         login,
         register,
+        loginWithGoogle,
         logout,
         getIdToken,
       }}
