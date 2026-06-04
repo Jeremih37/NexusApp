@@ -44,11 +44,11 @@ export function SearchFilters({
             onChange={(e) => onSearchChange(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && onSearch()}
             placeholder="Buscar videojuegos..."
-            className="w-full pl-10 pr-4 py-3 bg-gray-900/60 border-gray-700 rounded-xl text-white placeholder-gray-500 focus:ring-amber-500 h-12"
+            className="w-full pl-10 pr-4 py-3 bg-white/5 border-white/10 rounded-xl text-white placeholder-gray-500 focus:ring-white/30 h-12"
           />
         </div>
         <Select value={sortBy} onValueChange={onSortChange}>
-          <SelectTrigger className="px-4 py-3 bg-gray-900/60 border-gray-700 rounded-xl text-white focus:ring-amber-500 w-[200px] h-12">
+          <SelectTrigger className="px-4 py-3 bg-white/5 border-white/10 rounded-xl text-white focus:ring-white/30 w-[200px] h-12">
             <SelectValue />
           </SelectTrigger>
           <SelectContent className="bg-gray-900 border-gray-700">
@@ -66,8 +66,8 @@ export function SearchFilters({
           className={cn(
             'px-4 py-2 rounded-full text-sm font-medium transition-all',
             selectedCategory === 'all'
-              ? 'bg-amber-700 text-white shadow-lg shadow-amber-500/20'
-              : 'bg-gray-900/60 text-gray-400 hover:text-white border border-gray-700'
+              ? 'bg-white text-black shadow-lg shadow-white/10'
+              : 'bg-white/5 text-gray-400 hover:text-white border border-white/10'
           )}
         >
           Todos
@@ -79,8 +79,8 @@ export function SearchFilters({
             className={cn(
               'px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-1.5',
               selectedCategory === cat.slug
-                ? 'bg-amber-700 text-white shadow-lg shadow-amber-500/20'
-                : 'bg-gray-900/60 text-gray-400 hover:text-white border border-gray-700'
+                ? 'bg-white text-black shadow-lg shadow-white/10'
+                : 'bg-white/5 text-gray-400 hover:text-white border border-white/10'
             )}
           >
             <span className="text-xs">{cat.icon}</span>

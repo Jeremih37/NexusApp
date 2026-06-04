@@ -66,7 +66,7 @@ export function LoginForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="pl-10 bg-gray-900/50 border-gray-700 text-white placeholder-gray-500 focus:border-amber-500 focus:ring-amber-500/20"
+              className="pl-10 bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-white/20 focus:ring-white/10"
             />
           </div>
         </div>
@@ -84,7 +84,7 @@ export function LoginForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="pl-10 bg-gray-900/50 border-gray-700 text-white placeholder-gray-500 focus:border-amber-500 focus:ring-amber-500/20"
+              className="pl-10 bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-white/20 focus:ring-white/10"
             />
           </div>
         </div>
@@ -92,7 +92,7 @@ export function LoginForm() {
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-amber-700 hover:bg-amber-600 text-white font-medium py-3 h-12 shadow-lg shadow-amber-500/20 transition-all"
+          className="w-full bg-white hover:bg-gray-200 text-black font-semibold py-3 h-12 shadow-lg shadow-white/10 transition-all"
         >
           {isSubmitting ? (
             <>
@@ -111,7 +111,7 @@ export function LoginForm() {
       <div className="mt-6 text-center">
         <p className="text-gray-400 text-sm">
           ¿No tienes cuenta?{' '}
-          <Link href="/register" className="text-amber-400 hover:text-amber-300 font-medium transition-colors">
+          <Link href="/register" className="text-gray-300 hover:text-white font-medium transition-colors">
             Regístrate
           </Link>
         </p>

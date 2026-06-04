@@ -13,10 +13,10 @@ export function FavoritesPreview() {
     <section className="mb-12">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold flex items-center gap-2">
-          <Heart className="w-6 h-6 text-red-400 fill-current" />
+          <Heart className="w-6 h-6 text-white fill-current" />
           Tus Favoritos
         </h2>
-        <Link href="/favorites" className="text-amber-400 hover:text-amber-300 text-sm font-medium flex items-center gap-1 transition-colors">
+        <Link href="/favorites" className="text-gray-400 hover:text-white text-sm font-medium flex items-center gap-1 transition-colors">
           Ver todos
           <ChevronRight className="w-4 h-4" />
         </Link>
@@ -28,17 +28,17 @@ export function FavoritesPreview() {
             href={`/game/${game.id}`}
             className="flex-shrink-0 w-44 cursor-pointer group"
           >
-            <div className="relative aspect-[3/4] rounded-xl overflow-hidden border border-red-500/20 hover:border-red-500/50 transition-all mb-2">
+            <div className="relative aspect-[3/4] rounded-xl overflow-hidden border border-white/10 hover:border-white/25 transition-all mb-2">
               <img src={game.imageUrl} alt={game.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
               <div className="absolute bottom-2 left-2 right-2">
                 <div className="flex items-center gap-1">
-                  <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
+                  <Star className="w-3 h-3 text-white fill-white" />
                   <span className="text-xs font-medium">{game.rating}</span>
                 </div>
               </div>
             </div>
-            <h4 className="text-sm font-medium truncate group-hover:text-red-300 transition-colors">{game.title}</h4>
+            <h4 className="text-sm font-medium truncate group-hover:text-gray-200 transition-colors">{game.title}</h4>
           </Link>
         ))}
       </div>

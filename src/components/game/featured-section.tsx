@@ -19,7 +19,7 @@ export function FeaturedSection() {
     <section className="mb-12">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold flex items-center gap-2">
-          <Star className="w-6 h-6 text-amber-400 fill-amber-400" />
+          <Star className="w-6 h-6 text-white fill-white" />
           Juegos Destacados
         </h2>
       </div>

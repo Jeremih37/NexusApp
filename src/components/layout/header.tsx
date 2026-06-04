@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, LayoutGrid, Heart, LogIn, LogOut, User, Menu } from 'lucide-react'
+import { Home, LayoutGrid, Heart, LogIn, LogOut, User } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -14,7 +14,6 @@ import {
   DropdownMenuLabel,
 } from '@/components/ui/dropdown-menu'
 import { Badge } from '@/components/ui/badge'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { useAuth } from '@/lib/auth-context'
 
 const navItems = [
@@ -35,15 +34,15 @@ export function Header() {
   const avatarInitial = user?.avatar || user?.name?.charAt(0)?.toUpperCase() || 'U'
 
   return (
-    <header className="sticky top-0 z-40 bg-black/90 backdrop-blur-xl border-b border-amber-700/20 pattern-leopard">
+    <header className="sticky top-0 z-40 bg-black/95 backdrop-blur-xl border-b border-white/5 pattern-dots">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-gradient-to-br from-amber-700 to-amber-500 rounded-lg flex items-center justify-center font-bold text-sm shadow-lg shadow-amber-500/20">
+            <div className="w-9 h-9 bg-white rounded-lg flex items-center justify-center font-bold text-sm text-black shadow-lg shadow-white/10">
               N
             </div>
-            <span className="text-xl font-bold tracking-tight">Nexus<span className="text-amber-400">App</span></span>
+            <span className="text-xl font-bold tracking-tight">Nexus<span className="text-gray-400">App</span></span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -57,8 +56,8 @@ export function Header() {
                   className={cn(
                     'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all',
                     isActive(item.href)
-                      ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-                      : 'text-gray-400 hover:text-white hover:bg-gray-800'
+                      ? 'bg-white/10 text-white border border-white/15'
+                      : 'text-gray-400 hover:text-white hover:bg-white/5'
                   )}
                 >
                   <Icon className="w-4 h-4" />
@@ -74,7 +73,7 @@ export function Header() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-700 to-amber-500 flex items-center justify-center text-xs font-bold">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-300 to-gray-500 flex items-center justify-center text-xs font-bold text-black">
                       {avatarInitial}
                     </div>
                     <span className="text-sm font-medium text-gray-300 hidden lg:inline">{user.name}</span>
@@ -91,7 +90,7 @@ export function Header() {
                     <>
                       <DropdownMenuSeparator className="bg-gray-700" />
                       <div className="px-2 py-1.5">
-                        <Badge variant="outline" className="border-amber-500/50 text-amber-300 bg-amber-500/10 text-xs">
+                        <Badge variant="outline" className="border-gray-500/50 text-gray-300 bg-white/5 text-xs">
                           Modo Demo
                         </Badge>
                       </div>
@@ -114,7 +113,7 @@ export function Header() {
               </DropdownMenu>
             ) : (
               <Link href="/login">
-                <Button className="bg-amber-700 hover:bg-amber-600 text-white gap-2 shadow-lg shadow-amber-500/20">
+                <Button className="bg-white hover:bg-gray-200 text-black gap-2 shadow-lg shadow-white/10 font-semibold">
                   <LogIn className="w-4 h-4" />
                   Iniciar Sesión
                 </Button>
@@ -133,7 +132,7 @@ export function Header() {
                   className={cn(
                     'p-2 rounded-lg transition-all',
                     isActive(item.href)
-                      ? 'bg-amber-500/20 text-amber-300'
+                      ? 'bg-white/10 text-white'
                       : 'text-gray-400'
                   )}
                 >
@@ -144,7 +143,7 @@ export function Header() {
             {isAuthenticated && user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="w-7 h-7 rounded-full bg-gradient-to-br from-amber-700 to-amber-500 flex items-center justify-center text-[10px] font-bold">
+                  <button className="w-7 h-7 rounded-full bg-gradient-to-br from-gray-300 to-gray-500 flex items-center justify-center text-[10px] font-bold text-black">
                     {avatarInitial}
                   </button>
                 </DropdownMenuTrigger>
@@ -169,8 +168,8 @@ export function Header() {
               </DropdownMenu>
             ) : (
               <Link href="/login">
-                <div className="w-7 h-7 rounded-full bg-amber-700 flex items-center justify-center">
-                  <LogIn className="w-3.5 h-3.5" />
+                <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center">
+                  <LogIn className="w-3.5 h-3.5 text-black" />
                 </div>
               </Link>
             )}

@@ -21,10 +21,10 @@ export function ReviewList({ reviews }: ReviewListProps) {
   return (
     <div className="space-y-4">
       {reviews.map((review) => (
-        <div key={review.id} className="bg-gray-900/50 rounded-xl p-5 border border-gray-700/50">
+        <div key={review.id} className="bg-gray-900/50 rounded-xl p-5 border border-white/5">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-700 to-amber-500 flex items-center justify-center text-sm font-bold">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center text-sm font-bold text-black">
                 {review.user.avatar}
               </div>
               <div>
@@ -34,7 +34,7 @@ export function ReviewList({ reviews }: ReviewListProps) {
             </div>
             <div className="flex items-center gap-2">
               <StarRating rating={review.rating} size="sm" />
-              <span className="text-sm font-medium text-amber-400">{review.rating}.0</span>
+              <span className="text-sm font-medium text-gray-300">{review.rating}.0</span>
             </div>
           </div>
           <p className="text-gray-300 leading-relaxed">{review.comment}</p>

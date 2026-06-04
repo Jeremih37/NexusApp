@@ -71,14 +71,14 @@ export function RegisterForm() {
 
         <DemoBanner />
 
-        <div className="mt-6 bg-gray-900/40 border border-gray-700/50 rounded-xl p-6 text-center">
+        <div className="mt-6 bg-white/[0.03] border border-white/10 rounded-xl p-6 text-center">
           <UserPlus className="w-12 h-12 text-gray-500 mx-auto mb-3" />
           <h3 className="text-lg font-semibold text-gray-300 mb-2">Firebase no configurado</h3>
           <p className="text-sm text-gray-500 mb-4">
             El registro de nuevas cuentas requiere Firebase Authentication. En modo demo, solo puedes usar la cuenta de prueba existente.
           </p>
           <Link href="/login">
-            <Button className="bg-amber-700 hover:bg-amber-600">
+            <Button className="bg-white hover:bg-gray-200 text-black">
               Ir a Iniciar Sesión
             </Button>
           </Link>
@@ -87,7 +87,7 @@ export function RegisterForm() {
         <div className="mt-6 text-center">
           <p className="text-gray-400 text-sm">
             ¿Ya tienes cuenta?{' '}
-            <Link href="/login" className="text-amber-400 hover:text-amber-300 font-medium transition-colors">
+            <Link href="/login" className="text-gray-300 hover:text-white font-medium transition-colors">
               Inicia Sesión
             </Link>
           </p>
@@ -123,7 +123,7 @@ export function RegisterForm() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="pl-10 bg-gray-900/50 border-gray-700 text-white placeholder-gray-500 focus:border-amber-500 focus:ring-amber-500/20"
+              className="pl-10 bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-white/20 focus:ring-white/10"
             />
           </div>
         </div>
@@ -141,7 +141,7 @@ export function RegisterForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="pl-10 bg-gray-900/50 border-gray-700 text-white placeholder-gray-500 focus:border-amber-500 focus:ring-amber-500/20"
+              className="pl-10 bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-white/20 focus:ring-white/10"
             />
           </div>
         </div>
@@ -160,7 +160,7 @@ export function RegisterForm() {
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength={6}
-              className="pl-10 bg-gray-900/50 border-gray-700 text-white placeholder-gray-500 focus:border-amber-500 focus:ring-amber-500/20"
+              className="pl-10 bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-white/20 focus:ring-white/10"
             />
           </div>
         </div>
@@ -179,7 +179,7 @@ export function RegisterForm() {
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
               minLength={6}
-              className="pl-10 bg-gray-900/50 border-gray-700 text-white placeholder-gray-500 focus:border-amber-500 focus:ring-amber-500/20"
+              className="pl-10 bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-white/20 focus:ring-white/10"
             />
           </div>
         </div>
@@ -187,7 +187,7 @@ export function RegisterForm() {
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-amber-700 hover:bg-amber-600 text-white font-medium py-3 h-12 shadow-lg shadow-amber-500/20 transition-all"
+          className="w-full bg-white hover:bg-gray-200 text-black font-semibold py-3 h-12 shadow-lg shadow-white/10 transition-all"
         >
           {isSubmitting ? (
             <>
@@ -206,7 +206,7 @@ export function RegisterForm() {
       <div className="mt-6 text-center">
         <p className="text-gray-400 text-sm">
           ¿Ya tienes cuenta?{' '}
-          <Link href="/login" className="text-amber-400 hover:text-amber-300 font-medium transition-colors">
+          <Link href="/login" className="text-gray-300 hover:text-white font-medium transition-colors">
             Inicia Sesión
           </Link>
         </p>

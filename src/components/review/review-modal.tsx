@@ -62,7 +62,7 @@ export function ReviewModal({ open, onOpenChange, gameId, gameTitle }: ReviewMod
             onChange={(e) => setComment(e.target.value)}
             placeholder="Comparte tu experiencia con este juego..."
             rows={4}
-            className="w-full bg-gray-900 border-gray-700 text-white placeholder-gray-500 focus:ring-amber-500 resize-none"
+            className="w-full bg-gray-900 border-gray-700 text-white placeholder-gray-500 focus:ring-white/30 resize-none"
           />
         </div>
 
@@ -77,7 +77,7 @@ export function ReviewModal({ open, onOpenChange, gameId, gameTitle }: ReviewMod
           <Button
             onClick={handleSubmit}
             disabled={!comment.trim() || createReview.isPending}
-            className="bg-amber-700 hover:bg-amber-600 disabled:bg-gray-700 disabled:text-gray-500"
+            className="bg-white hover:bg-gray-200 text-black disabled:bg-gray-700 disabled:text-gray-500"
           >
             Publicar Reseña
           </Button>

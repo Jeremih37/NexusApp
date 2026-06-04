@@ -90,7 +90,7 @@ export function GameDetail({ id }: GameDetailProps) {
             <img
               src={game.imageUrl}
               alt={game.title}
-              className="w-64 h-80 object-cover rounded-xl shadow-2xl shadow-amber-500/10 border border-gray-700/50"
+              className="w-64 h-80 object-cover rounded-xl shadow-2xl shadow-white/5 border border-white/10"
             />
           </div>
 
@@ -98,7 +98,7 @@ export function GameDetail({ id }: GameDetailProps) {
           <div className="flex-1">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <Badge className="inline-block px-3 py-1 bg-amber-700/20 text-amber-300 rounded-full text-sm font-medium mb-3 border border-amber-500/30 hover:bg-amber-700/20">
+                <Badge className="inline-block px-3 py-1 bg-white/10 text-gray-200 rounded-full text-sm font-medium mb-3 border border-white/10 hover:bg-white/10">
                   {game.category.name}
                 </Badge>
                 <h1 className="text-3xl md:text-4xl font-bold mb-2">{game.title}</h1>
@@ -109,8 +109,8 @@ export function GameDetail({ id }: GameDetailProps) {
                 className={cn(
                   'p-3 rounded-full transition-all',
                   isFavorite
-                    ? 'bg-red-500/20 text-red-400 border border-red-500/30'
-                    : 'bg-gray-900 text-gray-400 hover:text-red-400 border border-gray-700'
+                    ? 'bg-white/10 text-white border border-white/20'
+                    : 'bg-gray-900 text-gray-400 hover:text-white border border-white/10'
                 )}
               >
                 <Heart className={cn('w-6 h-6', isFavorite && 'fill-current')} />
@@ -119,8 +119,8 @@ export function GameDetail({ id }: GameDetailProps) {
 
             {/* Rating */}
             <div className="flex items-center gap-3 mt-4">
-              <div className="flex items-center gap-2 bg-gray-900/80 rounded-lg px-4 py-2 border border-gray-700/50">
-                <span className="text-3xl font-bold text-amber-400">{game.rating}</span>
+              <div className="flex items-center gap-2 bg-gray-900/80 rounded-lg px-4 py-2 border border-white/10">
+                <span className="text-3xl font-bold text-white">{game.rating}</span>
                 <div className="flex flex-col">
                   <StarRating rating={game.rating} size="sm" />
                   <span className="text-xs text-gray-500 mt-0.5">{game.ratingCount} reseñas</span>
@@ -141,7 +141,7 @@ export function GameDetail({ id }: GameDetailProps) {
               {game.trailerUrl && (
                 <Button
                   onClick={() => setShowTrailer(!showTrailer)}
-                  className="flex items-center gap-2 px-6 py-3 bg-amber-700 hover:bg-amber-600 rounded-lg font-medium transition-colors shadow-lg shadow-amber-500/20 h-12"
+                  className="flex items-center gap-2 px-6 py-3 bg-white hover:bg-gray-200 text-black rounded-lg font-semibold transition-colors shadow-lg shadow-white/10 h-12"
                 >
                   <Play className="w-5 h-5 fill-current" />
                   Ver Trailer
@@ -152,7 +152,7 @@ export function GameDetail({ id }: GameDetailProps) {
                   href={game.downloadUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-500 rounded-lg font-medium transition-colors shadow-lg shadow-emerald-500/20"
+                  className="flex items-center gap-2 px-6 py-3 bg-gray-600 hover:bg-gray-500 rounded-lg font-medium transition-colors shadow-lg shadow-white/5 text-white"
                 >
                   <Download className="w-5 h-5" />
                   Descargar
@@ -161,7 +161,7 @@ export function GameDetail({ id }: GameDetailProps) {
               <Button
                 onClick={handleWriteReview}
                 variant="outline"
-                className="flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg font-medium transition-colors border-gray-600 h-12"
+                className="flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg font-medium transition-colors border-white/10 h-12"
               >
                 <PenLine className="w-5 h-5" />
                 Escribir Reseña
@@ -180,10 +180,10 @@ export function GameDetail({ id }: GameDetailProps) {
         {showTrailer && game.trailerUrl && (
           <div className="mt-8">
             <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-              <Play className="w-5 h-5 text-amber-400 fill-current" />
+              <Play className="w-5 h-5 text-white fill-current" />
               Trailer
             </h3>
-            <div className="aspect-video rounded-xl overflow-hidden border border-gray-700/50 shadow-2xl">
+            <div className="aspect-video rounded-xl overflow-hidden border border-white/10 shadow-2xl">
               <iframe
                 src={game.trailerUrl}
                 title={`${game.title} Trailer`}
@@ -199,7 +199,7 @@ export function GameDetail({ id }: GameDetailProps) {
         <div className="mt-10">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-semibold flex items-center gap-2">
-              <Star className="w-5 h-5 text-amber-400 fill-amber-400" />
+              <Star className="w-5 h-5 text-white fill-white" />
               Reseñas ({game.reviews?.length || 0})
             </h3>
           </div>

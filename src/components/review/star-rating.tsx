@@ -19,7 +19,7 @@ export function StarRating({ rating, size = 'md' }: StarRatingProps) {
           className={cn(
             sizeClass,
             star <= Math.round(rating)
-              ? 'text-amber-400 fill-amber-400'
+              ? 'text-white fill-white'
               : 'text-gray-700 fill-gray-700'
           )}
         />
