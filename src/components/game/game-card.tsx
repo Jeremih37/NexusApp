@@ -187,8 +187,8 @@ export function GameCard({ game, variant = 'catalog', isFavorite = false, onTogg
                 <Play className="w-4 h-4 fill-current" />
               </span>
             )}
-            {game.downloadUrl && (
-              <span className="p-2 text-gray-500 hover:text-white hover:bg-white/5 rounded-lg transition-all" title="Descarga disponible">
+            {(game.downloadUrl || (game.downloadLinks && game.downloadLinks.length > 0)) && (
+              <span className="p-2 text-gray-500 hover:text-white hover:bg-white/5 rounded-lg transition-all" title={`${(game.downloadLinks?.length || 0)} links de descarga disponibles`}>
                 <Download className="w-4 h-4" />
               </span>
             )}

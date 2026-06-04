@@ -27,26 +27,41 @@ model Category {
 }
 
 model Game {
-  id           String     @id @default(cuid())
+  id           String         @id @default(cuid())
   title        String
-  slug         String     @unique
+  slug         String         @unique
   description  String
   imageUrl     String
   coverUrl     String?
   trailerUrl   String?
   downloadUrl  String?
+  fileSize     String?
   developer    String
   publisher    String
   releaseDate  String
-  rating       Float      @default(0)
-  ratingCount  Int        @default(0)
+  rating       Float          @default(0)
+  ratingCount  Int            @default(0)
   categoryId   String
-  category     Category   @relation(fields: [categoryId], references: [id])
+  category     Category       @relation(fields: [categoryId], references: [id])
   platforms    String
-  featured     Boolean    @default(false)
-  createdAt    DateTime   @default(now())
+  featured     Boolean        @default(false)
+  createdAt    DateTime       @default(now())
   reviews      Review[]
   favorites    Favorite[]
+  downloadLinks DownloadLink[]
+}
+
+model DownloadLink {
+  id        String   @id @default(cuid())
+  gameId    String
+  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  label     String
+  url       String
+  type      String   @default("magnet")
+  server    String   @default("Torrent")
+  fileSize  String?
+  quality   String?
+  createdAt DateTime @default(now())
 }
 
 model Review {

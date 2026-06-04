@@ -34,6 +34,9 @@ export const gameService = {
         reviews: {
           include: { user: { select: { id: true, name: true, avatar: true } } },
         },
+        downloadLinks: {
+          orderBy: { createdAt: 'asc' },
+        },
       },
       orderBy,
     })
@@ -47,6 +50,9 @@ export const gameService = {
         reviews: {
           include: { user: { select: { id: true, name: true, avatar: true } } },
           orderBy: { createdAt: 'desc' },
+        },
+        downloadLinks: {
+          orderBy: { createdAt: 'asc' },
         },
       },
     })

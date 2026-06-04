@@ -780,6 +780,377 @@ const NINTENDO_GAMES = [
   },
 ]
 
+// ============================================================
+// TORRENT DOWNLOAD DATA
+// Each game slug maps to an array of torrent/magnet download links
+// Servers: GamesFull, PiviGames, FitGirl, DODI, OnlineFix
+// ============================================================
+interface TorrentDownload {
+  label: string
+  url: string
+  type: string
+  server: string
+  fileSize: string
+  quality: string
+}
+
+const TORRENT_DOWNLOADS: Record<string, { fileSize: string; links: TorrentDownload[] }> = {
+  'cyberpunk-2077': {
+    fileSize: '70 GB',
+    links: [
+      { label: 'Cyberpunk 2077 - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0&dn=Cyberpunk2077-FULL&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce', type: 'magnet', server: 'GamesFull', fileSize: '70 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Cyberpunk 2077 - FitGirl Repack', url: 'magnet:?xt=urn:btih:b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1&dn=Cyberpunk2077-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.bittor.pw:1337/announce', type: 'magnet', server: 'FitGirl', fileSize: '38 GB', quality: 'FitGirl Repack' },
+      { label: 'Cyberpunk 2077 - DODI Repack', url: 'magnet:?xt=urn:btih:c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2&dn=Cyberpunk2077-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '42 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'elden-ring': {
+    fileSize: '50 GB',
+    links: [
+      { label: 'Elden Ring - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3&dn=EldenRing-FULL&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce', type: 'magnet', server: 'GamesFull', fileSize: '50 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Elden Ring - FitGirl Repack', url: 'magnet:?xt=urn:btih:e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4&dn=EldenRing-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.bittor.pw:1337/announce', type: 'magnet', server: 'FitGirl', fileSize: '28 GB', quality: 'FitGirl Repack' },
+      { label: 'Elden Ring - OnlineFix', url: 'magnet:?xt=urn:btih:f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5&dn=EldenRing-OnlineFix&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'OnlineFix', fileSize: '45 GB', quality: 'EMPRESS + OnlineFix' },
+    ]
+  },
+  'god-of-war-ragnarok': {
+    fileSize: '90 GB',
+    links: [
+      { label: 'God of War Ragnarok - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b&dn=GoWRagnarok-FULL&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce', type: 'magnet', server: 'PiviGames', fileSize: '90 GB', quality: 'FULL UNLOCKED' },
+      { label: 'God of War Ragnarok - DODI Repack', url: 'magnet:?xt=urn:btih:2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c&dn=GoWRagnarok-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://tracker.bittor.pw:1337/announce', type: 'magnet', server: 'DODI', fileSize: '55 GB', quality: 'DODI Repack' },
+      { label: 'God of War Ragnarok - FitGirl Repack', url: 'magnet:?xt=urn:btih:3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d&dn=GoWRagnarok-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '48 GB', quality: 'FitGirl Repack' },
+    ]
+  },
+  'baldurs-gate-3': {
+    fileSize: '120 GB',
+    links: [
+      { label: "Baldur's Gate 3 - GOG", url: 'magnet:?xt=urn:btih:4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e&dn=BG3-GOG&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce', type: 'magnet', server: 'GamesFull', fileSize: '120 GB', quality: 'GOG' },
+      { label: "Baldur's Gate 3 - FitGirl Repack", url: 'magnet:?xt=urn:btih:5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f&dn=BG3-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://tracker.bittor.pw:1337/announce', type: 'magnet', server: 'FitGirl', fileSize: '65 GB', quality: 'FitGirl Repack' },
+    ]
+  },
+  'resident-evil-4-remake': {
+    fileSize: '55 GB',
+    links: [
+      { label: 'Resident Evil 4 Remake - EMPRESS', url: 'magnet:?xt=urn:btih:6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a&dn=RE4Remake-EMPRESS&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'PiviGames', fileSize: '55 GB', quality: 'EMPRESS + MrGoldberg' },
+      { label: 'Resident Evil 4 Remake - FitGirl Repack', url: 'magnet:?xt=urn:btih:7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b&dn=RE4Remake-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://tracker.bittor.pw:1337/announce', type: 'magnet', server: 'FitGirl', fileSize: '30 GB', quality: 'FitGirl Repack' },
+    ]
+  },
+  'forza-horizon-5': {
+    fileSize: '110 GB',
+    links: [
+      { label: 'Forza Horizon 5 - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c&dn=ForzaH5-FULL&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce', type: 'magnet', server: 'GamesFull', fileSize: '110 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Forza Horizon 5 - DODI Repack', url: 'magnet:?xt=urn:btih:9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d&dn=ForzaH5-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '72 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'red-dead-redemption-2': {
+    fileSize: '120 GB',
+    links: [
+      { label: 'Red Dead Redemption 2 - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e&dn=RDR2-FULL&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'PiviGames', fileSize: '120 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Red Dead Redemption 2 - FitGirl Repack', url: 'magnet:?xt=urn:btih:1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f&dn=RDR2-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://tracker.bittor.pw:1337/announce', type: 'magnet', server: 'FitGirl', fileSize: '62 GB', quality: 'FitGirl Repack' },
+    ]
+  },
+  'the-witcher-3-wild-hunt': {
+    fileSize: '50 GB',
+    links: [
+      { label: 'The Witcher 3 GOTY - GOG', url: 'magnet:?xt=urn:btih:2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a&dn=Witcher3-GOTY-GOG&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '50 GB', quality: 'GOG GOTY Edition' },
+      { label: 'The Witcher 3 GOTY - FitGirl Repack', url: 'magnet:?xt=urn:btih:3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b&dn=Witcher3-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://tracker.bittor.pw:1337/announce', type: 'magnet', server: 'FitGirl', fileSize: '25 GB', quality: 'FitGirl Repack' },
+    ]
+  },
+  'black-myth-wukong': {
+    fileSize: '130 GB',
+    links: [
+      { label: 'Black Myth Wukong - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c&dn=BMWukong-FULL&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '130 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Black Myth Wukong - DODI Repack', url: 'magnet:?xt=urn:btih:5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d&dn=BMWukong-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '85 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'hogwarts-legacy': {
+    fileSize: '85 GB',
+    links: [
+      { label: 'Hogwarts Legacy - EMPRESS', url: 'magnet:?xt=urn:btih:6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e&dn=Hogwarts-EMPRESS&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'PiviGames', fileSize: '85 GB', quality: 'EMPRESS + MrGoldberg' },
+      { label: 'Hogwarts Legacy - FitGirl Repack', url: 'magnet:?xt=urn:btih:7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f&dn=Hogwarts-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://tracker.bittor.pw:1337/announce', type: 'magnet', server: 'FitGirl', fileSize: '42 GB', quality: 'FitGirl Repack' },
+    ]
+  },
+  'ghost-of-tsushima': {
+    fileSize: '75 GB',
+    links: [
+      { label: 'Ghost of Tsushima DIRECTOR CUT - FULL', url: 'magnet:?xt=urn:btih:8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a&dn=GoTsushima-FULL&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '75 GB', quality: "DIRECTOR'S CUT" },
+      { label: 'Ghost of Tsushima - FitGirl Repack', url: 'magnet:?xt=urn:btih:9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b&dn=GoTsushima-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://tracker.bittor.pw:1337/announce', type: 'magnet', server: 'FitGirl', fileSize: '40 GB', quality: 'FitGirl Repack' },
+    ]
+  },
+  'grand-theft-auto-v': {
+    fileSize: '100 GB',
+    links: [
+      { label: 'GTA V Premium Edition - FULL', url: 'magnet:?xt=urn:btih:0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c&dn=GTAV-Premium&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '100 GB', quality: 'Premium Edition' },
+      { label: 'GTA V - FitGirl Repack', url: 'magnet:?xt=urn:btih:1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d&dn=GTAV-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://tracker.bittor.pw:1337/announce', type: 'magnet', server: 'FitGirl', fileSize: '38 GB', quality: 'FitGirl Repack' },
+    ]
+  },
+  'hades-ii': {
+    fileSize: '20 GB',
+    links: [
+      { label: 'Hades II Early Access - GOG', url: 'magnet:?xt=urn:btih:2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e&dn=Hades2-GOG&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'PiviGames', fileSize: '20 GB', quality: 'GOG Early Access' },
+      { label: 'Hades II - OnlineFix', url: 'magnet:?xt=urn:btih:3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f&dn=Hades2-OnlineFix&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'OnlineFix', fileSize: '18 GB', quality: 'OnlineFix' },
+    ]
+  },
+  'starfield': {
+    fileSize: '125 GB',
+    links: [
+      { label: 'Starfield - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a&dn=Starfield-FULL&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '125 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Starfield - FitGirl Repack', url: 'magnet:?xt=urn:btih:5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b&dn=Starfield-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://tracker.bittor.pw:1337/announce', type: 'magnet', server: 'FitGirl', fileSize: '68 GB', quality: 'FitGirl Repack' },
+    ]
+  },
+  'dark-souls-iii': {
+    fileSize: '40 GB',
+    links: [
+      { label: 'Dark Souls III - GOG', url: 'magnet:?xt=urn:btih:6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c&dn=DS3-GOG&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '40 GB', quality: 'GOG' },
+      { label: 'Dark Souls III - FitGirl Repack', url: 'magnet:?xt=urn:btih:7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d&dn=DS3-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://tracker.bittor.pw:1337/announce', type: 'magnet', server: 'FitGirl', fileSize: '22 GB', quality: 'FitGirl Repack' },
+    ]
+  },
+  'death-stranding': {
+    fileSize: '75 GB',
+    links: [
+      { label: 'Death Stranding Director Cut - GOG', url: 'magnet:?xt=urn:btih:8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e&dn=DeathStranding-GOG&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'PiviGames', fileSize: '75 GB', quality: "Director's Cut GOG" },
+      { label: 'Death Stranding - FitGirl Repack', url: 'magnet:?xt=urn:btih:9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f&dn=DeathStranding-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '42 GB', quality: 'FitGirl Repack' },
+    ]
+  },
+  'stardew-valley': {
+    fileSize: '1.5 GB',
+    links: [
+      { label: 'Stardew Valley v1.6 - GOG', url: 'magnet:?xt=urn:btih:0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a&dn=StardewValley-GOG&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '1.5 GB', quality: 'GOG v1.6' },
+    ]
+  },
+  'hollow-knight': {
+    fileSize: '9 GB',
+    links: [
+      { label: 'Hollow Knight - GOG', url: 'magnet:?xt=urn:btih:1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b&dn=HollowKnight-GOG&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'PiviGames', fileSize: '9 GB', quality: 'GOG' },
+    ]
+  },
+  'doom-eternal': {
+    fileSize: '60 GB',
+    links: [
+      { label: 'DOOM Eternal - EMPRESS', url: 'magnet:?xt=urn:btih:2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c&dn=DoomEternal-EMPRESS&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '60 GB', quality: 'EMPRESS' },
+      { label: 'DOOM Eternal - FitGirl Repack', url: 'magnet:?xt=urn:btih:3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d&dn=DoomEternal-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://tracker.bittor.pw:1337/announce', type: 'magnet', server: 'FitGirl', fileSize: '32 GB', quality: 'FitGirl Repack' },
+    ]
+  },
+  'fallout-4': {
+    fileSize: '35 GB',
+    links: [
+      { label: 'Fallout 4 GOTY - GOG', url: 'magnet:?xt=urn:btih:4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e&dn=Fallout4-GOTY&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '35 GB', quality: 'GOG GOTY' },
+      { label: 'Fallout 4 - FitGirl Repack', url: 'magnet:?xt=urn:btih:5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f&dn=Fallout4-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://tracker.bittor.pw:1337/announce', type: 'magnet', server: 'FitGirl', fileSize: '20 GB', quality: 'FitGirl Repack' },
+    ]
+  },
+  'sekiro-shadows-die-twice': {
+    fileSize: '25 GB',
+    links: [
+      { label: 'Sekiro - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a&dn=Sekiro-FULL&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'PiviGames', fileSize: '25 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Sekiro - FitGirl Repack', url: 'magnet:?xt=urn:btih:7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b&dn=Sekiro-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://tracker.bittor.pw:1337/announce', type: 'magnet', server: 'FitGirl', fileSize: '14 GB', quality: 'FitGirl Repack' },
+    ]
+  },
+  'helldivers-2': {
+    fileSize: '70 GB',
+    links: [
+      { label: 'Helldivers 2 - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c&dn=Helldivers2-FULL&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '70 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Helldivers 2 - OnlineFix', url: 'magnet:?xt=urn:btih:9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d&dn=Helldivers2-OnlineFix&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'OnlineFix', fileSize: '65 GB', quality: 'OnlineFix Co-op' },
+    ]
+  },
+  'the-elder-scrolls-v-skyrim': {
+    fileSize: '15 GB',
+    links: [
+      { label: 'Skyrim Special Edition - GOG', url: 'magnet:?xt=urn:btih:0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e&dn=SkyrimSE-GOG&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '15 GB', quality: 'Special Edition GOG' },
+    ]
+  },
+  'monster-hunter-world': {
+    fileSize: '50 GB',
+    links: [
+      { label: 'Monster Hunter World + Iceborne - FULL', url: 'magnet:?xt=urn:btih:1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f&dn=MHW-Iceborne&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'PiviGames', fileSize: '50 GB', quality: 'FULL + Iceborne' },
+      { label: 'Monster Hunter World - FitGirl Repack', url: 'magnet:?xt=urn:btih:2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a&dn=MHW-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://tracker.bittor.pw:1337/announce', type: 'magnet', server: 'FitGirl', fileSize: '28 GB', quality: 'FitGirl Repack' },
+    ]
+  },
+  'the-last-of-us-part-ii': {
+    fileSize: '80 GB',
+    links: [
+      { label: 'The Last of Us Part II - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b&dn=TLOU2-FULL&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '80 GB', quality: 'FULL UNLOCKED' },
+      { label: 'The Last of Us Part II - FitGirl Repack', url: 'magnet:?xt=urn:btih:4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c&dn=TLOU2-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://tracker.bittor.pw:1337/announce', type: 'magnet', server: 'FitGirl', fileSize: '48 GB', quality: 'FitGirl Repack' },
+    ]
+  },
+  'assassins-creed-shadows': {
+    fileSize: '95 GB',
+    links: [
+      { label: "Assassin's Creed Shadows - FULL", url: 'magnet:?xt=urn:btih:5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d&dn=ACShadows-FULL&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '95 GB', quality: 'FULL UNLOCKED' },
+      { label: "Assassin's Creed Shadows - DODI", url: 'magnet:?xt=urn:btih:6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e&dn=ACShadows-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '58 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'dragons-dogma-2': {
+    fileSize: '65 GB',
+    links: [
+      { label: "Dragon's Dogma 2 - FULL", url: 'magnet:?xt=urn:btih:7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f&dn=DD2-FULL&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'PiviGames', fileSize: '65 GB', quality: 'FULL UNLOCKED' },
+      { label: "Dragon's Dogma 2 - FitGirl", url: 'magnet:?xt=urn:btih:8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a&dn=DD2-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://tracker.bittor.pw:1337/announce', type: 'magnet', server: 'FitGirl', fileSize: '38 GB', quality: 'FitGirl Repack' },
+    ]
+  },
+  'metaphor-refantazio': {
+    fileSize: '55 GB',
+    links: [
+      { label: 'Metaphor ReFantazio - FULL', url: 'magnet:?xt=urn:btih:9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b&dn=Metaphor-FULL&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '55 GB', quality: 'FULL UNLOCKED' },
+    ]
+  },
+  'like-a-dragon-infinite-wealth': {
+    fileSize: '60 GB',
+    links: [
+      { label: 'Like a Dragon Infinite Wealth - FULL', url: 'magnet:?xt=urn:btih:0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c&dn=LaD-IW-FULL&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'PiviGames', fileSize: '60 GB', quality: 'FULL UNLOCKED' },
+    ]
+  },
+  'tekken-8': {
+    fileSize: '80 GB',
+    links: [
+      { label: 'Tekken 8 - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d&dn=Tekken8-FULL&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '80 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Tekken 8 - OnlineFix', url: 'magnet:?xt=urn:btih:2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e&dn=Tekken8-OnlineFix&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'OnlineFix', fileSize: '75 GB', quality: 'OnlineFix' },
+    ]
+  },
+  'horizon-forbidden-west': {
+    fileSize: '95 GB',
+    links: [
+      { label: 'Horizon Forbidden West Complete - FULL', url: 'magnet:?xt=urn:btih:3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f&dn=HFW-FULL&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '95 GB', quality: 'Complete Edition' },
+      { label: 'Horizon Forbidden West - FitGirl', url: 'magnet:?xt=urn:btih:4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a&dn=HFW-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://tracker.bittor.pw:1337/announce', type: 'magnet', server: 'FitGirl', fileSize: '55 GB', quality: 'FitGirl Repack' },
+    ]
+  },
+  'control': {
+    fileSize: '40 GB',
+    links: [
+      { label: 'Control Ultimate Edition - GOG', url: 'magnet:?xt=urn:btih:5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b&dn=Control-GOG&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '40 GB', quality: 'Ultimate Edition GOG' },
+    ]
+  },
+  'it-takes-two': {
+    fileSize: '45 GB',
+    links: [
+      { label: 'It Takes Two - FULL', url: 'magnet:?xt=urn:btih:6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c&dn=ItTakesTwo-FULL&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'PiviGames', fileSize: '45 GB', quality: 'FULL UNLOCKED' },
+    ]
+  },
+  'batman-arkham-knight': {
+    fileSize: '55 GB',
+    links: [
+      { label: 'Batman Arkham Knight Premium - FULL', url: 'magnet:?xt=urn:btih:7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d&dn=BatmanAK-FULL&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '55 GB', quality: 'Premium Edition' },
+    ]
+  },
+  'civilization-vi': {
+    fileSize: '25 GB',
+    links: [
+      { label: 'Civilization VI Gathering Storm - GOG', url: 'magnet:?xt=urn:btih:8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e&dn=Civ6-GOG&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '25 GB', quality: 'GOG + All DLC' },
+    ]
+  },
+  'the-legend-of-zelda-tears-of-the-kingdom': {
+    fileSize: '18 GB',
+    links: [
+      { label: 'Zelda Tears of the Kingdom - NSP', url: 'magnet:?xt=urn:btih:9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f&dn=ZeldaTotK-NSP&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'PiviGames', fileSize: '18 GB', quality: 'NSP + Update' },
+    ]
+  },
+  'super-mario-odyssey': {
+    fileSize: '6 GB',
+    links: [
+      { label: 'Super Mario Odyssey - NSP', url: 'magnet:?xt=urn:btih:0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a&dn=MarioOdyssey-NSP&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '6 GB', quality: 'NSP' },
+    ]
+  },
+  'mario-kart-8-deluxe': {
+    fileSize: '7 GB',
+    links: [
+      { label: 'Mario Kart 8 Deluxe - NSP + DLC', url: 'magnet:?xt=urn:btih:a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0&dn=MarioKart8-NSP&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'PiviGames', fileSize: '7 GB', quality: 'NSP + All DLC' },
+    ]
+  },
+  'super-smash-bros-ultimate': {
+    fileSize: '22 GB',
+    links: [
+      { label: 'Super Smash Bros Ultimate - NSP', url: 'magnet:?xt=urn:btih:b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1&dn=SSBU-NSP&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '22 GB', quality: 'NSP + Update' },
+    ]
+  },
+  'celeste': {
+    fileSize: '1.2 GB',
+    links: [
+      { label: 'Celeste - GOG', url: 'magnet:?xt=urn:btih:c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2&dn=Celeste-GOG&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '1.2 GB', quality: 'GOG' },
+    ]
+  },
+  'hollow-knight-silksong': {
+    fileSize: '12 GB',
+    links: [
+      { label: 'Hollow Knight Silksong - GOG', url: 'magnet:?xt=urn:btih:d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3&dn=Silksong-GOG&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'PiviGames', fileSize: '12 GB', quality: 'GOG' },
+    ]
+  },
+  'counter-strike-2': {
+    fileSize: '35 GB',
+    links: [
+      { label: 'Counter-Strike 2 - OnlineFix', url: 'magnet:?xt=urn:btih:e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4&dn=CS2-OnlineFix&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'OnlineFix', fileSize: '35 GB', quality: 'OnlineFix' },
+    ]
+  },
+  'overwatch-2': {
+    fileSize: '40 GB',
+    links: [
+      { label: 'Overwatch 2 - OnlineFix', url: 'magnet:?xt=urn:btih:f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5&dn=OW2-OnlineFix&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'OnlineFix', fileSize: '40 GB', quality: 'OnlineFix' },
+    ]
+  },
+  'genshin-impact': {
+    fileSize: '65 GB',
+    links: [
+      { label: 'Genshin Impact - FULL', url: 'magnet:?xt=urn:btih:a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6&dn=GenshinImpact-FULL&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '65 GB', quality: 'Official Client' },
+    ]
+  },
+  'apex-legends': {
+    fileSize: '55 GB',
+    links: [
+      { label: 'Apex Legends - OnlineFix', url: 'magnet:?xt=urn:btih:b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7&dn=Apex-OnlineFix&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'OnlineFix', fileSize: '55 GB', quality: 'OnlineFix' },
+    ]
+  },
+  'animal-crossing-new-horizons': {
+    fileSize: '7 GB',
+    links: [
+      { label: 'Animal Crossing New Horizons - NSP', url: 'magnet:?xt=urn:btih:c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8&dn=ACNH-NSP&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'PiviGames', fileSize: '7 GB', quality: 'NSP + Update' },
+    ]
+  },
+  'metroid-dread': {
+    fileSize: '4 GB',
+    links: [
+      { label: 'Metroid Dread - NSP', url: 'magnet:?xt=urn:btih:d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9&dn=MetroidDread-NSP&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '4 GB', quality: 'NSP' },
+    ]
+  },
+  'pokemon-scarlet-violet': {
+    fileSize: '12 GB',
+    links: [
+      { label: 'Pokemon Scarlet & Violet - NSP', url: 'magnet:?xt=urn:btih:e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0&dn=PokemonSV-NSP&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'PiviGames', fileSize: '12 GB', quality: 'NSP + DLC' },
+    ]
+  },
+  'dragon-age-the-veilguard': {
+    fileSize: '85 GB',
+    links: [
+      { label: 'Dragon Age The Veilguard - FULL', url: 'magnet:?xt=urn:btih:f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1&dn=DAVeilguard-FULL&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '85 GB', quality: 'FULL UNLOCKED' },
+    ]
+  },
+  'portal-2': {
+    fileSize: '12 GB',
+    links: [
+      { label: 'Portal 2 - GOG', url: 'magnet:?xt=urn:btih:a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2&dn=Portal2-GOG&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce', type: 'magnet', server: 'GamesFull', fileSize: '12 GB', quality: 'GOG' },
+    ]
+  },
+}
+
+// Helper to create download links for a game
+async function createDownloadLinks(gameId: string, slug: string) {
+  const torrentData = TORRENT_DOWNLOADS[slug]
+  if (!torrentData) return
+
+  // Check if links already exist
+  const existing = await prisma.downloadLink.findFirst({ where: { gameId } })
+  if (existing) return
+
+  for (const link of torrentData.links) {
+    await prisma.downloadLink.create({
+      data: {
+        gameId,
+        label: link.label,
+        url: link.url,
+        type: link.type,
+        server: link.server,
+        fileSize: link.fileSize,
+        quality: link.quality,
+      },
+    })
+  }
+  console.log(`  🔗 ${torrentData.links.length} download links created for ${slug}`)
+}
+
 // RAWG API helpers for when the key is available
 interface RawgGame {
   id: number
@@ -981,6 +1352,8 @@ async function main() {
           if (description.length > 500) description = description.substring(0, 497) + '...'
           if (!description) description = `${rawgGame.name} es uno de los títulos más populares en su género.`
 
+          const torrentFileSize = TORRENT_DOWNLOADS[slug]?.fileSize || null
+
           await prisma.game.update({
             where: { id: existing.id },
             data: {
@@ -990,6 +1363,7 @@ async function main() {
               description,
               trailerUrl: trailerUrl || existing.trailerUrl,
               downloadUrl: downloadUrl || existing.downloadUrl,
+              fileSize: torrentFileSize || existing.fileSize,
               developer: rawgGame.developers?.[0]?.name || existing.developer,
               publisher: rawgGame.publishers?.[0]?.name || existing.publisher,
               releaseDate: rawgGame.released || existing.releaseDate,
@@ -999,6 +1373,7 @@ async function main() {
               categoryId: category.id,
             },
           })
+          await createDownloadLinks(existing.id, slug)
           gamesCreated++
           console.log(`  🔄 Updated: ${rawgGame.name} (cover + name + link all match)`)
         } else {
@@ -1035,7 +1410,9 @@ async function main() {
 
           const featuredSlugs = new Set(['cyberpunk-2077', 'elden-ring', 'god-of-war-ragnarok', 'the-legend-of-zelda-tears-of-the-kingdom', 'baldurs-gate-3', 'hollow-knight-silksong', 'resident-evil-4-remake', 'forza-horizon-5', 'red-dead-redemption-2', 'the-witcher-3-wild-hunt', 'black-myth-wukong', 'hogwarts-legacy', 'ghost-of-tsushima'])
 
-          await prisma.game.create({
+          const torrentFileSize = TORRENT_DOWNLOADS[slug]?.fileSize || null
+
+          const newGame = await prisma.game.create({
             data: {
               title: rawgGame.name,
               slug: rawgGame.slug,
@@ -1044,6 +1421,7 @@ async function main() {
               coverUrl,
               trailerUrl: trailerUrl || null,
               downloadUrl: downloadUrl || null,
+              fileSize: torrentFileSize,
               developer: rawgGame.developers?.[0]?.name || 'Desconocido',
               publisher: rawgGame.publishers?.[0]?.name || 'Desconocido',
               releaseDate: rawgGame.released || 'TBA',
@@ -1054,6 +1432,7 @@ async function main() {
               featured: featuredSlugs.has(rawgGame.slug),
             },
           })
+          await createDownloadLinks(newGame.id, slug)
           gamesCreated++
           console.log(`  ✅ Created: ${rawgGame.name} (cover + name + link all match)`)
         }
@@ -1088,8 +1467,9 @@ async function main() {
       const imageUrl = STEAM_CAPSULE(game.steamId)  // 616x353 HD for cards
       const coverUrl = STEAM_HERO(game.steamId)     // 1920x1080 HD for detail
       const downloadUrl = STEAM_STORE(game.steamId)  // Steam store page (matches game!)
+      const torrentFileSize = TORRENT_DOWNLOADS[game.slug]?.fileSize || null
 
-      await prisma.game.create({
+      const newGame = await prisma.game.create({
         data: {
           title: game.title,
           slug: game.slug,
@@ -1098,6 +1478,7 @@ async function main() {
           coverUrl,
           trailerUrl: game.trailerUrl || null,
           downloadUrl,
+          fileSize: torrentFileSize,
           developer: game.developer,
           publisher: game.publisher,
           releaseDate: game.releaseDate,
@@ -1108,6 +1489,7 @@ async function main() {
           featured: game.featured,
         },
       })
+      await createDownloadLinks(newGame.id, game.slug)
       gamesCreated++
       console.log(`  ✅ ${game.title} (Steam ID: ${game.steamId} → cover + name + link match)`)
     }
@@ -1123,8 +1505,9 @@ async function main() {
       // For Nintendo exclusives, use a placeholder image if no custom URL provided
       const imageUrl = game.imageUrl || `https://placehold.co/616x353/1a1a1a/666666?text=${encodeURIComponent(game.title)}`
       const coverUrl = `https://placehold.co/1920x1080/1a1a1a/444444?text=${encodeURIComponent(game.title)}`
+      const torrentFileSize = TORRENT_DOWNLOADS[game.slug]?.fileSize || null
 
-      await prisma.game.create({
+      const newGame = await prisma.game.create({
         data: {
           title: game.title,
           slug: game.slug,
@@ -1133,6 +1516,7 @@ async function main() {
           coverUrl,
           trailerUrl: game.trailerUrl || null,
           downloadUrl: game.downloadUrl || null,
+          fileSize: torrentFileSize,
           developer: game.developer,
           publisher: game.publisher,
           releaseDate: game.releaseDate,
@@ -1143,6 +1527,7 @@ async function main() {
           featured: game.featured,
         },
       })
+      await createDownloadLinks(newGame.id, game.slug)
       gamesCreated++
       console.log(`  ✅ ${game.title} (Nintendo exclusive - use RAWG sync for better cover)`)
     }
@@ -1190,7 +1575,25 @@ async function main() {
     }
   }
 
-  // 5. Create favorites
+  // 5.5 Create download links for any games missing them
+  console.log('🔗 Checking download links for existing games...')
+  const allGamesForLinks = await prisma.game.findMany({ select: { id: true, slug: true } })
+  let linksCreated = 0
+  for (const g of allGamesForLinks) {
+    const existingLink = await prisma.downloadLink.findFirst({ where: { gameId: g.id } })
+    if (!existingLink) {
+      await createDownloadLinks(g.id, g.slug)
+      if (TORRENT_DOWNLOADS[g.slug]) linksCreated++
+      // Also update fileSize if missing
+      const torrentData = TORRENT_DOWNLOADS[g.slug]
+      if (torrentData) {
+        await prisma.game.update({ where: { id: g.id }, data: { fileSize: torrentData.fileSize } })
+      }
+    }
+  }
+  if (linksCreated > 0) console.log(`  🔗 ${linksCreated} games got new download links`)
+
+  // 6. Create favorites
   console.log('❤️ Creating favorites...')
   const favoriteData = [
     { userId: user1.id, gameIndices: [0, 2, 4, 8, 11, 14] },

@@ -1,3 +1,15 @@
+export interface DownloadLink {
+  id: string
+  gameId: string
+  label: string
+  url: string
+  type: string
+  server: string
+  fileSize?: string | null
+  quality?: string | null
+  createdAt: string
+}
+
 export interface Game {
   id: string
   title: string
@@ -7,6 +19,7 @@ export interface Game {
   coverUrl?: string | null
   trailerUrl?: string | null
   downloadUrl?: string | null
+  fileSize?: string | null
   developer: string
   publisher: string
   releaseDate: string
@@ -18,6 +31,7 @@ export interface Game {
   featured: boolean
   createdAt: string
   reviews: Review[]
+  downloadLinks: DownloadLink[]
 }
 
 export interface Category {

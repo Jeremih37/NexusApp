@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ChevronLeft, Heart, Calendar, Monitor, Play, Download, PenLine, Star, ExternalLink, Gamepad2, Share2 } from 'lucide-react'
+import { ChevronLeft, Heart, Calendar, Monitor, Play, Download, PenLine, Star, ExternalLink, Gamepad2, Share2, Magnet, FileDown, Server, HardDrive, Shield, Zap } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -11,6 +11,7 @@ import { ReviewList } from '@/components/review/review-list'
 import { ReviewModal } from '@/components/review/review-modal'
 import { useGame, useFavorites, useToggleFavorite } from '@/hooks/use-games'
 import { useAuth } from '@/lib/auth-context'
+import type { DownloadLink } from '@/types'
 
 interface GameDetailProps {
   id: string
@@ -28,6 +29,100 @@ function getYouTubeId(url: string): string | null {
   return null
 }
 
+function DownloadButton({ link, index }: { link: DownloadLink; index: number }) {
+  const isMagnet = link.url.startsWith('magnet:')
+
+  const handleClick = () => {
+    if (isMagnet) {
+      // Magnet links open directly - the torrent client handles them
+      window.location.href = link.url
+    } else {
+      // For .torrent files, trigger download
+      const a = document.createElement('a')
+      a.href = link.url
+      a.download = ''
+      a.target = '_blank'
+      a.rel = 'noopener noreferrer'
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+    }
+  }
+
+  return (
+    <button
+      onClick={handleClick}
+      className={cn(
+        'group relative w-full glass-card rounded-2xl p-5 text-left transition-all duration-300 hover:bg-white/[0.06] border border-white/[0.06] hover:border-white/[0.12]',
+        index === 0 && 'border-white/[0.15] hover:border-white/[0.25] ring-1 ring-white/[0.05]'
+      )}
+    >
+      {/* Recommended badge for first link */}
+      {index === 0 && (
+        <div className="absolute -top-2.5 left-4">
+          <span className="flex items-center gap-1 px-3 py-1 bg-white text-black rounded-full text-[10px] font-black tracking-wider uppercase shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+            <Zap className="w-3 h-3" />
+            Recomendado
+          </span>
+        </div>
+      )}
+
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex-1 min-w-0">
+          {/* Server name and quality */}
+          <div className="flex items-center gap-2.5 mb-2">
+            <div className={cn(
+              'w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0',
+              index === 0 ? 'bg-white/15' : 'bg-white/[0.06]'
+            )}>
+              {isMagnet ? (
+                <Magnet className="w-4 h-4 text-white" />
+              ) : (
+                <FileDown className="w-4 h-4 text-white" />
+              )}
+            </div>
+            <div>
+              <h4 className="font-bold text-sm text-white">{link.label}</h4>
+              <p className="text-xs text-gray-400">{link.server}</p>
+            </div>
+          </div>
+
+          {/* Meta info */}
+          <div className="flex items-center gap-3 ml-[42px]">
+            {link.quality && (
+              <span className="flex items-center gap-1 text-xs text-gray-500">
+                <Shield className="w-3 h-3" />
+                {link.quality}
+              </span>
+            )}
+            {link.fileSize && (
+              <span className="flex items-center gap-1 text-xs text-gray-500">
+                <HardDrive className="w-3 h-3" />
+                {link.fileSize}
+              </span>
+            )}
+            <span className="flex items-center gap-1 text-xs text-gray-500">
+              <Server className="w-3 h-3" />
+              {isMagnet ? 'Magnet' : 'Torrent'}
+            </span>
+          </div>
+        </div>
+
+        {/* Download button */}
+        <div className={cn(
+          'flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm transition-all duration-300 flex-shrink-0',
+          index === 0
+            ? 'bg-white text-black hover:bg-gray-100 shadow-[0_0_20px_rgba(255,255,255,0.15)]'
+            : 'bg-white/[0.08] text-white hover:bg-white/[0.12]'
+        )}>
+          <Download className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
+          Descargar
+        </div>
+      </div>
+    </button>
+  )
+}
+
 export function GameDetail({ id }: GameDetailProps) {
   const { data: game, isLoading } = useGame(id)
   const { user, isAuthenticated } = useAuth()
@@ -35,6 +130,7 @@ export function GameDetail({ id }: GameDetailProps) {
   const toggleFavorite = useToggleFavorite()
   const [showTrailer, setShowTrailer] = useState(false)
   const [showReviewModal, setShowReviewModal] = useState(false)
+  const [showDownloads, setShowDownloads] = useState(false)
   const router = useRouter()
 
   if (isLoading || !game) {
@@ -63,6 +159,8 @@ export function GameDetail({ id }: GameDetailProps) {
     ? `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`
     : null
 
+  const hasDownloads = game.downloadLinks && game.downloadLinks.length > 0
+
   const handleToggleFavorite = () => {
     if (!isAuthenticated) {
       router.push('/login')
@@ -77,6 +175,15 @@ export function GameDetail({ id }: GameDetailProps) {
       return
     }
     setShowReviewModal(true)
+  }
+
+  const handleMainDownload = () => {
+    if (!hasDownloads) return
+    if (!isAuthenticated) {
+      router.push('/login')
+      return
+    }
+    setShowDownloads(true)
   }
 
   return (
@@ -177,17 +284,17 @@ export function GameDetail({ id }: GameDetailProps) {
                   {showTrailer ? 'Ocultar Trailer' : 'Ver Trailer'}
                 </Button>
               )}
-              {game.downloadUrl && (
-                <a
-                  href={game.downloadUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2.5 px-8 py-4 glass-card hover:bg-white/[0.08] rounded-2xl font-semibold transition-all shadow-lg text-white h-14 text-base group"
+              {hasDownloads && (
+                <Button
+                  onClick={handleMainDownload}
+                  className="flex items-center gap-2.5 px-8 py-4 bg-white hover:bg-gray-100 text-black rounded-2xl font-bold transition-all shadow-[0_0_30px_rgba(255,255,255,0.15)] hover:shadow-[0_0_40px_rgba(255,255,255,0.25)] h-14 text-base btn-premium group"
                 >
                   <Download className="w-5 h-5 group-hover:translate-y-0.5 transition-transform" />
-                  Descargar
-                  <ExternalLink className="w-3 h-3 ml-1" />
-                </a>
+                  Descargar Torrent
+                  {game.fileSize && (
+                    <span className="text-xs font-normal opacity-70 ml-1">({game.fileSize})</span>
+                  )}
+                </Button>
               )}
               <Button
                 onClick={handleWriteReview}
@@ -210,6 +317,61 @@ export function GameDetail({ id }: GameDetailProps) {
             </div>
           </div>
         </div>
+
+        {/* Download Section - Expanded */}
+        {hasDownloads && showDownloads && (
+          <div className="mt-10 reveal">
+            <div className="gradient-line mb-8" />
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-2xl font-bold flex items-center gap-3">
+                <div className="w-10 h-10 glass-card rounded-xl flex items-center justify-center">
+                  <Download className="w-5 h-5 text-white" />
+                </div>
+                Links de Descarga
+              </h3>
+              <button
+                onClick={() => setShowDownloads(false)}
+                className="text-gray-400 hover:text-white text-sm glass-card px-4 py-2 rounded-xl transition-colors"
+              >
+                Cerrar
+              </button>
+            </div>
+
+            <div className="glass-dark rounded-2xl p-6 border border-white/[0.06]">
+              {/* Info banner */}
+              <div className="flex items-start gap-3 mb-6 p-4 glass-card rounded-xl border border-white/[0.06]">
+                <Shield className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-sm text-gray-300 font-medium mb-1">Instrucciones de descarga</p>
+                  <p className="text-xs text-gray-500 leading-relaxed">
+                    Haz clic en &quot;Descargar&quot; para iniciar la descarga del torrent. Necesitas un cliente torrent como qBittorrent, uTorrent o Transmission instalado. Los links magnet se abren automaticamente en tu cliente torrent predeterminado.
+                  </p>
+                </div>
+              </div>
+
+              {/* Download links list */}
+              <div className="space-y-3">
+                {game.downloadLinks.map((link, index) => (
+                  <DownloadButton key={link.id} link={link} index={index} />
+                ))}
+              </div>
+
+              {/* Game file info */}
+              {game.fileSize && (
+                <div className="mt-5 flex items-center gap-4 text-xs text-gray-500">
+                  <span className="flex items-center gap-1.5">
+                    <HardDrive className="w-3.5 h-3.5" />
+                    Tamaño total: {game.fileSize}
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Gamepad2 className="w-3.5 h-3.5" />
+                    {game.platforms}
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Trailer Section */}
         {game.trailerUrl && (
