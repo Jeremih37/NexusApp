@@ -16,7 +16,7 @@ export function FavoritesPreview() {
           <Heart className="w-6 h-6 text-red-400 fill-current" />
           Tus Favoritos
         </h2>
-        <Link href="/favorites" className="text-purple-400 hover:text-purple-300 text-sm font-medium flex items-center gap-1 transition-colors">
+        <Link href="/favorites" className="text-amber-400 hover:text-amber-300 text-sm font-medium flex items-center gap-1 transition-colors">
           Ver todos
           <ChevronRight className="w-4 h-4" />
         </Link>

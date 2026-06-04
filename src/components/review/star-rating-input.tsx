@@ -21,7 +21,7 @@ export function StarRatingInput({ value, onChange }: StarRatingInputProps) {
           <Star
             className={cn(
               'w-7 h-7 transition-colors',
-              star <= value ? 'text-amber-400 fill-amber-400' : 'text-gray-600 fill-gray-600'
+              star <= value ? 'text-amber-400 fill-amber-400' : 'text-gray-700 fill-gray-700'
             )}
           />
         </button>

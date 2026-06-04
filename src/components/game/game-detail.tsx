@@ -71,7 +71,7 @@ export function GameDetail({ id }: GameDetailProps) {
           alt={game.title}
           className="w-full h-full object-cover opacity-20 blur-sm"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-950/50 via-gray-950/80 to-gray-950" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/80 to-black" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-8">
@@ -90,7 +90,7 @@ export function GameDetail({ id }: GameDetailProps) {
             <img
               src={game.imageUrl}
               alt={game.title}
-              className="w-64 h-80 object-cover rounded-xl shadow-2xl shadow-purple-500/10 border border-gray-700/50"
+              className="w-64 h-80 object-cover rounded-xl shadow-2xl shadow-amber-500/10 border border-gray-700/50"
             />
           </div>
 
@@ -98,7 +98,7 @@ export function GameDetail({ id }: GameDetailProps) {
           <div className="flex-1">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <Badge className="inline-block px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm font-medium mb-3 border border-purple-500/30 hover:bg-purple-500/20">
+                <Badge className="inline-block px-3 py-1 bg-amber-700/20 text-amber-300 rounded-full text-sm font-medium mb-3 border border-amber-500/30 hover:bg-amber-700/20">
                   {game.category.name}
                 </Badge>
                 <h1 className="text-3xl md:text-4xl font-bold mb-2">{game.title}</h1>
@@ -110,7 +110,7 @@ export function GameDetail({ id }: GameDetailProps) {
                   'p-3 rounded-full transition-all',
                   isFavorite
                     ? 'bg-red-500/20 text-red-400 border border-red-500/30'
-                    : 'bg-gray-800 text-gray-400 hover:text-red-400 border border-gray-700'
+                    : 'bg-gray-900 text-gray-400 hover:text-red-400 border border-gray-700'
                 )}
               >
                 <Heart className={cn('w-6 h-6', isFavorite && 'fill-current')} />
@@ -119,7 +119,7 @@ export function GameDetail({ id }: GameDetailProps) {
 
             {/* Rating */}
             <div className="flex items-center gap-3 mt-4">
-              <div className="flex items-center gap-2 bg-gray-800/80 rounded-lg px-4 py-2 border border-gray-700/50">
+              <div className="flex items-center gap-2 bg-gray-900/80 rounded-lg px-4 py-2 border border-gray-700/50">
                 <span className="text-3xl font-bold text-amber-400">{game.rating}</span>
                 <div className="flex flex-col">
                   <StarRating rating={game.rating} size="sm" />
@@ -141,7 +141,7 @@ export function GameDetail({ id }: GameDetailProps) {
               {game.trailerUrl && (
                 <Button
                   onClick={() => setShowTrailer(!showTrailer)}
-                  className="flex items-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-500 rounded-lg font-medium transition-colors shadow-lg shadow-purple-500/20 h-12"
+                  className="flex items-center gap-2 px-6 py-3 bg-amber-700 hover:bg-amber-600 rounded-lg font-medium transition-colors shadow-lg shadow-amber-500/20 h-12"
                 >
                   <Play className="w-5 h-5 fill-current" />
                   Ver Trailer
@@ -161,7 +161,7 @@ export function GameDetail({ id }: GameDetailProps) {
               <Button
                 onClick={handleWriteReview}
                 variant="outline"
-                className="flex items-center gap-2 px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium transition-colors border-gray-600 h-12"
+                className="flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg font-medium transition-colors border-gray-600 h-12"
               >
                 <PenLine className="w-5 h-5" />
                 Escribir Reseña
@@ -180,7 +180,7 @@ export function GameDetail({ id }: GameDetailProps) {
         {showTrailer && game.trailerUrl && (
           <div className="mt-8">
             <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-              <Play className="w-5 h-5 text-purple-400 fill-current" />
+              <Play className="w-5 h-5 text-amber-400 fill-current" />
               Trailer
             </h3>
             <div className="aspect-video rounded-xl overflow-hidden border border-gray-700/50 shadow-2xl">

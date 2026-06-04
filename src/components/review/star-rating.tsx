@@ -20,7 +20,7 @@ export function StarRating({ rating, size = 'md' }: StarRatingProps) {
             sizeClass,
             star <= Math.round(rating)
               ? 'text-amber-400 fill-amber-400'
-              : 'text-gray-600 fill-gray-600'
+              : 'text-gray-700 fill-gray-700'
           )}
         />
       ))}

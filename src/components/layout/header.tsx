@@ -35,15 +35,15 @@ export function Header() {
   const avatarInitial = user?.avatar || user?.name?.charAt(0)?.toUpperCase() || 'U'
 
   return (
-    <header className="sticky top-0 z-40 bg-gray-950/80 backdrop-blur-xl border-b border-gray-800/50">
+    <header className="sticky top-0 z-40 bg-black/90 backdrop-blur-xl border-b border-amber-700/20 pattern-leopard">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center font-bold text-sm shadow-lg shadow-purple-500/20">
+            <div className="w-9 h-9 bg-gradient-to-br from-amber-700 to-amber-500 rounded-lg flex items-center justify-center font-bold text-sm shadow-lg shadow-amber-500/20">
               N
             </div>
-            <span className="text-xl font-bold tracking-tight">Nexus<span className="text-purple-400">App</span></span>
+            <span className="text-xl font-bold tracking-tight">Nexus<span className="text-amber-400">App</span></span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -57,7 +57,7 @@ export function Header() {
                   className={cn(
                     'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all',
                     isActive(item.href)
-                      ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
+                      ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
                       : 'text-gray-400 hover:text-white hover:bg-gray-800'
                   )}
                 >
@@ -74,7 +74,7 @@ export function Header() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-xs font-bold">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-700 to-amber-500 flex items-center justify-center text-xs font-bold">
                       {avatarInitial}
                     </div>
                     <span className="text-sm font-medium text-gray-300 hidden lg:inline">{user.name}</span>
@@ -114,7 +114,7 @@ export function Header() {
               </DropdownMenu>
             ) : (
               <Link href="/login">
-                <Button className="bg-purple-600 hover:bg-purple-500 text-white gap-2 shadow-lg shadow-purple-500/20">
+                <Button className="bg-amber-700 hover:bg-amber-600 text-white gap-2 shadow-lg shadow-amber-500/20">
                   <LogIn className="w-4 h-4" />
                   Iniciar Sesión
                 </Button>
@@ -133,7 +133,7 @@ export function Header() {
                   className={cn(
                     'p-2 rounded-lg transition-all',
                     isActive(item.href)
-                      ? 'bg-purple-500/20 text-purple-300'
+                      ? 'bg-amber-500/20 text-amber-300'
                       : 'text-gray-400'
                   )}
                 >
@@ -144,7 +144,7 @@ export function Header() {
             {isAuthenticated && user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="w-7 h-7 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-[10px] font-bold">
+                  <button className="w-7 h-7 rounded-full bg-gradient-to-br from-amber-700 to-amber-500 flex items-center justify-center text-[10px] font-bold">
                     {avatarInitial}
                   </button>
                 </DropdownMenuTrigger>
@@ -169,7 +169,7 @@ export function Header() {
               </DropdownMenu>
             ) : (
               <Link href="/login">
-                <div className="w-7 h-7 rounded-full bg-purple-600 flex items-center justify-center">
+                <div className="w-7 h-7 rounded-full bg-amber-700 flex items-center justify-center">
                   <LogIn className="w-3.5 h-3.5" />
                 </div>
               </Link>

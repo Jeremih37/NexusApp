@@ -13,7 +13,7 @@ export function CategoriesSection() {
   return (
     <section className="mb-12">
       <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-        <LayoutGrid className="w-6 h-6 text-cyan-400" />
+        <LayoutGrid className="w-6 h-6 text-amber-400" />
         Categorías
       </h2>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -21,10 +21,10 @@ export function CategoriesSection() {
           <button
             key={cat.id}
             onClick={() => router.push(`/catalog?category=${cat.slug}`)}
-            className="p-4 bg-gray-800/40 rounded-xl border border-gray-700/50 hover:border-cyan-500/30 transition-all group text-left"
+            className="p-4 bg-gray-900/40 rounded-xl border border-gray-700/50 hover:border-amber-500/30 transition-all group text-left"
           >
             <span className="text-2xl mb-2 block">{cat.icon}</span>
-            <h3 className="font-semibold group-hover:text-cyan-300 transition-colors">{cat.name}</h3>
+            <h3 className="font-semibold group-hover:text-amber-300 transition-colors">{cat.name}</h3>
             <p className="text-xs text-gray-500">{cat._count?.games || 0} juegos</p>
           </button>
         ))}

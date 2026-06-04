@@ -13,7 +13,7 @@ export default function FavoritesPage() {
   const toggleFavorite = useToggleFavorite()
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-white flex flex-col">
+    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white flex flex-col">
       <Header />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1">
         <div className="mb-8">
@@ -27,7 +27,7 @@ export default function FavoritesPage() {
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {[...Array(4)].map((_, i) => (
-              <div key={i} className="bg-gray-800/40 rounded-xl overflow-hidden border border-gray-700/50 animate-pulse">
+              <div key={i} className="bg-gray-900/40 rounded-xl overflow-hidden border border-gray-700/50 animate-pulse">
                 <div className="aspect-[16/10] bg-gray-700/50" />
                 <div className="p-4 space-y-3">
                   <div className="h-5 bg-gray-700/50 rounded w-3/4" />
@@ -54,7 +54,7 @@ export default function FavoritesPage() {
             <p className="text-lg">Aún no tienes favoritos</p>
             <p className="text-sm mt-1">Explora el catálogo y guarda tus juegos preferidos</p>
             <Link href="/catalog">
-              <Button className="mt-4 bg-purple-600 hover:bg-purple-500">
+              <Button className="mt-4 bg-amber-700 hover:bg-amber-600">
                 Explorar Catálogo
               </Button>
             </Link>

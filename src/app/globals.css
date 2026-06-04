@@ -120,3 +120,49 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Animal print patterns - subtle and elegant */
+.pattern-leopard {
+  background-image: 
+    radial-gradient(ellipse 3px 2px at 10px 10px, rgba(212,165,116,0.12) 50%, transparent 50%),
+    radial-gradient(ellipse 4px 3px at 30px 20px, rgba(212,165,116,0.08) 50%, transparent 50%),
+    radial-gradient(ellipse 2px 2px at 50px 8px, rgba(212,165,116,0.10) 50%, transparent 50%),
+    radial-gradient(ellipse 3px 3px at 70px 25px, rgba(212,165,116,0.07) 50%, transparent 50%),
+    radial-gradient(ellipse 2px 3px at 20px 35px, rgba(212,165,116,0.09) 50%, transparent 50%),
+    radial-gradient(ellipse 4px 2px at 55px 40px, rgba(212,165,116,0.11) 50%, transparent 50%),
+    radial-gradient(ellipse 3px 2px at 85px 15px, rgba(212,165,116,0.06) 50%, transparent 50%);
+  background-size: 100px 50px;
+}
+
+.pattern-zebra {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 8px,
+    rgba(255,255,255,0.015) 8px,
+    rgba(255,255,255,0.015) 16px
+  );
+}
+
+.pattern-snake {
+  background-image: 
+    radial-gradient(circle 2px at 50% 50%, rgba(212,165,116,0.06) 49%, transparent 50%),
+    radial-gradient(circle 1.5px at 50% 50%, rgba(212,165,116,0.04) 49%, transparent 50%);
+  background-size: 12px 12px, 6px 6px;
+  background-position: 0 0, 6px 6px;
+}
+
+/* Gold shimmer animation for accents */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer-gold {
+  background: linear-gradient(90deg, #d4a574, #e8c9a0, #d4a574, #b8860b, #d4a574);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+}

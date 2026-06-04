@@ -9,7 +9,7 @@ export default function GamePage({ params }: { params: Promise<{ id: string }> }
   const { id } = React.use(params)
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-white flex flex-col">
+    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white flex flex-col">
       <Header />
       <main className="flex-1">
         <GameDetail id={id} />
