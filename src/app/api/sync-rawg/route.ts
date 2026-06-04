@@ -3,7 +3,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { rawgService } from '@/services/rawg-service'
 
 // POST /api/sync-rawg - Sync games from RAWG API to our database
-// Body: { reset?: boolean } - if true, clears existing games first
+// Each game is fetched by slug, so ALL data (name, cover, link) comes from ONE API call
+// This guarantees data consistency: the cover image always matches the game title
+// Body: { reset?: boolean, slugs?: string[] }
 export async function POST(request: NextRequest) {
   const rawgApiKey = process.env.RAWG_API_KEY
 
@@ -17,6 +19,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json().catch(() => ({}))
     const reset = body.reset === true
+    const customSlugs = body.slugs as string[] | undefined
 
     // If reset, delete existing games, reviews, favorites
     if (reset) {
@@ -40,8 +43,8 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Fetch games from RAWG
-    const gameSlugs = [...rawgService.FEATURED_GAME_SLUGS, ...rawgService.ADDITIONAL_GAME_SLUGS]
+    // Determine which games to sync
+    const gameSlugs = customSlugs || rawgService.ALL_GAME_SLUGS
     const syncedGames: string[] = []
     const errors: string[] = []
 
@@ -50,14 +53,15 @@ export async function POST(request: NextRequest) {
       const slug = gameSlugs[i]
 
       try {
-        // Check if game already exists
+        // Check if game already exists (skip if not resetting)
         const existing = await db.game.findFirst({ where: { slug } })
         if (existing && !reset) {
           syncedGames.push(`${slug} (already exists)`)
           continue
         }
 
-        // Fetch game data from RAWG
+        // Fetch game data from RAWG - ONE API call for ONE game
+        // This ensures name, cover image, and store links all belong to the SAME game
         const rawgGame = await rawgService.getGameBySlug(slug)
         if (!rawgGame) {
           errors.push(`${slug}: not found on RAWG`)
@@ -86,14 +90,14 @@ export async function POST(request: NextRequest) {
         let trailerUrl: string | null = null
         try {
           trailerUrl = await rawgService.getBestTrailerUrl(rawgGame.id)
-        } catch (e) {
+        } catch {
           console.warn(`Could not fetch trailer for ${slug}`)
         }
 
-        // Get download URL
+        // Get download URL from the SAME game's store data
         const downloadUrl = rawgService.getDownloadUrl(rawgGame)
 
-        // Map to our game data
+        // Map to our game data (uses HD images from RAWG CDN)
         const gameData = rawgService.mapRawgGameToGameData(
           rawgGame,
           category.id,
@@ -102,7 +106,7 @@ export async function POST(request: NextRequest) {
         )
 
         // Mark featured games
-        gameData.featured = rawgService.FEATURED_GAME_SLUGS.includes(slug)
+        gameData.featured = rawgService.FEATURED_SLUGS.has(slug)
 
         // Create or update the game
         if (existing && reset) {
@@ -111,7 +115,8 @@ export async function POST(request: NextRequest) {
           await db.game.create({ data: gameData })
         }
 
-        syncedGames.push(slug)
+        syncedGames.push(`${slug} ✅`)
+        console.log(`Synced: ${rawgGame.name} (cover matches name matches link)`)
 
         // Small delay to avoid hitting rate limits (RAWG allows ~4 req/sec on free tier)
         if ((i + 1) % 3 === 0) {
@@ -132,19 +137,25 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // Create some sample reviews for the synced games
-    const games = await db.game.findMany({ take: 10 })
+    // Create sample reviews for the synced games
+    const games = await db.game.findMany({ take: 16 })
     const reviewComments = [
-      { rating: 5, comment: 'Una obra maestra absoluta. Cada detalle está cuidado al máximo y la experiencia es inolvidable.' },
-      { rating: 4, comment: 'Excelente juego con una historia cautivadora. Algunos detalles técnicos menores pero la experiencia general es fantástica.' },
-      { rating: 5, comment: 'Simplemente increíble. Gráficos impresionantes, gameplay adictivo y una narrativa que te atrapa desde el primer momento.' },
-      { rating: 4, comment: 'Muy buen juego con mecánicas sólidas. La duración es adecuada y los gráficos son de primera calidad.' },
-      { rating: 5, comment: 'Uno de los mejores juegos que he jugado. La atención al detalle es impresionante y cada sesión es una experiencia única.' },
-      { rating: 4, comment: 'Gran juego que cumple con creces las expectativas. El mundo abierto es vasto y lleno de sorpresas.' },
-      { rating: 3, comment: 'Buen juego pero con margen de mejora. La historia es interesante pero algunos aspectos técnicos necesitan pulido.' },
-      { rating: 5, comment: 'Perfecto en casi todo. Visualmente deslumbrante y con un sistema de combate que nunca aburre.' },
-      { rating: 4, comment: 'Sólido y entretenido. No reinventa el género pero hace todo muy bien y con mucha personalidad.' },
-      { rating: 5, comment: 'Imprescindible. Si te gusta el género, este juego es obligatorio. La calidad se nota en cada rincón.' },
+      { rating: 4, comment: 'Increíble mundo abierto y narrativa. Algunos bugs al lanzamiento pero la experiencia completa es memorable.' },
+      { rating: 5, comment: 'Una obra maestra. Cada jefe es un desafío épico que te hace querer mejorar constantemente.' },
+      { rating: 5, comment: 'Combate mejorado, historia conmovedora y gráficos impresionantes. Imprescindible.' },
+      { rating: 5, comment: 'Las nuevas mecánicas son geniales y el mundo es infinitamente creativo. Horas de diversión garantizadas.' },
+      { rating: 5, comment: 'El mejor RPG en años. Las decisiones importan de verdad y la narrativa es brillante.' },
+      { rating: 4, comment: 'Un remake excepcional que moderniza el clásico sin perder su esencia.' },
+      { rating: 5, comment: 'El combate es más profundo y satisfactorio que nunca. Supergiant no falla.' },
+      { rating: 4, comment: 'El mejor juego de carreras en mundo abierto. Escenario espectacular y variedad impresionante.' },
+      { rating: 3, comment: 'Ambicioso pero con altibajos. La exploración espacial es inmersiva pero tiene misiones repetitivas.' },
+      { rating: 5, comment: 'Una experiencia narrativa sin igual. El mundo abierto más vivo y detallado que he visto.' },
+      { rating: 5, comment: 'Sigue siendo el rey de los RPG. Las misiones secundarias tienen más profundidad que juegos enteros.' },
+      { rating: 5, comment: 'Una revelación. El combate es adictivo, los jefes son espectaculares y la mitología es fascinante.' },
+      { rating: 4, comment: 'Hace justicia al mundo mágico. Explorar el castillo es una delicia y los hechizos son divertidos.' },
+      { rating: 5, comment: 'Poesía visual. El combate con katana es elegante y la historia es conmovedora y épica.' },
+      { rating: 4, comment: 'Sigue siendo entretenido después de todos estos años. La ciudad es increíblemente detallada.' },
+      { rating: 5, comment: 'Simplemente perfecto en casi todo. Visualmente deslumbrante y con un sistema de combate que nunca aburre.' },
     ]
 
     for (let i = 0; i < Math.min(games.length, reviewComments.length); i++) {
@@ -166,13 +177,13 @@ export async function POST(request: NextRequest) {
     const totalGames = await db.game.count()
 
     return NextResponse.json({
-      message: 'RAWG sync completed',
+      message: 'RAWG sync completed - all covers match their game titles',
       synced: syncedGames.length,
       errors: errors.length,
       totalGames,
       details: {
         synced: syncedGames,
-        errors: errors.slice(0, 10),
+        errors: errors.slice(0, 20),
       }
     })
 
@@ -195,8 +206,9 @@ export async function GET() {
     rawgConfigured: !!rawgApiKey,
     totalGames: gameCount,
     totalCategories: categoryCount,
+    availableSlugs: rawgService.ALL_GAME_SLUGS.length,
     message: rawgApiKey
-      ? 'RAWG API is configured. Use POST to sync games.'
+      ? `RAWG API is configured. Use POST to sync up to ${rawgService.ALL_GAME_SLUGS.length} games. Each game's cover, name, and download link will all match.`
       : 'RAWG_API_KEY not configured. Add it to your environment variables.'
   })
 }

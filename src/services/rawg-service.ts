@@ -1,5 +1,6 @@
 // RAWG API Service - https://rawg.io/apidocs
 // Provides real game data: covers, trailers, ratings, platforms, etc.
+// All data comes from a single API call per game, ensuring consistency
 
 const RAWG_BASE_URL = 'https://api.rawg.io/api'
 
@@ -63,8 +64,10 @@ const GENRE_CATEGORY_MAP: Record<string, { name: string; slug: string; icon: str
   'casual': { name: 'Casual', slug: 'casual', icon: '🎯' },
 }
 
-// Specific games to fetch (most popular/iconic)
-const FEATURED_GAME_SLUGS = [
+// All game slugs - each one fetches its OWN data from RAWG
+// This guarantees that cover, name, and link all match the same game
+const ALL_GAME_SLUGS = [
+  // Featured games (appear on homepage)
   'cyberpunk-2077',
   'elden-ring',
   'god-of-war-ragnarok',
@@ -88,16 +91,13 @@ const FEATURED_GAME_SLUGS = [
   'diablo-iv',
   'final-fantasy-xvi',
   'street-fighter-6',
-  'fifa-23',
   'assassins-creed-shadows',
   'metaphor-refantazio',
   'black-myth-wukong',
   'persona-5-royal',
   'ghost-of-tsushima',
   'death-stranding',
-]
-
-const ADDITIONAL_GAME_SLUGS = [
+  // Additional games
   'dark-souls-iii',
   'mass-effect-legendary-edition',
   'halo-infinite',
@@ -109,16 +109,70 @@ const ADDITIONAL_GAME_SLUGS = [
   'stardew-valley',
   'hollow-knight',
   'the-last-of-us-part-ii',
-  'uncharted-legacy-of-thieves-collection',
   'sea-of-thieves',
   'fallout-4',
   'doom-eternal',
   'monster-hunter-world',
-  'dragon-age-inquisition',
   'civilization-vi',
   'total-war-warhammer-iii',
   'xcom-2',
+  // More popular games
+  'grand-theft-auto-vi',
+  'dragons-dogma-2',
+  'helldivers-2',
+  'palworld',
+  'like-a-dragon-infinite-wealth',
+  'prince-of-persia-the-lost-crown',
+  'tekken-8',
+  'alone-in-the-dark-2024',
+  'banishers-ghosts-of-new-eden',
+  'dragon-age-the-veilguard',
+  'silkong-2',
+  'batman-arkham-knight',
+  'the-elder-scrolls-v-skyrim',
+  'portal-2',
+  'half-life-2',
+  'left-4-dead-2',
+  'team-fortress-2',
+  'counter-strike-2',
+  'dota-2',
+  'league-of-legends',
+  'genshin-impact',
+  'honkai-star-rail',
+  'bioshock-infinite',
+  'tomb-raider-2013',
+  'shadow-of-the-colossus',
+  'metal-gear-solid-v-the-phantom-pain',
+  'fire-emblem-engage',
+  ' pikmin-4',
+  'super-mario-odyssey',
+  'super-smash-bros-ultimate',
+  'animal-crossing-new-horizons',
+  'mario-kart-8-deluxe',
+  'splatoon-3',
+  'metroid-dread',
+  'pokemon-scarlet-violet',
+  'xenoblade-chronicles-3',
 ]
+
+const FEATURED_SLUGS = new Set([
+  'cyberpunk-2077',
+  'elden-ring',
+  'god-of-war-ragnarok',
+  'the-legend-of-zelda-tears-of-the-kingdom',
+  'baldurs-gate-3',
+  'hollow-knight-silksong',
+  'resident-evil-4-remake',
+  'forza-horizon-5',
+  'starfield',
+  'hades-ii',
+  'grand-theft-auto-v',
+  'red-dead-redemption-2',
+  'the-witcher-3-wild-hunt',
+  'black-myth-wukong',
+  'hogwarts-legacy',
+  'ghost-of-tsushima',
+])
 
 function getApiKey(): string {
   const key = process.env.RAWG_API_KEY
@@ -126,6 +180,10 @@ function getApiKey(): string {
     throw new Error('RAWG_API_KEY is not configured. Get a free key at https://rawg.io/apidocs')
   }
   return key
+}
+
+function hasApiKey(): boolean {
+  return !!process.env.RAWG_API_KEY
 }
 
 async function rawgFetch<T>(endpoint: string, params: Record<string, string> = {}): Promise<T> {
@@ -143,7 +201,8 @@ async function rawgFetch<T>(endpoint: string, params: Record<string, string> = {
   return response.json()
 }
 
-// Fetch a single game by slug
+// Fetch a single game by slug - ALL data comes from ONE API call
+// This ensures the name, cover image, and store links all belong to the SAME game
 async function getGameBySlug(slug: string): Promise<RawgGame | null> {
   try {
     return await rawgFetch<RawgGame>(`/games/${slug}`)
@@ -179,7 +238,32 @@ async function getGameMovies(gameId: number): Promise<RawgMovie[]> {
   }
 }
 
+/**
+ * Convert a RAWG image URL to an HD version.
+ * RAWG CDN supports crop/resize parameters in the URL path.
+ * Original: https://media.rawg.io/media/games/abc/abc123.jpg
+ * HD 1920:  https://media.rawg.io/media/crop/1920/1080/games/abc/abc123.jpg
+ * HD 1280:  https://media.rawg.io/media/crop/1280/720/games/abc/abc123.jpg
+ * Cover:    https://media.rawg.io/media/crop/600/400/games/abc/abc123.jpg
+ */
+function getHdImageUrl(rawgUrl: string | null | undefined, width: number = 1920, height: number = 1080): string {
+  if (!rawgUrl) return ''
+  // Insert /crop/WIDTH/HEIGHT before /games/ or /screenshots/ etc.
+  const cropPath = `/crop/${width}/${height}`
+  const mediaIndex = rawgUrl.indexOf('/media/games/')
+  if (mediaIndex !== -1) {
+    return rawgUrl.replace('/media/games/', `${cropPath}/games/`)
+  }
+  const screenshotsIndex = rawgUrl.indexOf('/media/screenshots/')
+  if (screenshotsIndex !== -1) {
+    return rawgUrl.replace('/media/screenshots/', `${cropPath}/screenshots/`)
+  }
+  // If we can't parse the URL, return as-is
+  return rawgUrl
+}
+
 // Convert RAWG game to our game data format
+// ALL data comes from one RawgGame object, ensuring consistency
 function mapRawgGameToGameData(
   rawgGame: RawgGame,
   categoryId: string,
@@ -205,8 +289,12 @@ function mapRawgGameToGameData(
 
   const developer = rawgGame.developers?.[0]?.name || 'Desconocido'
   const publisher = rawgGame.publishers?.[0]?.name || 'Desconocido'
-  const imageUrl = rawgGame.background_image || ''
-  const coverUrl = rawgGame.background_image_additional || rawgGame.background_image || ''
+
+  // Use HD image URLs from RAWG CDN
+  // imageUrl = main cover (card thumbnail) - use 600x400 crop for clean cards
+  // coverUrl = HD background for detail page - use 1920x1080 crop
+  const imageUrl = getHdImageUrl(rawgGame.background_image, 600, 400) || rawgGame.background_image || ''
+  const coverUrl = getHdImageUrl(rawgGame.background_image_additional || rawgGame.background_image, 1920, 1080) || rawgGame.background_image_additional || rawgGame.background_image || ''
 
   // Clean up description - remove excessive whitespace
   let description = rawgGame.description_raw || ''
@@ -285,7 +373,7 @@ async function getBestTrailerUrl(gameId: number): Promise<string | null> {
   return null
 }
 
-// Get download URL from stores
+// Get download URL from stores - these come from the SAME game's RAWG data
 function getDownloadUrl(rawgGame: RawgGame): string | null {
   if (!rawgGame.stores || rawgGame.stores.length === 0) return null
 
@@ -300,6 +388,15 @@ function getDownloadUrl(rawgGame: RawgGame): string | null {
   const gog = rawgGame.stores.find(s => s.store.slug === 'gog')
   if (gog?.url) return gog.url
 
+  const nintendo = rawgGame.stores.find(s => s.store.slug === 'nintendo')
+  if (nintendo?.url) return nintendo.url
+
+  const xbox = rawgGame.stores.find(s => s.store.slug === 'xbox-store')
+  if (xbox?.url) return xbox.url
+
+  const ps = rawgGame.stores.find(s => s.store.slug === 'playstation-store')
+  if (ps?.url) return ps.url
+
   // Any store URL
   return rawgGame.stores[0]?.url || null
 }
@@ -313,7 +410,9 @@ export const rawgService = {
   mapRawgGameToGameData,
   getPrimaryGenre,
   getAllGenres,
-  FEATURED_GAME_SLUGS,
-  ADDITIONAL_GAME_SLUGS,
+  getHdImageUrl,
+  hasApiKey,
+  ALL_GAME_SLUGS,
+  FEATURED_SLUGS,
   GENRE_CATEGORY_MAP,
 }
