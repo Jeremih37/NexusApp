@@ -1,13 +1,25 @@
 import { db } from '@/lib/db'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { rawgService } from '@/services/rawg-service'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const { searchParams } = new URL(request.url)
+    const force = searchParams.get('force') === 'true'
+
+    // If force=true, reset the database and re-seed
+    if (force) {
+      await db.favorite.deleteMany()
+      await db.review.deleteMany()
+      await db.game.deleteMany()
+      await db.category.deleteMany()
+      await db.user.deleteMany()
+    }
+
     // Check if already seeded
     const gameCount = await db.game.count()
-    if (gameCount > 0) {
-      return NextResponse.json({ message: 'Database already seeded', gameCount })
+    if (gameCount > 0 && !force) {
+      return NextResponse.json({ message: 'Database already seeded. Use ?force=true to reset and re-seed.', gameCount })
     }
 
     // Try RAWG API if key is configured
