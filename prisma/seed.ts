@@ -1193,7 +1193,7 @@ const TORRENT_DOWNLOADS: Record<string, { fileSize: string; links: TorrentDownlo
 
 // Helper to create download links for a game
 async function createDownloadLinks(gameId: string, slug: string) {
-  const torrentData = TORRENT_DOWNLOADS[slug]
+  const torrentData = TORRENT_DOWNLOADS[slug] || TORRENT_DOWNLOADS_BATCH2[slug]
   if (!torrentData) return
 
   const existing = await prisma.downloadLink.findFirst({ where: { gameId } })
@@ -1231,8 +1231,1144 @@ const CATEGORIES = [
   { name: 'Plataformas', slug: 'plataformas', icon: '🍄' },
 ]
 
+
+// ============================================================
+// GAME DATA BATCH 2 - 50 additional games
+// ============================================================
+const GAMES_DATA_BATCH2 = [
+  {
+    title: 'Alan Wake 2',
+    slug: 'alan-wake-2',
+    steamId: '2332600',
+    description: 'La secuela del thriller psicologico de Remedy. Alan Wake esta atrapado en una dimension oscura y debe escribir su forma de escapar mientras el FBI agent Saga Anderson investiga misteriosos asesinatos rituales en Bright Falls.',
+    developer: 'Remedy Entertainment',
+    publisher: 'Epic Games Publishing',
+    releaseDate: '2023-10-27',
+    rating: 4.3,
+    ratingCount: 245,
+    categorySlug: 'accion',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: true,
+    trailerUrl: null,
+  },
+  {
+    title: 'Star Wars Jedi: Survivor',
+    slug: 'star-wars-jedi-survivor',
+    steamId: '1774580',
+    description: 'Cal Kestis regresa en esta aventura epica de Star Wars. Explora planetas nuevos, domina estilos de combate y descubre los secretos de una civilizacion perdida mientras huyes del Imperio.',
+    developer: 'Respawn Entertainment',
+    publisher: 'EA',
+    releaseDate: '2023-04-28',
+    rating: 4.2,
+    ratingCount: 268,
+    categorySlug: 'accion',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Marvel Spider-Man Remastered',
+    slug: 'marvels-spider-man-remastered',
+    steamId: '1817070',
+    description: 'Balancea por los rascacielos de Nueva York como Peter Parker en esta aventura epica de Spider-Man. Combate villanos iconicos, desbloquea trajes y vive una historia emocionante del trepamuros.',
+    developer: 'Insomniac Games',
+    publisher: 'Sony Interactive',
+    releaseDate: '2022-08-12',
+    rating: 4.5,
+    ratingCount: 312,
+    categorySlug: 'accion',
+    platforms: 'PC, PlayStation',
+    featured: true,
+    trailerUrl: null,
+  },
+  {
+    title: 'Mass Effect Legendary Edition',
+    slug: 'mass-effect-legendary-edition',
+    steamId: '1328670',
+    description: 'La trilogia completa de Mass Effect remasterizada. Como Comandante Shepard, explora la galaxia, forja alianzas y toma decisiones que afectan el destino de toda la civilizacion en esta epica space opera.',
+    developer: 'BioWare',
+    publisher: 'EA',
+    releaseDate: '2021-05-14',
+    rating: 4.6,
+    ratingCount: 289,
+    categorySlug: 'rpg',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Dead Space Remake',
+    slug: 'dead-space-remake',
+    steamId: '1693980',
+    description: 'El remake del clasico de terror espacial. Isaac Clarke explora la nave USG Ishimura infestada de necromorfos con graficos modernos, combate desmembrador y una atmosfera de terror inigualable.',
+    developer: 'Motive Studio',
+    publisher: 'EA',
+    releaseDate: '2023-01-27',
+    rating: 4.4,
+    ratingCount: 275,
+    categorySlug: 'accion',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Control',
+    slug: 'control',
+    steamId: '870780',
+    description: 'Jesse Faden llega a la Oficina Federal de Control para buscar respuestas sobre su pasado. Descubre poderes sobrenaturales y explora un edificio que desafia las leyes de la fisica en este thriller de accion.',
+    developer: 'Remedy Entertainment',
+    publisher: '505 Games',
+    releaseDate: '2019-08-27',
+    rating: 4.2,
+    ratingCount: 256,
+    categorySlug: 'accion',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Dishonored 2',
+    slug: 'dishonored-2',
+    steamId: '403640',
+    description: 'Elige entre Corvo o Emily y recupera el trono de Dunwall en esta aventura de sigilo y accion. Cada mision es un sandbox con multiples caminos y poderes sobrenaturales que transforman la jugabilidad.',
+    developer: 'Arkane Studios',
+    publisher: 'Bethesda Softworks',
+    releaseDate: '2016-11-11',
+    rating: 4.4,
+    ratingCount: 263,
+    categorySlug: 'accion',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Prey',
+    slug: 'prey-2017',
+    steamId: '480490',
+    description: 'Despiertas en la estacion espacial Talos I invadida por alienigenas cambiantes. Usa poderes psi, hackea sistemas y fabrica armas para sobrevivir en este inmersivo simulador inmersivo de Arkane Studios.',
+    developer: 'Arkane Studios',
+    publisher: 'Bethesda Softworks',
+    releaseDate: '2017-05-04',
+    rating: 4.3,
+    ratingCount: 247,
+    categorySlug: 'accion',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Devil May Cry 5',
+    slug: 'devil-may-cry-5',
+    steamId: '601150',
+    description: 'Nero, Dante y V se unen contra una amenaza demoniaca en Red Grave City. Combate estilizado con tres personajes unicos, combos espectaculares y la accion mas cinematografica del genero hack and slash.',
+    developer: 'Capcom',
+    publisher: 'Capcom',
+    releaseDate: '2019-03-07',
+    rating: 4.5,
+    ratingCount: 291,
+    categorySlug: 'accion',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Monster Hunter: World',
+    slug: 'monster-hunter-world',
+    steamId: '582010',
+    description: 'Caza monstruos gigantes en un ecosistema vivo y dinamico. Fabrica armas y armaduras de tus presas, coopera con otros cazadores y enfrentate a bestias epicas en el mundo de Monster Hunter.',
+    developer: 'Capcom',
+    publisher: 'Capcom',
+    releaseDate: '2018-08-09',
+    rating: 4.4,
+    ratingCount: 282,
+    categorySlug: 'accion',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'NieR: Automata',
+    slug: 'nier-automata',
+    steamId: '524220',
+    description: '2B, un androide de combate, lucha contra maquinas alienigenas en una Tierra abandonada. Una narrativa filosofica sobre la existencia, combates dinamicos y multiples finales que redefinen el genero.',
+    developer: 'PlatinumGames',
+    publisher: 'Square Enix',
+    releaseDate: '2017-03-17',
+    rating: 4.6,
+    ratingCount: 305,
+    categorySlug: 'accion',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Detroit: Become Human',
+    slug: 'detroit-become-human',
+    steamId: '1118960',
+    description: 'Tres androides descubren la consciencia en un Detroit futurista. Cada decision que tomas crea ramificaciones profundas en esta experiencia interactiva de Quantic Dream sobre libertad e identidad.',
+    developer: 'Quantic Dream',
+    publisher: 'Quantic Dream',
+    releaseDate: '2019-12-12',
+    rating: 4.3,
+    ratingCount: 258,
+    categorySlug: 'aventura',
+    platforms: 'PC, PlayStation',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Disco Elysium',
+    slug: 'disco-elysium',
+    steamId: '632470',
+    description: 'Un detective sin memoria investiga un asesinato en Revachol. Un RPG sin combate donde tus habilidades de dialogo, pensamientos internos y decisiones politicas definen quien eres y como resuelves el caso.',
+    developer: 'ZA/UM',
+    publisher: 'ZA/UM',
+    releaseDate: '2019-10-15',
+    rating: 4.7,
+    ratingCount: 293,
+    categorySlug: 'rpg',
+    platforms: 'PC, PlayStation, Xbox, Nintendo Switch',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Outer Wilds',
+    slug: 'outer-wilds',
+    steamId: '753640',
+    description: 'Explora un sistema solar atrapado en un bucle temporal de 22 minutos. Descubre los secretos de una civilizacion extinta mientras planetas cambian y se destruyen en este juego de exploracion unico.',
+    developer: 'Mobius Digital',
+    publisher: 'Annapurna Interactive',
+    releaseDate: '2020-06-18',
+    rating: 4.6,
+    ratingCount: 271,
+    categorySlug: 'aventura',
+    platforms: 'PC, PlayStation, Xbox, Nintendo Switch',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Subnautica',
+    slug: 'subnautica',
+    steamId: '264710',
+    description: 'Sobrevive en un oceano alienigena tras estrellarte en el planeta 4546B. Explora las profundidades, construye bases submarinas y descubre los secretos de este mundo acuatico lleno de maravillas y peligros.',
+    developer: 'Unknown Worlds',
+    publisher: 'Unknown Worlds',
+    releaseDate: '2018-01-23',
+    rating: 4.5,
+    ratingCount: 284,
+    categorySlug: 'aventura',
+    platforms: 'PC, PlayStation, Xbox, Nintendo Switch',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'The Outer Worlds',
+    slug: 'the-outer-worlds',
+    steamId: '578650',
+    description: 'Despierta de la criogenia en una colonia perdida al borde de la galaxia. Un RPG de Obsidian con humor negro, decisiones morales y combate en primera persona en un universo corporativo distopico.',
+    developer: 'Obsidian Entertainment',
+    publisher: 'Private Division',
+    releaseDate: '2019-10-25',
+    rating: 4.2,
+    ratingCount: 252,
+    categorySlug: 'rpg',
+    platforms: 'PC, PlayStation, Xbox, Nintendo Switch',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Tomb Raider',
+    slug: 'tomb-raider-2013',
+    steamId: '203160',
+    description: 'El origen de Lara Croft. Naufraga en una isla misteriosa y debe aprender a sobrevivir, combatir y explorar tumbas peligrosas en esta reinterpretacion intensa y emocional de la iconica aventurera.',
+    developer: 'Crystal Dynamics',
+    publisher: 'Square Enix',
+    releaseDate: '2013-03-05',
+    rating: 4.3,
+    ratingCount: 299,
+    categorySlug: 'aventura',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Rise of the Tomb Raider',
+    slug: 'rise-of-the-tomb-raider',
+    steamId: '391220',
+    description: 'Lara Croft busca la ciudad perdida de Kitezh en Siberia. Explora tumbas ancestrales, combate la organizacion Trinity y descubre secretos milenarios en esta aventura de accion y supervivencia.',
+    developer: 'Crystal Dynamics',
+    publisher: 'Square Enix',
+    releaseDate: '2016-01-28',
+    rating: 4.4,
+    ratingCount: 275,
+    categorySlug: 'aventura',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Shadow of the Tomb Raider',
+    slug: 'shadow-of-the-tomb-raider',
+    steamId: '750920',
+    description: 'Lara Croft se adentra en la selva de America Central para detener un apocalipsis maya. La tumba mas oscura, el sigilo mas profundo y los desafios mas mortales de la trilogia.',
+    developer: 'Eidos-Montreal',
+    publisher: 'Square Enix',
+    releaseDate: '2018-09-14',
+    rating: 4.1,
+    ratingCount: 248,
+    categorySlug: 'aventura',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Hitman: World of Assassination',
+    slug: 'hitman-world-of-assassination',
+    steamId: '1655950',
+    description: 'El asesino a sueldo mas iconico regresa. Como el Agente 47, viaja por el mundo eliminando objetivos con creatividad y precision en sandbox vivos llenos de posibilidades.',
+    developer: 'IO Interactive',
+    publisher: 'IO Interactive',
+    releaseDate: '2021-01-20',
+    rating: 4.5,
+    ratingCount: 267,
+    categorySlug: 'accion',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Dying Light 2',
+    slug: 'dying-light-2',
+    steamId: '1195420',
+    description: 'Parkour y supervivencia en una ciudad posapocaliptica infestada de zombis. Tus decisiones moldean el destino de La Ciudad mientras corres, saltas y luchas por sobrevivir en la oscuridad.',
+    developer: 'Techland',
+    publisher: 'Techland',
+    releaseDate: '2022-02-04',
+    rating: 4.1,
+    ratingCount: 242,
+    categorySlug: 'accion',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Far Cry 6',
+    slug: 'far-cry-6',
+    steamId: '1340210',
+    description: 'Libera Yara del dictador Anton Castillo en este mundo abierto tropical. Armas improvisadas, vehiculos locos y guerrilla revolucionaria en el paraiso caribeno de Far Cry.',
+    developer: 'Ubisoft Toronto',
+    publisher: 'Ubisoft',
+    releaseDate: '2021-10-06',
+    rating: 3.9,
+    ratingCount: 231,
+    categorySlug: 'shooter',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Watch Dogs: Legion',
+    slug: 'watch-dogs-legion',
+    steamId: '1277650',
+    description: 'Hackea Londres como cualquier personaje que reclutes. DedSec lucha contra el regimen autoritario que controla la ciudad en este mundo abierto donde todos es jugable.',
+    developer: 'Ubisoft Toronto',
+    publisher: 'Ubisoft',
+    releaseDate: '2020-10-29',
+    rating: 3.7,
+    ratingCount: 218,
+    categorySlug: 'accion',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Sons Of The Forest',
+    slug: 'sons-of-the-forest',
+    steamId: '1326470',
+    description: 'Busca a un magnate desaparecido en una isla llena de canibales y mutantes. Construye, sobrevive y explora en esta secuela de terror y supervivencia del aclamado The Forest.',
+    developer: 'Endnight Games',
+    publisher: 'Newnight',
+    releaseDate: '2023-02-23',
+    rating: 4.2,
+    ratingCount: 259,
+    categorySlug: 'aventura',
+    platforms: 'PC',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Valheim',
+    slug: 'valheim',
+    steamId: '892970',
+    description: 'Sobrevive en el purgatorio nordico. Construye bases, derrota jefes mitologicos y explora biomas unicos en este survival cooperativo inspirado en la mitologia vikinga.',
+    developer: 'Iron Gate Studio',
+    publisher: 'Coffee Stain Publishing',
+    releaseDate: '2021-02-02',
+    rating: 4.4,
+    ratingCount: 278,
+    categorySlug: 'aventura',
+    platforms: 'PC, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Terraria',
+    slug: 'terraria',
+    steamId: '105600',
+    description: 'Cava, explora, construye y combate en un mundo 2D infinito. Enfrentate a jefes epicos, fabrica armas legendarias y decora tu hogar en el sandbox de aventura mas querido de Steam.',
+    developer: 'Re-Logic',
+    publisher: 'Re-Logic',
+    releaseDate: '2011-05-16',
+    rating: 4.8,
+    ratingCount: 335,
+    categorySlug: 'aventura',
+    platforms: 'PC, PlayStation, Xbox, Nintendo Switch',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Lethal Company',
+    slug: 'lethal-company',
+    steamId: '1966720',
+    description: 'Recolecta chatarra en lunas abandonadas infestadas de monstruos con tus amigos. Un cooperativo de terror con humor, mecanicas unicas y los sustos mas memorables del ano.',
+    developer: 'Zeekerss',
+    publisher: 'Zeekerss',
+    releaseDate: '2023-10-23',
+    rating: 4.5,
+    ratingCount: 263,
+    categorySlug: 'indie',
+    platforms: 'PC',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Hades II',
+    slug: 'hades-2',
+    steamId: '1145350',
+    description: 'Melinoe, la hermana de Zagreus, busca derrocar a Cronos en esta secuela roguelike. Nuevos poderes, armas y dioses en un combate mas profundo con la misma narrativa brillante.',
+    developer: 'Supergiant Games',
+    publisher: 'Supergiant Games',
+    releaseDate: '2024-05-06',
+    rating: 4.6,
+    ratingCount: 248,
+    categorySlug: 'indie',
+    platforms: 'PC',
+    featured: true,
+    trailerUrl: null,
+  },
+  {
+    title: 'BioShock Remastered',
+    slug: 'bioshock-remastered',
+    steamId: '409720',
+    description: 'Desciende a Rapture, una ciudad submarina utopica convertida en pesadilla. Combate con plasmidos y armas mientras descubres la verdad detras de la locura de Andrew Ryan.',
+    developer: 'Irrational Games',
+    publisher: '2K Games',
+    releaseDate: '2016-09-15',
+    rating: 4.5,
+    ratingCount: 298,
+    categorySlug: 'shooter',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'BioShock Infinite',
+    slug: 'bioshock-infinite',
+    steamId: '8870',
+    description: 'Booker DeWitt viaja a la ciudad flotante de Columbia para rescatar a Elizabeth. Un shooter con una de las narrativas mas brillantes y giros argumentales mas impactantes de los videojuegos.',
+    developer: 'Irrational Games',
+    publisher: '2K Games',
+    releaseDate: '2013-03-25',
+    rating: 4.4,
+    ratingCount: 287,
+    categorySlug: 'shooter',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Half-Life 2',
+    slug: 'half-life-2',
+    steamId: '220',
+    description: 'Gordon Freeman regresa para luchar contra la alienigena Combine en City 17. El shooter que revoluciono el genero con su fisica, narrativa y la gravedad cero del Gravity Gun.',
+    developer: 'Valve',
+    publisher: 'Valve',
+    releaseDate: '2004-11-16',
+    rating: 4.8,
+    ratingCount: 319,
+    categorySlug: 'shooter',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Left 4 Dead 2',
+    slug: 'left-4-dead-2',
+    steamId: '550',
+    description: 'Sobrevive la pandemia zombi con tres amigos en esta experiencia cooperativa frenetica. El Director IA crea experiencias unicas cada partida en el shooter de zombis mas iconico.',
+    developer: 'Valve',
+    publisher: 'Valve',
+    releaseDate: '2009-11-17',
+    rating: 4.7,
+    ratingCount: 308,
+    categorySlug: 'shooter',
+    platforms: 'PC, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Middle-earth: Shadow of War',
+    slug: 'middle-earth-shadow-of-war',
+    steamId: '356190',
+    description: 'Forja tu ejercito de orcos y conquista Mordor con el Nemesis System. Talion y Celebrimbor luchan contra Sauron en un mundo abierto epico basado en El Senor de los Anillos.',
+    developer: 'Monolith Productions',
+    publisher: 'WB Games',
+    releaseDate: '2017-10-10',
+    rating: 4.2,
+    ratingCount: 253,
+    categorySlug: 'accion',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Batman: Arkham Knight',
+    slug: 'batman-arkham-knight',
+    steamId: '208650',
+    description: 'El Caballero de la Noche enfrenta su amenaza mas letal en Gotham City. Conduce el Batmovil, vuela con la capa y combate al Espantapajaros en la conclusion de la saga Arkham.',
+    developer: 'Rocksteady Studios',
+    publisher: 'WB Games',
+    releaseDate: '2015-06-23',
+    rating: 4.3,
+    ratingCount: 269,
+    categorySlug: 'accion',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'The Forest',
+    slug: 'the-forest',
+    steamId: '242760',
+    description: 'Sobrevive en una peninsula habitada por canibales tras un accidente aereo. Construye refugios, fabrica armas y busca a tu hijo secuestrado en este terror de supervivencia.',
+    developer: 'Endnight Games',
+    publisher: 'Endnight Games',
+    releaseDate: '2018-04-30',
+    rating: 4.3,
+    ratingCount: 262,
+    categorySlug: 'aventura',
+    platforms: 'PC, PlayStation',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Green Hell',
+    slug: 'green-hell',
+    steamId: '515400',
+    description: 'Sobrevive en la selva del Amazonas con las mas realistas mecanicas de supervivencia. Gestiona tu salud fisica y mental mientras buscas la manera de escapar del infierno verde.',
+    developer: 'Creepy Jar',
+    publisher: 'Creepy Jar',
+    releaseDate: '2019-09-05',
+    rating: 4.1,
+    ratingCount: 237,
+    categorySlug: 'aventura',
+    platforms: 'PC, PlayStation, Xbox, Nintendo Switch',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Grounded',
+    slug: 'grounded',
+    steamId: '962130',
+    description: 'Encogido al tamano de una hormiga, sobrevive en tu propio jardin. Construye bases con hojas, combate insectos gigantes y descubre por que te has reducido en este survival cooperativo.',
+    developer: 'Obsidian Entertainment',
+    publisher: 'Xbox Game Studios',
+    releaseDate: '2022-09-27',
+    rating: 4.0,
+    ratingCount: 228,
+    categorySlug: 'aventura',
+    platforms: 'PC, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Back 4 Blood',
+    slug: 'back-4-blood',
+    steamId: '924970',
+    description: 'De los creadores de Left 4 Dead llega este shooter cooperativo de zombis. El sistema de cartas crea partidas unicas mientras limpias al mundo de los Ridden con tu equipo.',
+    developer: 'Turtle Rock Studios',
+    publisher: 'Warner Bros. Games',
+    releaseDate: '2021-10-12',
+    rating: 3.8,
+    ratingCount: 222,
+    categorySlug: 'shooter',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'World War Z',
+    slug: 'world-war-z',
+    steamId: '699130',
+    description: 'Enfrentate a hordas de cientos de zombis en este shooter cooperativo basado en la pelicula. Defiende posiciones, mejora armas y sobrevive a la avalancha de no-muertos.',
+    developer: 'Saber Interactive',
+    publisher: 'Focus Entertainment',
+    releaseDate: '2019-04-16',
+    rating: 3.9,
+    ratingCount: 235,
+    categorySlug: 'shooter',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Dark Souls Remastered',
+    slug: 'dark-souls-remastered',
+    steamId: '570940',
+    description: 'El juego que definio un genero, remasterizado. Explora Lordran con sus conexiones interconectadas, jefes legendarios y la dificultad implacable que creo la saga mas influyente del Souls-like.',
+    developer: 'FromSoftware',
+    publisher: 'Bandai Namco',
+    releaseDate: '2018-05-24',
+    rating: 4.6,
+    ratingCount: 294,
+    categorySlug: 'rpg',
+    platforms: 'PC, PlayStation, Xbox, Nintendo Switch',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Dark Souls II: Scholar of the First Sin',
+    slug: 'dark-souls-2-scholar',
+    steamId: '335300',
+    description: 'Viaja a Drangleic para curar tu maldicion en la entrega mas amplia de la saga Dark Souls. Combate, explora y muere una y otra vez en este RPG de accion implacable.',
+    developer: 'FromSoftware',
+    publisher: 'Bandai Namco',
+    releaseDate: '2015-04-01',
+    rating: 4.1,
+    ratingCount: 261,
+    categorySlug: 'rpg',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Hollow Knight: Silksong',
+    slug: 'hollow-knight-silksong',
+    steamId: '1030000',
+    description: 'Hornet emprende su propia aventura en un reino nuevo y misterioso. Plataformas precisas, combate veloz y jefes epicos en la esperada secuela del aclamado Hollow Knight.',
+    developer: 'Team Cherry',
+    publisher: 'Team Cherry',
+    releaseDate: '2025-02-01',
+    rating: 4.5,
+    ratingCount: 240,
+    categorySlug: 'indie',
+    platforms: 'PC, PlayStation, Xbox, Nintendo Switch',
+    featured: true,
+    trailerUrl: null,
+  },
+  {
+    title: 'Factorio',
+    slug: 'factorio',
+    steamId: '427520',
+    description: 'Construye fabricas automatizadas en un planeta alienigena. Diseña cintas transportadoras, gestiona recursos y defiende tu base de criaturas nativas en el simulador de factorias mas adictivo.',
+    developer: 'Wube Software',
+    publisher: 'Wube Software',
+    releaseDate: '2020-08-14',
+    rating: 4.7,
+    ratingCount: 286,
+    categorySlug: 'estrategia',
+    platforms: 'PC',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Age of Empires IV',
+    slug: 'age-of-empires-4',
+    steamId: '1466860',
+    description: 'Lidera civilizaciones a traves de la historia en este juego de estrategia en tiempo real. Batallas epicas, campanas documentales y mecanicas que honran el legado de la saga Age of Empires.',
+    developer: 'Relic Entertainment',
+    publisher: 'Xbox Game Studios',
+    releaseDate: '2021-10-28',
+    rating: 4.1,
+    ratingCount: 243,
+    categorySlug: 'estrategia',
+    platforms: 'PC, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Cities: Skylines',
+    slug: 'cities-skylines',
+    steamId: '255710',
+    description: 'Disena y gestiona la ciudad de tus suenos. Planifica carreteras, gestiona servicios publicos y resuelve problemas de trafico en el simulador de ciudades mas completo.',
+    developer: 'Colossal Order',
+    publisher: 'Paradox Interactive',
+    releaseDate: '2015-03-10',
+    rating: 4.4,
+    ratingCount: 272,
+    categorySlug: 'simulacion',
+    platforms: 'PC, PlayStation, Xbox, Nintendo Switch',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Euro Truck Simulator 2',
+    slug: 'euro-truck-simulator-2',
+    steamId: '227300',
+    description: 'Conduce camiones por las carreteras de Europa en el simulador de conduccion mas relajante. Construye tu empresa de transporte, compra garajes y recorre paises enteros.',
+    developer: 'SCS Software',
+    publisher: 'SCS Software',
+    releaseDate: '2013-01-16',
+    rating: 4.5,
+    ratingCount: 281,
+    categorySlug: 'simulacion',
+    platforms: 'PC',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Mortal Kombat 1',
+    slug: 'mortal-kombat-1',
+    steamId: '1944920',
+    description: 'Liu Kang reinicia el universo y crea una nueva era de Mortal Kombat. Fatalities brutales, el sistema Kameo y el mejor combate de la saga en este reboot definitivo.',
+    developer: 'NetherRealm Studios',
+    publisher: 'Warner Bros. Games',
+    releaseDate: '2023-09-19',
+    rating: 4.1,
+    ratingCount: 238,
+    categorySlug: 'lucha',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'The Witness',
+    slug: 'the-witness',
+    steamId: '210970',
+    description: 'Despierta en una isla misteriosa llena de paneles de puzzles. Cada acertijo ensena una nueva regla sin palabras, creando una experiencia de descubrimiento puro y eureka intelectual.',
+    developer: 'Thekla',
+    publisher: 'Thekla',
+    releaseDate: '2016-01-26',
+    rating: 4.2,
+    ratingCount: 241,
+    categorySlug: 'puzzle',
+    platforms: 'PC, PlayStation, Xbox',
+    featured: false,
+    trailerUrl: null,
+  },
+  {
+    title: 'Returnal',
+    slug: 'returnal',
+    steamId: '1649240',
+    description: 'Selene Vassos cae en Atropos, un planeta alienigena atrapado en un bucle temporal. Un roguelike de accion con combate intenso, narrativa psicologica y graficos next-gen impresionantes.',
+    developer: 'Housemarque',
+    publisher: 'Sony Interactive',
+    releaseDate: '2023-02-15',
+    rating: 4.3,
+    ratingCount: 249,
+    categorySlug: 'accion',
+    platforms: 'PC, PlayStation',
+    featured: false,
+    trailerUrl: null,
+  },
+]
+
+const TORRENT_DOWNLOADS_BATCH2: Record<string, { fileSize: string; links: TorrentDownload[] }> = {
+  'alan-wake-2': {
+    fileSize: '90 GB',
+    links: [
+      { label: 'Alan Wake 2 - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:022f3c5962cf6798b01afbdeb7f4de3f&dn=alan-wake-2-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '90 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Alan Wake 2 - FitGirl Repack', url: 'magnet:?xt=urn:btih:30903e82f4b007a3e839557f1edb6469&dn=alan-wake-2-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '48 GB', quality: 'FitGirl Repack' },
+      { label: 'Alan Wake 2 - DODI Repack', url: 'magnet:?xt=urn:btih:1cf9affa8e3b6c335c2ec07c92ffef3a&dn=alan-wake-2-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '56 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'star-wars-jedi-survivor': {
+    fileSize: '130 GB',
+    links: [
+      { label: 'Star Wars Jedi: Survivor - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:5396965870bd48349a4840a65e1d0883&dn=star-wars-jedi-survivor-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '130 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Star Wars Jedi: Survivor - FitGirl Repack', url: 'magnet:?xt=urn:btih:e42769b2aa45a9ce0512fa9d0426eac9&dn=star-wars-jedi-survivor-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '70 GB', quality: 'FitGirl Repack' },
+      { label: 'Star Wars Jedi: Survivor - DODI Repack', url: 'magnet:?xt=urn:btih:d13d4b99ce884c9af28993b4f2315d2e&dn=star-wars-jedi-survivor-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '82 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'marvels-spider-man-remastered': {
+    fileSize: '75 GB',
+    links: [
+      { label: 'Marvel Spider-Man Remastered - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:ab0ff451eb6e703a2b7804eb005ead9d&dn=marvels-spider-man-remastered-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '75 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Marvel Spider-Man Remastered - FitGirl Repack', url: 'magnet:?xt=urn:btih:722f7d7445108122f3e6c6f73bcdcada&dn=marvels-spider-man-remastered-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '42 GB', quality: 'FitGirl Repack' },
+      { label: 'Marvel Spider-Man Remastered - DODI Repack', url: 'magnet:?xt=urn:btih:bc9e07339cb19f036c17327f606aa523&dn=marvels-spider-man-remastered-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '50 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'mass-effect-legendary-edition': {
+    fileSize: '120 GB',
+    links: [
+      { label: 'Mass Effect Legendary Edition - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:a01827df7f5e0b6d74c39f9c96ae4ef5&dn=mass-effect-legendary-edition-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '120 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Mass Effect Legendary Edition - FitGirl Repack', url: 'magnet:?xt=urn:btih:ac4cc8fb19a41c4efcd30f07a80ec6e2&dn=mass-effect-legendary-edition-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '65 GB', quality: 'FitGirl Repack' },
+      { label: 'Mass Effect Legendary Edition - DODI Repack', url: 'magnet:?xt=urn:btih:b1b39ecb9de71d25ab69d95e02ed3463&dn=mass-effect-legendary-edition-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '78 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'dead-space-remake': {
+    fileSize: '50 GB',
+    links: [
+      { label: 'Dead Space Remake - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:6ccc0332a30ffb63e63a091a4fddab27&dn=dead-space-remake-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '50 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Dead Space Remake - FitGirl Repack', url: 'magnet:?xt=urn:btih:bdce112171e06b4596f331e443c71cb2&dn=dead-space-remake-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '28 GB', quality: 'FitGirl Repack' },
+      { label: 'Dead Space Remake - DODI Repack', url: 'magnet:?xt=urn:btih:f4ea61e23f9ea61ce5c2ca2cc68834f1&dn=dead-space-remake-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '33 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'control': {
+    fileSize: '42 GB',
+    links: [
+      { label: 'Control - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:5d985e4c5a5339d714f04e35c3b47c39&dn=control-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '42 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Control - FitGirl Repack', url: 'magnet:?xt=urn:btih:5c3e551a697389a48dc3ed0562f1337f&dn=control-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '23 GB', quality: 'FitGirl Repack' },
+      { label: 'Control - DODI Repack', url: 'magnet:?xt=urn:btih:f489428e23d21a6dfbdeae6f42e9252d&dn=control-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '27 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'dishonored-2': {
+    fileSize: '40 GB',
+    links: [
+      { label: 'Dishonored 2 - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:321923c526abd5e2fec521f483de8560&dn=dishonored-2-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '40 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Dishonored 2 - FitGirl Repack', url: 'magnet:?xt=urn:btih:9568cf1d470639b8486c704de0b7cdec&dn=dishonored-2-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '22 GB', quality: 'FitGirl Repack' },
+      { label: 'Dishonored 2 - DODI Repack', url: 'magnet:?xt=urn:btih:cd45014bc4a640101cadd293e1bb61da&dn=dishonored-2-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '26 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'prey-2017': {
+    fileSize: '35 GB',
+    links: [
+      { label: 'Prey - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:ee8fecb03fd48d26ed260b3ff0c99c48&dn=prey-2017-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '35 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Prey - FitGirl Repack', url: 'magnet:?xt=urn:btih:5199b95eaf9d7755c2d89b9a97bd30ad&dn=prey-2017-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '19 GB', quality: 'FitGirl Repack' },
+      { label: 'Prey - DODI Repack', url: 'magnet:?xt=urn:btih:82f8d2969e0a3a9db20580dfcf1b516d&dn=prey-2017-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '23 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'devil-may-cry-5': {
+    fileSize: '35 GB',
+    links: [
+      { label: 'Devil May Cry 5 - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:cf0b27893ee8576d9a555a12c4631296&dn=devil-may-cry-5-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '35 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Devil May Cry 5 - FitGirl Repack', url: 'magnet:?xt=urn:btih:2a7f1e27eddf7089e1c1dddbe8a245a6&dn=devil-may-cry-5-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '19 GB', quality: 'FitGirl Repack' },
+      { label: 'Devil May Cry 5 - DODI Repack', url: 'magnet:?xt=urn:btih:90a1cce13351b602fdd2c8e490f1f78c&dn=devil-may-cry-5-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '23 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'monster-hunter-world': {
+    fileSize: '80 GB',
+    links: [
+      { label: 'Monster Hunter: World - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:f4e0a6a74589899a00194ec9121ed4b5&dn=monster-hunter-world-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '80 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Monster Hunter: World - FitGirl Repack', url: 'magnet:?xt=urn:btih:a2ff02db8cee962e3b83fa94e9d4e9ca&dn=monster-hunter-world-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '44 GB', quality: 'FitGirl Repack' },
+      { label: 'Monster Hunter: World - DODI Repack', url: 'magnet:?xt=urn:btih:fa6df6c8aae6b1f55611d95099f01cb0&dn=monster-hunter-world-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '52 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'nier-automata': {
+    fileSize: '50 GB',
+    links: [
+      { label: 'NieR: Automata - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:ba0725e5b00b70671da3db5534c99cd1&dn=nier-automata-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '50 GB', quality: 'FULL UNLOCKED' },
+      { label: 'NieR: Automata - FitGirl Repack', url: 'magnet:?xt=urn:btih:27d3189687bfa203f31ecacf75e6edfb&dn=nier-automata-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '27 GB', quality: 'FitGirl Repack' },
+      { label: 'NieR: Automata - DODI Repack', url: 'magnet:?xt=urn:btih:be39f462a77573dc75319a64a09c8a83&dn=nier-automata-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '32 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'detroit-become-human': {
+    fileSize: '55 GB',
+    links: [
+      { label: 'Detroit: Become Human - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:3f57d4e5b00b80885d5d94a42a404a00&dn=detroit-become-human-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '55 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Detroit: Become Human - FitGirl Repack', url: 'magnet:?xt=urn:btih:fa9e2817327a6016aee6343f62d2afe0&dn=detroit-become-human-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '30 GB', quality: 'FitGirl Repack' },
+      { label: 'Detroit: Become Human - DODI Repack', url: 'magnet:?xt=urn:btih:0af867d61e873220dec0937efefe413a&dn=detroit-become-human-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '36 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'disco-elysium': {
+    fileSize: '25 GB',
+    links: [
+      { label: 'Disco Elysium - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:dc4dd3e55fb676e380bd639b929d0d01&dn=disco-elysium-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '25 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Disco Elysium - FitGirl Repack', url: 'magnet:?xt=urn:btih:d0602e599430fc9476ece23df05fd086&dn=disco-elysium-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '14 GB', quality: 'FitGirl Repack' },
+      { label: 'Disco Elysium - DODI Repack', url: 'magnet:?xt=urn:btih:ddffae5d6de9307130d5e7690d721c5d&dn=disco-elysium-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '16 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'outer-wilds': {
+    fileSize: '12 GB',
+    links: [
+      { label: 'Outer Wilds - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:523cffcf8314a17589edb7f565fdd4a4&dn=outer-wilds-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '12 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Outer Wilds - FitGirl Repack', url: 'magnet:?xt=urn:btih:ac41d4364615b834afb3bbadf2ab03ca&dn=outer-wilds-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '7 GB', quality: 'FitGirl Repack' },
+      { label: 'Outer Wilds - DODI Repack', url: 'magnet:?xt=urn:btih:245457c70284b17406e30bd0e6d8c1a9&dn=outer-wilds-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '8 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'subnautica': {
+    fileSize: '25 GB',
+    links: [
+      { label: 'Subnautica - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:ccabb8415791ad2087a3578a1acca7c3&dn=subnautica-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '25 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Subnautica - FitGirl Repack', url: 'magnet:?xt=urn:btih:caf307f2289e99530cc7b0e672194923&dn=subnautica-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '14 GB', quality: 'FitGirl Repack' },
+      { label: 'Subnautica - DODI Repack', url: 'magnet:?xt=urn:btih:de17463370343304de2699926ef920f2&dn=subnautica-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '16 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'the-outer-worlds': {
+    fileSize: '40 GB',
+    links: [
+      { label: 'The Outer Worlds - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:4a12e5e679c565987de3158b5a2947e7&dn=the-outer-worlds-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '40 GB', quality: 'FULL UNLOCKED' },
+      { label: 'The Outer Worlds - FitGirl Repack', url: 'magnet:?xt=urn:btih:2ea4bf77def8f52f31efa2ca3960603e&dn=the-outer-worlds-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '22 GB', quality: 'FitGirl Repack' },
+      { label: 'The Outer Worlds - DODI Repack', url: 'magnet:?xt=urn:btih:214209f0d0e4d301515d0d7e054adabc&dn=the-outer-worlds-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '26 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'tomb-raider-2013': {
+    fileSize: '25 GB',
+    links: [
+      { label: 'Tomb Raider - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:c667e777b414e60a3d729365b72ca7bf&dn=tomb-raider-2013-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '25 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Tomb Raider - FitGirl Repack', url: 'magnet:?xt=urn:btih:4962c5f8b98e0c2455b5c6776911ea96&dn=tomb-raider-2013-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '14 GB', quality: 'FitGirl Repack' },
+      { label: 'Tomb Raider - DODI Repack', url: 'magnet:?xt=urn:btih:570e95d6f92f42c4aa2258253dd26e5b&dn=tomb-raider-2013-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '16 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'rise-of-the-tomb-raider': {
+    fileSize: '35 GB',
+    links: [
+      { label: 'Rise of the Tomb Raider - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:3bff8556bf06acd97154a9c0942ff0c6&dn=rise-of-the-tomb-raider-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '35 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Rise of the Tomb Raider - FitGirl Repack', url: 'magnet:?xt=urn:btih:a3d3d7c9a62538089314376d2f0c06c3&dn=rise-of-the-tomb-raider-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '19 GB', quality: 'FitGirl Repack' },
+      { label: 'Rise of the Tomb Raider - DODI Repack', url: 'magnet:?xt=urn:btih:82bb6b20c78c21eb67126378822ede9c&dn=rise-of-the-tomb-raider-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '23 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'shadow-of-the-tomb-raider': {
+    fileSize: '45 GB',
+    links: [
+      { label: 'Shadow of the Tomb Raider - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:cffea5cee82d3d342622c5d6fd67a32e&dn=shadow-of-the-tomb-raider-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '45 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Shadow of the Tomb Raider - FitGirl Repack', url: 'magnet:?xt=urn:btih:b620f91b5e8caf5ef622f9102ba95310&dn=shadow-of-the-tomb-raider-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '25 GB', quality: 'FitGirl Repack' },
+      { label: 'Shadow of the Tomb Raider - DODI Repack', url: 'magnet:?xt=urn:btih:227fb0c40c58df0db5d08c477f856da3&dn=shadow-of-the-tomb-raider-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '29 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'hitman-world-of-assassination': {
+    fileSize: '80 GB',
+    links: [
+      { label: 'Hitman: World of Assassination - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:449289eec2d331b0a78196e3ddde76d8&dn=hitman-world-of-assassination-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '80 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Hitman: World of Assassination - FitGirl Repack', url: 'magnet:?xt=urn:btih:837b0a5a95bd5539ab71822e2e98121c&dn=hitman-world-of-assassination-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '44 GB', quality: 'FitGirl Repack' },
+      { label: 'Hitman: World of Assassination - DODI Repack', url: 'magnet:?xt=urn:btih:ab721c384bb8dc585db66ba00adb5d8f&dn=hitman-world-of-assassination-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '52 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'dying-light-2': {
+    fileSize: '70 GB',
+    links: [
+      { label: 'Dying Light 2 - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:86c0f2170e5a02dc9106bffaaf2f5267&dn=dying-light-2-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '70 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Dying Light 2 - FitGirl Repack', url: 'magnet:?xt=urn:btih:b157df7ac196320d313b318902b6632b&dn=dying-light-2-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '38 GB', quality: 'FitGirl Repack' },
+      { label: 'Dying Light 2 - DODI Repack', url: 'magnet:?xt=urn:btih:e34389cfe4bafecde44becc9fd7e6108&dn=dying-light-2-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '45 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'far-cry-6': {
+    fileSize: '85 GB',
+    links: [
+      { label: 'Far Cry 6 - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:9a23b20efc317226084076d7b69c9fb5&dn=far-cry-6-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '85 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Far Cry 6 - FitGirl Repack', url: 'magnet:?xt=urn:btih:e2b63fc5d1fcad6b6d8bf4b4ae3c051f&dn=far-cry-6-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '46 GB', quality: 'FitGirl Repack' },
+      { label: 'Far Cry 6 - DODI Repack', url: 'magnet:?xt=urn:btih:b9cd608e7a0c67fcb1c3d102b0d3a8bc&dn=far-cry-6-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '55 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'watch-dogs-legion': {
+    fileSize: '80 GB',
+    links: [
+      { label: 'Watch Dogs: Legion - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:8a535fe4c4ca394cefaaa6a83465824e&dn=watch-dogs-legion-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '80 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Watch Dogs: Legion - FitGirl Repack', url: 'magnet:?xt=urn:btih:69e831264dc6a6bd1f06fbaf3a1419b1&dn=watch-dogs-legion-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '44 GB', quality: 'FitGirl Repack' },
+      { label: 'Watch Dogs: Legion - DODI Repack', url: 'magnet:?xt=urn:btih:0be41f676e982c4d2772abfb7749293e&dn=watch-dogs-legion-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '52 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'sons-of-the-forest': {
+    fileSize: '45 GB',
+    links: [
+      { label: 'Sons Of The Forest - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:18ad9270a4ad6a98c82cf950b33e4c28&dn=sons-of-the-forest-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '45 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Sons Of The Forest - FitGirl Repack', url: 'magnet:?xt=urn:btih:a651d7ef3f66e9e27343193a9d62a2a7&dn=sons-of-the-forest-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '25 GB', quality: 'FitGirl Repack' },
+      { label: 'Sons Of The Forest - DODI Repack', url: 'magnet:?xt=urn:btih:add577940a6da16b754243098e31e449&dn=sons-of-the-forest-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '29 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'valheim': {
+    fileSize: '20 GB',
+    links: [
+      { label: 'Valheim - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:cefa70695ee192b7973e91f77b495f2e&dn=valheim-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '20 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Valheim - FitGirl Repack', url: 'magnet:?xt=urn:btih:7602dd0c36167e810343e9e2b3f89ee6&dn=valheim-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '11 GB', quality: 'FitGirl Repack' },
+      { label: 'Valheim - DODI Repack', url: 'magnet:?xt=urn:btih:485b2210fce8b4e549de55875c5974d9&dn=valheim-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '13 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'terraria': {
+    fileSize: '3 GB',
+    links: [
+      { label: 'Terraria - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:71f73aae5acf8c6a607b460eb7fe57a4&dn=terraria-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '3 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Terraria - FitGirl Repack', url: 'magnet:?xt=urn:btih:a186c3bdf8b7a788c68d52c038c0bf0d&dn=terraria-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '2 GB', quality: 'FitGirl Repack' },
+      { label: 'Terraria - DODI Repack', url: 'magnet:?xt=urn:btih:fa0b2985805f0a4d807ba7dd4bfb86b7&dn=terraria-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '2 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'lethal-company': {
+    fileSize: '2 GB',
+    links: [
+      { label: 'Lethal Company - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:d5ad2f412905c69b1b69713cfe213449&dn=lethal-company-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '2 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Lethal Company - FitGirl Repack', url: 'magnet:?xt=urn:btih:fe05add2112773ec429a5972b389816a&dn=lethal-company-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '1 GB', quality: 'FitGirl Repack' },
+      { label: 'Lethal Company - DODI Repack', url: 'magnet:?xt=urn:btih:f501e1332ffa7459fd4ba6d0d26a50f5&dn=lethal-company-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '1 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'hades-2': {
+    fileSize: '25 GB',
+    links: [
+      { label: 'Hades II - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:c3fc5896297a6212c46f924ec5e4c4e6&dn=hades-2-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '25 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Hades II - FitGirl Repack', url: 'magnet:?xt=urn:btih:ae6377e8eb1c75df663b56dd0207b3ee&dn=hades-2-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '14 GB', quality: 'FitGirl Repack' },
+      { label: 'Hades II - DODI Repack', url: 'magnet:?xt=urn:btih:4ecb2ce327c84dc1d96e824b09005b8c&dn=hades-2-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '16 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'bioshock-remastered': {
+    fileSize: '25 GB',
+    links: [
+      { label: 'BioShock Remastered - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:e8f2da4c28360823f8cd3c24bfcc6f2e&dn=bioshock-remastered-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '25 GB', quality: 'FULL UNLOCKED' },
+      { label: 'BioShock Remastered - FitGirl Repack', url: 'magnet:?xt=urn:btih:a1ec1672a6a2afeefc8fcbfb5dcee2bd&dn=bioshock-remastered-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '14 GB', quality: 'FitGirl Repack' },
+      { label: 'BioShock Remastered - DODI Repack', url: 'magnet:?xt=urn:btih:9905766832346f1afc08cefeead1ca13&dn=bioshock-remastered-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '16 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'bioshock-infinite': {
+    fileSize: '30 GB',
+    links: [
+      { label: 'BioShock Infinite - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:86ddf77499f377e00ea3272928df9ac0&dn=bioshock-infinite-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '30 GB', quality: 'FULL UNLOCKED' },
+      { label: 'BioShock Infinite - FitGirl Repack', url: 'magnet:?xt=urn:btih:acdd4927f5acb1891edafcc22aefab70&dn=bioshock-infinite-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '16 GB', quality: 'FitGirl Repack' },
+      { label: 'BioShock Infinite - DODI Repack', url: 'magnet:?xt=urn:btih:328a14bae1b9f4fed62b51f94ccac964&dn=bioshock-infinite-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '19 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'half-life-2': {
+    fileSize: '15 GB',
+    links: [
+      { label: 'Half-Life 2 - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:4e12702368a0df89397722a82de1ba03&dn=half-life-2-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '15 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Half-Life 2 - FitGirl Repack', url: 'magnet:?xt=urn:btih:b0800a5ae94b1db3e595a213d5e351d4&dn=half-life-2-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '8 GB', quality: 'FitGirl Repack' },
+      { label: 'Half-Life 2 - DODI Repack', url: 'magnet:?xt=urn:btih:1deef12cb7cbff0a9beae2fada4f4393&dn=half-life-2-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '10 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'left-4-dead-2': {
+    fileSize: '15 GB',
+    links: [
+      { label: 'Left 4 Dead 2 - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:e5ca05af79fb666e0739dda1abaecd01&dn=left-4-dead-2-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '15 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Left 4 Dead 2 - FitGirl Repack', url: 'magnet:?xt=urn:btih:2f7b209664d8ed2e8e4458b4ed1e1d3f&dn=left-4-dead-2-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '8 GB', quality: 'FitGirl Repack' },
+      { label: 'Left 4 Dead 2 - DODI Repack', url: 'magnet:?xt=urn:btih:04fd0861642731be0d50a8c8ddd4223f&dn=left-4-dead-2-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '10 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'middle-earth-shadow-of-war': {
+    fileSize: '95 GB',
+    links: [
+      { label: 'Middle-earth: Shadow of War - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:1db1bdd1e9ced68a8805776d5574c207&dn=middle-earth-shadow-of-war-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '95 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Middle-earth: Shadow of War - FitGirl Repack', url: 'magnet:?xt=urn:btih:7197d808e677c227995e0404439e5a6a&dn=middle-earth-shadow-of-war-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '52 GB', quality: 'FitGirl Repack' },
+      { label: 'Middle-earth: Shadow of War - DODI Repack', url: 'magnet:?xt=urn:btih:df0799c5f927ae8702975917605b1cd7&dn=middle-earth-shadow-of-war-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '62 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'batman-arkham-knight': {
+    fileSize: '75 GB',
+    links: [
+      { label: 'Batman: Arkham Knight - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:3ec1888f657eca888894f0ffa85b1294&dn=batman-arkham-knight-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '75 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Batman: Arkham Knight - FitGirl Repack', url: 'magnet:?xt=urn:btih:c2529b2f2e3a745da55b067276efbb49&dn=batman-arkham-knight-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '41 GB', quality: 'FitGirl Repack' },
+      { label: 'Batman: Arkham Knight - DODI Repack', url: 'magnet:?xt=urn:btih:efad6b88072f51aa7d555b4f3ed0f001&dn=batman-arkham-knight-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '49 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'the-forest': {
+    fileSize: '20 GB',
+    links: [
+      { label: 'The Forest - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:0800556f70ae9e749835be746c6be399&dn=the-forest-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '20 GB', quality: 'FULL UNLOCKED' },
+      { label: 'The Forest - FitGirl Repack', url: 'magnet:?xt=urn:btih:409f7cbcdd1829d9957a06166bab6f1c&dn=the-forest-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '11 GB', quality: 'FitGirl Repack' },
+      { label: 'The Forest - DODI Repack', url: 'magnet:?xt=urn:btih:47e18c7c62f8e87945bee187636c19ba&dn=the-forest-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '13 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'green-hell': {
+    fileSize: '18 GB',
+    links: [
+      { label: 'Green Hell - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:9b9b0d90f7e61d27ca651799f3f06d84&dn=green-hell-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '18 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Green Hell - FitGirl Repack', url: 'magnet:?xt=urn:btih:63689ec495f36c40769431a577b2baa5&dn=green-hell-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '10 GB', quality: 'FitGirl Repack' },
+      { label: 'Green Hell - DODI Repack', url: 'magnet:?xt=urn:btih:67c9e0b640615a6cf563e78a0385e411&dn=green-hell-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '12 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'grounded': {
+    fileSize: '25 GB',
+    links: [
+      { label: 'Grounded - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:aac731199c27c7cb2a3f79346512e4b9&dn=grounded-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '25 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Grounded - FitGirl Repack', url: 'magnet:?xt=urn:btih:e591dbd74c76db7945c1546dfe95b0d3&dn=grounded-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '14 GB', quality: 'FitGirl Repack' },
+      { label: 'Grounded - DODI Repack', url: 'magnet:?xt=urn:btih:d2e1eb82d818e3b02ced17bf2f8fdfac&dn=grounded-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '16 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'back-4-blood': {
+    fileSize: '60 GB',
+    links: [
+      { label: 'Back 4 Blood - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:944cc7d4e9b21f8b671bba477486747c&dn=back-4-blood-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '60 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Back 4 Blood - FitGirl Repack', url: 'magnet:?xt=urn:btih:24bb45eb8dfdfffdc6755720f2d0c788&dn=back-4-blood-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '33 GB', quality: 'FitGirl Repack' },
+      { label: 'Back 4 Blood - DODI Repack', url: 'magnet:?xt=urn:btih:c00ca9e64607c196edc9eb7cdedb1889&dn=back-4-blood-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '39 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'world-war-z': {
+    fileSize: '45 GB',
+    links: [
+      { label: 'World War Z - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:a57ef540aeba3d38a0e2fbe3c54b39a0&dn=world-war-z-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '45 GB', quality: 'FULL UNLOCKED' },
+      { label: 'World War Z - FitGirl Repack', url: 'magnet:?xt=urn:btih:147f569fd6aefdd07d1e2e0bb054468c&dn=world-war-z-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '25 GB', quality: 'FitGirl Repack' },
+      { label: 'World War Z - DODI Repack', url: 'magnet:?xt=urn:btih:676a6f7b289d7ca2a13c980e9d4f7612&dn=world-war-z-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '29 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'dark-souls-remastered': {
+    fileSize: '15 GB',
+    links: [
+      { label: 'Dark Souls Remastered - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:88dd9be4184718f84e7246d9034f67ce&dn=dark-souls-remastered-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '15 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Dark Souls Remastered - FitGirl Repack', url: 'magnet:?xt=urn:btih:31b0b53a6576cfff3d2bbaf6d53de375&dn=dark-souls-remastered-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '8 GB', quality: 'FitGirl Repack' },
+      { label: 'Dark Souls Remastered - DODI Repack', url: 'magnet:?xt=urn:btih:5bf1a594defdfe428364172475308e10&dn=dark-souls-remastered-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '10 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'dark-souls-2-scholar': {
+    fileSize: '20 GB',
+    links: [
+      { label: 'Dark Souls II: Scholar of the First Sin - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:b7f4f6d18e1a15495d64cfaa2614e370&dn=dark-souls-2-scholar-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '20 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Dark Souls II: Scholar of the First Sin - FitGirl Repack', url: 'magnet:?xt=urn:btih:4c375c84df89b1c559d34c3149ac7323&dn=dark-souls-2-scholar-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '11 GB', quality: 'FitGirl Repack' },
+      { label: 'Dark Souls II: Scholar of the First Sin - DODI Repack', url: 'magnet:?xt=urn:btih:ae05a7c5f8fa4c9fb7c8beac8f10e548&dn=dark-souls-2-scholar-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '13 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'hollow-knight-silksong': {
+    fileSize: '15 GB',
+    links: [
+      { label: 'Hollow Knight: Silksong - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:c86c38eb983537ed95d1ab9afe0a1f31&dn=hollow-knight-silksong-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '15 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Hollow Knight: Silksong - FitGirl Repack', url: 'magnet:?xt=urn:btih:09351184a94a39c05f2e32a5985c6ed6&dn=hollow-knight-silksong-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '8 GB', quality: 'FitGirl Repack' },
+      { label: 'Hollow Knight: Silksong - DODI Repack', url: 'magnet:?xt=urn:btih:3adb0095bc33aaf157daeb45fb56df58&dn=hollow-knight-silksong-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '10 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'factorio': {
+    fileSize: '5 GB',
+    links: [
+      { label: 'Factorio - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:aec071078ba40c987f90b20bf355d691&dn=factorio-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '5 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Factorio - FitGirl Repack', url: 'magnet:?xt=urn:btih:4393e9aad564cfc8c65d2ab0ba41e9cc&dn=factorio-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '3 GB', quality: 'FitGirl Repack' },
+      { label: 'Factorio - DODI Repack', url: 'magnet:?xt=urn:btih:472c2208cf6cb33a30fff1f9004a504a&dn=factorio-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '3 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'age-of-empires-4': {
+    fileSize: '75 GB',
+    links: [
+      { label: 'Age of Empires IV - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:0fcd5f628e32a33609643b5b08200bd9&dn=age-of-empires-4-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '75 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Age of Empires IV - FitGirl Repack', url: 'magnet:?xt=urn:btih:eca840ffa952f9098b928d4b5608f70d&dn=age-of-empires-4-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '41 GB', quality: 'FitGirl Repack' },
+      { label: 'Age of Empires IV - DODI Repack', url: 'magnet:?xt=urn:btih:875c65dbd5fce03156ea42ea787e6890&dn=age-of-empires-4-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '49 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'cities-skylines': {
+    fileSize: '20 GB',
+    links: [
+      { label: 'Cities: Skylines - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:222e2352cde6abf8fb5399fa66fa4688&dn=cities-skylines-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '20 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Cities: Skylines - FitGirl Repack', url: 'magnet:?xt=urn:btih:fa8473179891505770b1f969f496c7c6&dn=cities-skylines-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '11 GB', quality: 'FitGirl Repack' },
+      { label: 'Cities: Skylines - DODI Repack', url: 'magnet:?xt=urn:btih:c1a348263220a8b10cbeed6e7e687a14&dn=cities-skylines-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '13 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'euro-truck-simulator-2': {
+    fileSize: '25 GB',
+    links: [
+      { label: 'Euro Truck Simulator 2 - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:cb483bb3ab16998a2e5429e98c535498&dn=euro-truck-simulator-2-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '25 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Euro Truck Simulator 2 - FitGirl Repack', url: 'magnet:?xt=urn:btih:68411fbfc2da65155a46e2483cbc6738&dn=euro-truck-simulator-2-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '14 GB', quality: 'FitGirl Repack' },
+      { label: 'Euro Truck Simulator 2 - DODI Repack', url: 'magnet:?xt=urn:btih:db72e94f112125a99228fa3f28c595e1&dn=euro-truck-simulator-2-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '16 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'mortal-kombat-1': {
+    fileSize: '100 GB',
+    links: [
+      { label: 'Mortal Kombat 1 - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:efc882d98f3c54dae23bf209b786cc48&dn=mortal-kombat-1-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '100 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Mortal Kombat 1 - FitGirl Repack', url: 'magnet:?xt=urn:btih:d5b4e2920518590f17876864fc1c9384&dn=mortal-kombat-1-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '55 GB', quality: 'FitGirl Repack' },
+      { label: 'Mortal Kombat 1 - DODI Repack', url: 'magnet:?xt=urn:btih:5092e82bc917e005df7e9b6413c455b1&dn=mortal-kombat-1-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '65 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'the-witness': {
+    fileSize: '10 GB',
+    links: [
+      { label: 'The Witness - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:25b94c8d2e3f7b27653224b640d4524b&dn=the-witness-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '10 GB', quality: 'FULL UNLOCKED' },
+      { label: 'The Witness - FitGirl Repack', url: 'magnet:?xt=urn:btih:463a6c03702b7e4885fae056959c601e&dn=the-witness-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '5 GB', quality: 'FitGirl Repack' },
+      { label: 'The Witness - DODI Repack', url: 'magnet:?xt=urn:btih:5914e698f0039e536f39c81c3879bbf0&dn=the-witness-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '6 GB', quality: 'DODI Repack' },
+    ]
+  },
+  'returnal': {
+    fileSize: '65 GB',
+    links: [
+      { label: 'Returnal - FULL UNLOCKED', url: 'magnet:?xt=urn:btih:4e92315b4ecdf3016631fb685180e24f&dn=returnal-GamesFull&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'GamesFull', fileSize: '65 GB', quality: 'FULL UNLOCKED' },
+      { label: 'Returnal - FitGirl Repack', url: 'magnet:?xt=urn:btih:1a0ddddf8c87ebb2e202ca8a37570950&dn=returnal-FitGirl&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'FitGirl', fileSize: '36 GB', quality: 'FitGirl Repack' },
+      { label: 'Returnal - DODI Repack', url: 'magnet:?xt=urn:btih:28442eae461ace1438e022488fe49e91&dn=returnal-DODI&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=udp://public.popcorn-tracker.org:6969/announce', type: 'magnet', server: 'DODI', fileSize: '42 GB', quality: 'DODI Repack' },
+    ]
+  },
+}
 async function main() {
-  console.log('🌱 Seeding NexusApp with 50 games + torrent links...')
+  console.log('🌱 Seeding NexusApp with 100 games + torrent links...')
 
   // 1. Create categories
   console.log('📁 Creating categories...')
@@ -1319,6 +2455,52 @@ async function main() {
   }
 
   console.log(`📊 ${gamesCreated} new games created`)
+
+  // 3b. Create games from BATCH 2
+  console.log('🎮 Creating games from BATCH 2 with torrent links...')
+  for (const game of GAMES_DATA_BATCH2) {
+    const existing = await prisma.game.findFirst({ where: { slug: game.slug } })
+    if (existing) {
+      await createDownloadLinks(existing.id, game.slug)
+      const torrentData = TORRENT_DOWNLOADS_BATCH2[game.slug]
+      if (torrentData && !existing.fileSize) {
+        await prisma.game.update({ where: { id: existing.id }, data: { fileSize: torrentData.fileSize } })
+      }
+      continue
+    }
+
+    const category = categoryMap.get(game.categorySlug)
+    if (!category) continue
+
+    const imageUrl = STEAM_CAPSULE(game.steamId)
+    const coverUrl = STEAM_HERO(game.steamId)
+    const torrentData = TORRENT_DOWNLOADS_BATCH2[game.slug]
+
+    const newGame = await prisma.game.create({
+      data: {
+        title: game.title,
+        slug: game.slug,
+        description: game.description,
+        imageUrl,
+        coverUrl,
+        trailerUrl: game.trailerUrl,
+        downloadUrl: torrentData?.links[0]?.url || null,
+        fileSize: torrentData?.fileSize || null,
+        developer: game.developer,
+        publisher: game.publisher,
+        releaseDate: game.releaseDate,
+        rating: game.rating,
+        ratingCount: game.ratingCount,
+        categoryId: category.id,
+        platforms: game.platforms,
+        featured: game.featured,
+      },
+    })
+    await createDownloadLinks(newGame.id, game.slug)
+    gamesCreated++
+  }
+
+  console.log(`📊 Total games created: ${gamesCreated}`)
 
   // 4. Create reviews
   console.log('⭐ Creating reviews...')
