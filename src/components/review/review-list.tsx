@@ -11,30 +11,33 @@ interface ReviewListProps {
 export function ReviewList({ reviews }: ReviewListProps) {
   if (!reviews || reviews.length === 0) {
     return (
-      <div className="text-center py-12 text-gray-500">
-        <MessageCircle className="w-12 h-12 mx-auto mb-3 opacity-50" />
-        <p>No hay reseñas aún. ¡Sé el primero en compartir tu opinión!</p>
+      <div className="text-center py-16">
+        <div className="w-16 h-16 glass-card rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <MessageCircle className="w-8 h-8 text-gray-500" />
+        </div>
+        <p className="text-gray-400 font-medium">No hay resenas aun.</p>
+        <p className="text-gray-500 text-sm mt-1">Se el primero en compartir tu opinion!</p>
       </div>
     )
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 stagger-fade">
       {reviews.map((review) => (
-        <div key={review.id} className="bg-gray-900/50 rounded-xl p-5 border border-white/5">
-          <div className="flex items-center justify-between mb-3">
+        <div key={review.id} className="glass-card rounded-2xl p-6 group hover:bg-white/[0.04] transition-colors">
+          <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center text-sm font-bold text-black">
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-white to-gray-400 flex items-center justify-center text-sm font-bold text-black shadow-[0_0_10px_rgba(255,255,255,0.05)]">
                 {review.user.avatar}
               </div>
               <div>
-                <p className="font-medium">{review.user.name}</p>
+                <p className="font-semibold">{review.user.name}</p>
                 <p className="text-xs text-gray-500">{new Date(review.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <StarRating rating={review.rating} size="sm" />
-              <span className="text-sm font-medium text-gray-300">{review.rating}.0</span>
+              <span className="text-sm font-bold text-white glass-card px-2.5 py-1 rounded-lg">{review.rating}.0</span>
             </div>
           </div>
           <p className="text-gray-300 leading-relaxed">{review.comment}</p>

@@ -5,25 +5,27 @@ import { Badge } from '@/components/ui/badge'
 
 export function DemoBanner() {
   return (
-    <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-      <div className="flex items-start gap-3">
+    <div className="glass-card rounded-2xl p-5">
+      <div className="flex items-start gap-4">
         <div className="flex-shrink-0 mt-0.5">
-          <Gamepad2 className="w-5 h-5 text-gray-300" />
+          <div className="w-10 h-10 glass-dark rounded-xl flex items-center justify-center">
+            <Gamepad2 className="w-5 h-5 text-white" />
+          </div>
         </div>
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <Badge variant="outline" className="border-gray-500/50 text-gray-300 bg-white/5 text-xs">
+          <div className="flex items-center gap-2 mb-2">
+            <Badge className="glass-dark border-0 text-gray-200 text-xs font-semibold">
               Modo Demo
             </Badge>
           </div>
-          <p className="text-sm text-gray-400">
-            Firebase no está configurado. Usa las credenciales de prueba para acceder:
+          <p className="text-sm text-gray-400 mb-3">
+            Firebase no esta configurado. Usa las credenciales de prueba para acceder:
           </p>
-          <div className="mt-2 bg-black/40 rounded-lg px-3 py-2 text-sm font-mono text-gray-300">
-            carlos@nexusapp.com / cualquier contraseña
+          <div className="bg-black/40 backdrop-blur-sm rounded-xl px-4 py-3 text-sm font-mono text-gray-300 border border-white/[0.06]">
+            carlos@nexusapp.com / cualquier contrasena
           </div>
-          <p className="text-xs text-gray-500 mt-2">
-            Configura las variables de entorno de Firebase para habilitar la autenticación real.
+          <p className="text-xs text-gray-500 mt-3">
+            Configura las variables de entorno de Firebase para habilitar la autenticacion real.
           </p>
         </div>
       </div>

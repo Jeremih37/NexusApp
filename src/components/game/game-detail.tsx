@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ChevronLeft, Heart, Calendar, Monitor, Play, Download, PenLine, Star, ExternalLink } from 'lucide-react'
+import { ChevronLeft, Heart, Calendar, Monitor, Play, Download, PenLine, Star, ExternalLink, Gamepad2, Share2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -19,13 +19,10 @@ interface GameDetailProps {
 // Extract YouTube video ID from various URL formats
 function getYouTubeId(url: string): string | null {
   if (!url) return null
-  // Embed format: https://www.youtube.com/embed/VIDEO_ID
   const embedMatch = url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/)
   if (embedMatch) return embedMatch[1]
-  // Watch format: https://www.youtube.com/watch?v=VIDEO_ID
   const watchMatch = url.match(/youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/)
   if (watchMatch) return watchMatch[1]
-  // Short format: https://youtu.be/VIDEO_ID
   const shortMatch = url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/)
   if (shortMatch) return shortMatch[1]
   return null
@@ -47,7 +44,7 @@ export function GameDetail({ id }: GameDetailProps) {
           <div className="animate-pulse space-y-6">
             <div className="h-5 bg-gray-800 rounded w-40" />
             <div className="flex flex-col md:flex-row gap-8">
-              <div className="w-64 h-80 bg-gray-800 rounded-xl" />
+              <div className="w-64 h-80 bg-gray-800 rounded-2xl" />
               <div className="flex-1 space-y-4">
                 <div className="h-4 bg-gray-800 rounded w-24" />
                 <div className="h-8 bg-gray-800 rounded w-3/4" />
@@ -84,85 +81,99 @@ export function GameDetail({ id }: GameDetailProps) {
 
   return (
     <div className="relative">
+      {/* Cinematic blurred background */}
       <div className="absolute inset-0 overflow-hidden">
         <img
           src={game.coverUrl || game.imageUrl}
           alt={game.title}
-          className="w-full h-full object-cover opacity-20 blur-sm"
+          className="w-full h-full object-cover opacity-15 blur-md scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/80 to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/85 to-black" />
+        <div className="absolute inset-0 mesh-gradient" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-8">
         {/* Back button */}
         <button
           onClick={() => router.back()}
-          className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-6 group"
+          className="flex items-center gap-2 glass-card px-4 py-2 rounded-full text-gray-400 hover:text-white transition-all mb-8 group"
         >
-          <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-          <span>Volver al catálogo</span>
+          <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          <span className="text-sm font-medium">Volver al catalogo</span>
         </button>
 
-        <div className="flex flex-col md:flex-row gap-8">
+        {/* Main content */}
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           {/* Game Image */}
-          <div className="flex-shrink-0">
-            <img
-              src={game.imageUrl}
-              alt={game.title}
-              className="w-64 h-80 object-cover rounded-xl shadow-2xl shadow-white/5 border border-white/10"
-            />
+          <div className="flex-shrink-0 group">
+            <div className="relative">
+              <img
+                src={game.imageUrl}
+                alt={game.title}
+                className="w-72 h-[360px] lg:w-80 lg:h-[420px] object-cover rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] border border-white/[0.08] group-hover:shadow-[0_25px_80px_rgba(0,0,0,0.7)] transition-shadow duration-500"
+              />
+              {/* Image glow */}
+              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-b from-white/[0.06] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 blur-sm" />
+            </div>
           </div>
 
           {/* Game Info */}
           <div className="flex-1">
-            <div className="flex items-start justify-between gap-4">
+            {/* Category + Favorite */}
+            <div className="flex items-start justify-between gap-4 mb-4">
               <div>
-                <Badge className="inline-block px-3 py-1 bg-white/10 text-gray-200 rounded-full text-sm font-medium mb-3 border border-white/10 hover:bg-white/10">
+                <Badge className="inline-block px-4 py-1.5 glass-card rounded-full text-sm font-semibold mb-4 border-0 tracking-wide uppercase">
+                  <Gamepad2 className="w-3.5 h-3.5 inline mr-1.5" />
                   {game.category.name}
                 </Badge>
-                <h1 className="text-3xl md:text-4xl font-bold mb-2">{game.title}</h1>
-                <p className="text-gray-400 text-lg">{game.developer} &middot; {game.publisher}</p>
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-3 text-glow leading-tight">{game.title}</h1>
+                <p className="text-gray-400 text-lg">{game.developer} <span className="text-gray-600 mx-2">|</span> {game.publisher}</p>
               </div>
               <button
                 onClick={handleToggleFavorite}
                 className={cn(
-                  'p-3 rounded-full transition-all',
+                  'p-3.5 rounded-2xl transition-all flex-shrink-0',
                   isFavorite
-                    ? 'bg-white/10 text-white border border-white/20'
-                    : 'bg-gray-900 text-gray-400 hover:text-white border border-white/10'
+                    ? 'glass-card text-white border border-white/15'
+                    : 'glass-card text-gray-400 hover:text-white border border-white/[0.06]'
                 )}
               >
                 <Heart className={cn('w-6 h-6', isFavorite && 'fill-current')} />
               </button>
             </div>
 
-            {/* Rating */}
-            <div className="flex items-center gap-3 mt-4 flex-wrap">
-              <div className="flex items-center gap-2 bg-gray-900/80 rounded-lg px-4 py-2 border border-white/10">
-                <span className="text-3xl font-bold text-white">{game.rating}</span>
-                <div className="flex flex-col">
+            {/* Rating + Meta - Premium cards */}
+            <div className="flex items-center gap-4 mt-6 flex-wrap">
+              {/* Main rating card */}
+              <div className="glass-card rounded-2xl px-6 py-4 flex items-center gap-4">
+                <span className="text-4xl font-black text-white text-glow">{game.rating}</span>
+                <div className="flex flex-col gap-1">
                   <StarRating rating={game.rating} size="sm" />
-                  <span className="text-xs text-gray-500 mt-0.5">{game.ratingCount} reseñas</span>
+                  <span className="text-xs text-gray-500">{game.ratingCount} resenas</span>
                 </div>
               </div>
-              <div className="flex items-center gap-2 text-gray-400 text-sm">
-                <Calendar className="w-4 h-4" />
-                {game.releaseDate}
-              </div>
-              <div className="flex items-center gap-2 text-gray-400 text-sm">
-                <Monitor className="w-4 h-4" />
-                {game.platforms}
+
+              {/* Meta info */}
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2 glass-card px-4 py-2 rounded-xl text-gray-400 text-sm">
+                  <Calendar className="w-4 h-4 text-gray-500" />
+                  {game.releaseDate}
+                </div>
+                <div className="flex items-center gap-2 glass-card px-4 py-2 rounded-xl text-gray-400 text-sm">
+                  <Monitor className="w-4 h-4 text-gray-500" />
+                  {game.platforms}
+                </div>
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-wrap gap-3 mt-6">
+            {/* Action Buttons - Premium style */}
+            <div className="flex flex-wrap gap-3 mt-8">
               {game.trailerUrl && (
                 <Button
                   onClick={() => setShowTrailer(!showTrailer)}
-                  className="flex items-center gap-2 px-6 py-3 bg-white hover:bg-gray-200 text-black rounded-lg font-semibold transition-colors shadow-lg shadow-white/10 h-12"
+                  className="flex items-center gap-2.5 px-8 py-4 bg-white hover:bg-gray-100 text-black rounded-2xl font-bold transition-all shadow-[0_0_30px_rgba(255,255,255,0.15)] hover:shadow-[0_0_40px_rgba(255,255,255,0.25)] h-14 text-base btn-premium group"
                 >
-                  <Play className="w-5 h-5 fill-current" />
+                  <Play className="w-5 h-5 fill-current group-hover:scale-110 transition-transform" />
                   {showTrailer ? 'Ocultar Trailer' : 'Ver Trailer'}
                 </Button>
               )}
@@ -171,9 +182,9 @@ export function GameDetail({ id }: GameDetailProps) {
                   href={game.downloadUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-6 py-3 bg-gray-600 hover:bg-gray-500 rounded-lg font-medium transition-colors shadow-lg shadow-white/5 text-white"
+                  className="flex items-center gap-2.5 px-8 py-4 glass-card hover:bg-white/[0.08] rounded-2xl font-semibold transition-all shadow-lg text-white h-14 text-base group"
                 >
-                  <Download className="w-5 h-5" />
+                  <Download className="w-5 h-5 group-hover:translate-y-0.5 transition-transform" />
                   Descargar
                   <ExternalLink className="w-3 h-3 ml-1" />
                 </a>
@@ -181,31 +192,37 @@ export function GameDetail({ id }: GameDetailProps) {
               <Button
                 onClick={handleWriteReview}
                 variant="outline"
-                className="flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg font-medium transition-colors border-white/10 h-12"
+                className="flex items-center gap-2.5 px-8 py-4 glass-card hover:bg-white/[0.08] rounded-2xl font-semibold transition-all border-0 h-14 text-base"
               >
                 <PenLine className="w-5 h-5" />
-                Escribir Reseña
+                Escribir Resena
               </Button>
             </div>
 
             {/* Description */}
-            <div className="mt-6">
-              <h3 className="text-lg font-semibold mb-2">Descripción</h3>
-              <p className="text-gray-300 leading-relaxed">{game.description}</p>
+            <div className="mt-8">
+              <div className="gradient-line mb-6" />
+              <h3 className="text-xl font-bold mb-3 flex items-center gap-2">
+                <div className="w-1 h-6 bg-white rounded-full" />
+                Descripcion
+              </h3>
+              <p className="text-gray-300 leading-relaxed text-base">{game.description}</p>
             </div>
           </div>
         </div>
 
         {/* Trailer Section */}
         {game.trailerUrl && (
-          <div className="mt-8">
+          <div className="mt-12">
             {showTrailer ? (
-              <div>
-                <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                  <Play className="w-5 h-5 text-white fill-current" />
+              <div className="reveal">
+                <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
+                  <div className="w-10 h-10 glass-card rounded-xl flex items-center justify-center">
+                    <Play className="w-5 h-5 text-white fill-white" />
+                  </div>
                   Trailer
                 </h3>
-                <div className="aspect-video rounded-xl overflow-hidden border border-white/10 shadow-2xl bg-black">
+                <div className="aspect-video rounded-2xl overflow-hidden border border-white/[0.08] shadow-[0_20px_60px_rgba(0,0,0,0.5)] bg-black">
                   <iframe
                     src={game.trailerUrl}
                     title={`${game.title} Trailer`}
@@ -218,23 +235,22 @@ export function GameDetail({ id }: GameDetailProps) {
             ) : (
               <button
                 onClick={() => setShowTrailer(true)}
-                className="group relative w-full aspect-video rounded-xl overflow-hidden border border-white/10 shadow-2xl cursor-pointer"
+                className="group relative w-full aspect-video rounded-2xl overflow-hidden border border-white/[0.08] shadow-[0_20px_60px_rgba(0,0,0,0.5)] cursor-pointer"
               >
-                {/* Trailer thumbnail or game image */}
                 <img
                   src={trailerThumbnail || game.coverUrl || game.imageUrl}
                   alt={`${game.title} Trailer`}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors" />
-                {/* Play button overlay */}
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors duration-300" />
+                {/* Play button */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center shadow-lg shadow-white/20 group-hover:scale-110 transition-transform">
-                    <Play className="w-8 h-8 text-black fill-black ml-1" />
+                  <div className="w-24 h-24 bg-white/90 rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(255,255,255,0.3)] group-hover:scale-110 transition-transform duration-300 pulse-ring">
+                    <Play className="w-10 h-10 text-black fill-black ml-1" />
                   </div>
                 </div>
-                <div className="absolute bottom-4 left-4">
-                  <span className="px-3 py-1 bg-black/60 backdrop-blur-sm rounded-lg text-sm font-medium border border-white/10">
+                <div className="absolute bottom-5 left-5">
+                  <span className="px-4 py-2 glass-dark rounded-xl text-sm font-semibold">
                     Ver Trailer
                   </span>
                 </div>
@@ -244,11 +260,14 @@ export function GameDetail({ id }: GameDetailProps) {
         )}
 
         {/* Reviews Section */}
-        <div className="mt-10">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-semibold flex items-center gap-2">
-              <Star className="w-5 h-5 text-white fill-white" />
-              Reseñas ({game.reviews?.length || 0})
+        <div className="mt-14">
+          <div className="gradient-line mb-8" />
+          <div className="flex items-center justify-between mb-8">
+            <h3 className="text-2xl font-bold flex items-center gap-3">
+              <div className="w-10 h-10 glass-card rounded-xl flex items-center justify-center">
+                <Star className="w-5 h-5 text-white fill-white" />
+              </div>
+              Resenas ({game.reviews?.length || 0})
             </h3>
           </div>
           <ReviewList reviews={game.reviews || []} />

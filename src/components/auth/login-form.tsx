@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { LogIn, Mail, Lock, Loader2 } from 'lucide-react'
+import { LogIn, Mail, Lock, Loader2, Gamepad2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -27,7 +27,7 @@ export function LoginForm() {
       await login(email, password)
       router.push('/')
     } catch (err: any) {
-      setError(err?.message || 'Error al iniciar sesión. Verifica tus credenciales.')
+      setError(err?.message || 'Error al iniciar sesion. Verifica tus credenciales.')
     } finally {
       setIsSubmitting(false)
     }
@@ -35,8 +35,12 @@ export function LoginForm() {
 
   return (
     <div className="w-full max-w-md mx-auto">
+      {/* Header */}
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold mb-2">Iniciar Sesión</h1>
+        <div className="w-16 h-16 glass-card rounded-2xl flex items-center justify-center mx-auto mb-5">
+          <Gamepad2 className="w-8 h-8 text-white" />
+        </div>
+        <h1 className="text-3xl font-black mb-2">Iniciar Sesion</h1>
         <p className="text-gray-400">Accede a tu cuenta de NexusApp</p>
       </div>
 
@@ -48,17 +52,17 @@ export function LoginForm() {
 
       <form onSubmit={handleSubmit} className="space-y-5">
         {error && (
-          <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 text-sm text-red-300">
+          <div className="glass-card rounded-xl p-4 text-sm text-red-300 border border-red-500/20">
             {error}
           </div>
         )}
 
         <div className="space-y-2">
-          <Label htmlFor="email" className="text-gray-300">
-            Correo Electrónico
+          <Label htmlFor="email" className="text-gray-300 font-medium">
+            Correo Electronico
           </Label>
-          <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+          <div className="relative group">
+            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-white transition-colors" />
             <Input
               id="email"
               type="email"
@@ -66,25 +70,25 @@ export function LoginForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="pl-10 bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-white/20 focus:ring-white/10"
+              className="pl-11 bg-white/[0.04] border-white/[0.08] text-white placeholder-gray-500 focus:border-white/15 focus:ring-white/20 rounded-xl h-12 transition-all"
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="password" className="text-gray-300">
-            Contraseña
+          <Label htmlFor="password" className="text-gray-300 font-medium">
+            Contrasena
           </Label>
-          <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+          <div className="relative group">
+            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-white transition-colors" />
             <Input
               id="password"
               type="password"
-              placeholder="••••••••"
+              placeholder="........"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="pl-10 bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-white/20 focus:ring-white/10"
+              className="pl-11 bg-white/[0.04] border-white/[0.08] text-white placeholder-gray-500 focus:border-white/15 focus:ring-white/20 rounded-xl h-12 transition-all"
             />
           </div>
         </div>
@@ -92,27 +96,28 @@ export function LoginForm() {
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-white hover:bg-gray-200 text-black font-semibold py-3 h-12 shadow-lg shadow-white/10 transition-all"
+          className="w-full bg-white hover:bg-gray-100 text-black font-bold py-3 h-12 shadow-[0_0_25px_rgba(255,255,255,0.15)] hover:shadow-[0_0_35px_rgba(255,255,255,0.25)] transition-all rounded-xl btn-premium"
         >
           {isSubmitting ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Iniciando sesión...
+              Iniciando sesion...
             </>
           ) : (
             <>
               <LogIn className="w-4 h-4 mr-2" />
-              Iniciar Sesión
+              Iniciar Sesion
             </>
           )}
         </Button>
       </form>
 
-      <div className="mt-6 text-center">
+      <div className="mt-8 text-center">
+        <div className="gradient-line mb-6" />
         <p className="text-gray-400 text-sm">
-          ¿No tienes cuenta?{' '}
-          <Link href="/register" className="text-gray-300 hover:text-white font-medium transition-colors">
-            Regístrate
+          No tienes cuenta?{' '}
+          <Link href="/register" className="text-white font-semibold hover:underline transition-all">
+            Registrate
           </Link>
         </p>
       </div>

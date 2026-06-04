@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { UserPlus, Mail, Lock, User, Loader2 } from 'lucide-react'
+import { UserPlus, Mail, Lock, User, Loader2, Gamepad2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -24,26 +24,22 @@ export function RegisterForm() {
     e.preventDefault()
     setError('')
 
-    // Validate passwords match
     if (password !== confirmPassword) {
-      setError('Las contraseñas no coinciden.')
+      setError('Las contrasenas no coinciden.')
       return
     }
 
-    // Validate password length
     if (password.length < 6) {
-      setError('La contraseña debe tener al menos 6 caracteres.')
+      setError('La contrasena debe tener al menos 6 caracteres.')
       return
     }
 
-    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email)) {
-      setError('El formato del correo electrónico no es válido.')
+      setError('El formato del correo electronico no es valido.')
       return
     }
 
-    // Validate name
     if (name.trim().length < 2) {
       setError('El nombre debe tener al menos 2 caracteres.')
       return
@@ -65,30 +61,34 @@ export function RegisterForm() {
     return (
       <div className="w-full max-w-md mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2">Crear Cuenta</h1>
-          <p className="text-gray-400">Regístrate en NexusApp</p>
+          <div className="w-16 h-16 glass-card rounded-2xl flex items-center justify-center mx-auto mb-5">
+            <Gamepad2 className="w-8 h-8 text-white" />
+          </div>
+          <h1 className="text-3xl font-black mb-2">Crear Cuenta</h1>
+          <p className="text-gray-400">Registrate en NexusApp</p>
         </div>
 
         <DemoBanner />
 
-        <div className="mt-6 bg-white/[0.03] border border-white/10 rounded-xl p-6 text-center">
+        <div className="mt-6 glass-card rounded-2xl p-8 text-center">
           <UserPlus className="w-12 h-12 text-gray-500 mx-auto mb-3" />
-          <h3 className="text-lg font-semibold text-gray-300 mb-2">Firebase no configurado</h3>
+          <h3 className="text-lg font-bold text-gray-300 mb-2">Firebase no configurado</h3>
           <p className="text-sm text-gray-500 mb-4">
             El registro de nuevas cuentas requiere Firebase Authentication. En modo demo, solo puedes usar la cuenta de prueba existente.
           </p>
           <Link href="/login">
-            <Button className="bg-white hover:bg-gray-200 text-black">
-              Ir a Iniciar Sesión
+            <Button className="bg-white hover:bg-gray-100 text-black font-bold rounded-xl btn-premium shadow-[0_0_20px_rgba(255,255,255,0.15)]">
+              Ir a Iniciar Sesion
             </Button>
           </Link>
         </div>
 
-        <div className="mt-6 text-center">
+        <div className="mt-8 text-center">
+          <div className="gradient-line mb-6" />
           <p className="text-gray-400 text-sm">
-            ¿Ya tienes cuenta?{' '}
-            <Link href="/login" className="text-gray-300 hover:text-white font-medium transition-colors">
-              Inicia Sesión
+            Ya tienes cuenta?{' '}
+            <Link href="/login" className="text-white font-semibold hover:underline transition-all">
+              Inicia Sesion
             </Link>
           </p>
         </div>
@@ -99,23 +99,24 @@ export function RegisterForm() {
   return (
     <div className="w-full max-w-md mx-auto">
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold mb-2">Crear Cuenta</h1>
-        <p className="text-gray-400">Regístrate en NexusApp</p>
+        <div className="w-16 h-16 glass-card rounded-2xl flex items-center justify-center mx-auto mb-5">
+          <Gamepad2 className="w-8 h-8 text-white" />
+        </div>
+        <h1 className="text-3xl font-black mb-2">Crear Cuenta</h1>
+        <p className="text-gray-400">Registrate en NexusApp</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
         {error && (
-          <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 text-sm text-red-300">
+          <div className="glass-card rounded-xl p-4 text-sm text-red-300 border border-red-500/20">
             {error}
           </div>
         )}
 
         <div className="space-y-2">
-          <Label htmlFor="name" className="text-gray-300">
-            Nombre
-          </Label>
-          <div className="relative">
-            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+          <Label htmlFor="name" className="text-gray-300 font-medium">Nombre</Label>
+          <div className="relative group">
+            <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-white transition-colors" />
             <Input
               id="name"
               type="text"
@@ -123,17 +124,15 @@ export function RegisterForm() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="pl-10 bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-white/20 focus:ring-white/10"
+              className="pl-11 bg-white/[0.04] border-white/[0.08] text-white placeholder-gray-500 focus:border-white/15 focus:ring-white/20 rounded-xl h-12 transition-all"
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="email" className="text-gray-300">
-            Correo Electrónico
-          </Label>
-          <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+          <Label htmlFor="email" className="text-gray-300 font-medium">Correo Electronico</Label>
+          <div className="relative group">
+            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-white transition-colors" />
             <Input
               id="email"
               type="email"
@@ -141,45 +140,41 @@ export function RegisterForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="pl-10 bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-white/20 focus:ring-white/10"
+              className="pl-11 bg-white/[0.04] border-white/[0.08] text-white placeholder-gray-500 focus:border-white/15 focus:ring-white/20 rounded-xl h-12 transition-all"
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="password" className="text-gray-300">
-            Contraseña
-          </Label>
-          <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+          <Label htmlFor="password" className="text-gray-300 font-medium">Contrasena</Label>
+          <div className="relative group">
+            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-white transition-colors" />
             <Input
               id="password"
               type="password"
-              placeholder="Mínimo 6 caracteres"
+              placeholder="Minimo 6 caracteres"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength={6}
-              className="pl-10 bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-white/20 focus:ring-white/10"
+              className="pl-11 bg-white/[0.04] border-white/[0.08] text-white placeholder-gray-500 focus:border-white/15 focus:ring-white/20 rounded-xl h-12 transition-all"
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="confirmPassword" className="text-gray-300">
-            Confirmar Contraseña
-          </Label>
-          <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+          <Label htmlFor="confirmPassword" className="text-gray-300 font-medium">Confirmar Contrasena</Label>
+          <div className="relative group">
+            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-white transition-colors" />
             <Input
               id="confirmPassword"
               type="password"
-              placeholder="Repite tu contraseña"
+              placeholder="Repite tu contrasena"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
               minLength={6}
-              className="pl-10 bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-white/20 focus:ring-white/10"
+              className="pl-11 bg-white/[0.04] border-white/[0.08] text-white placeholder-gray-500 focus:border-white/15 focus:ring-white/20 rounded-xl h-12 transition-all"
             />
           </div>
         </div>
@@ -187,7 +182,7 @@ export function RegisterForm() {
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-white hover:bg-gray-200 text-black font-semibold py-3 h-12 shadow-lg shadow-white/10 transition-all"
+          className="w-full bg-white hover:bg-gray-100 text-black font-bold py-3 h-12 shadow-[0_0_25px_rgba(255,255,255,0.15)] hover:shadow-[0_0_35px_rgba(255,255,255,0.25)] transition-all rounded-xl btn-premium"
         >
           {isSubmitting ? (
             <>
@@ -203,11 +198,12 @@ export function RegisterForm() {
         </Button>
       </form>
 
-      <div className="mt-6 text-center">
+      <div className="mt-8 text-center">
+        <div className="gradient-line mb-6" />
         <p className="text-gray-400 text-sm">
-          ¿Ya tienes cuenta?{' '}
-          <Link href="/login" className="text-gray-300 hover:text-white font-medium transition-colors">
-            Inicia Sesión
+          Ya tienes cuenta?{' '}
+          <Link href="/login" className="text-white font-semibold hover:underline transition-all">
+            Inicia Sesion
           </Link>
         </p>
       </div>
