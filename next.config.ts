@@ -7,7 +7,12 @@ const nextConfig: NextConfig = {
   reactStrictMode: false,
   images: {
     remotePatterns: [
-      // RAWG CDN - primary source for game covers (HD images)
+      // Steam CDN - verified HD game covers (public, no API key needed)
+      {
+        protocol: 'https',
+        hostname: 'cdn.cloudflare.steamstatic.com',
+      },
+      // RAWG CDN - additional game data source
       {
         protocol: 'https',
         hostname: 'media.rawg.io',
@@ -17,12 +22,12 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'img.youtube.com',
       },
-      // Placeholder images (fallback when no RAWG key)
+      // Placeholder images (fallback)
       {
         protocol: 'https',
         hostname: 'placehold.co',
       },
-      // Legacy IGDB (being replaced by RAWG)
+      // Legacy IGDB (being replaced)
       {
         protocol: 'https',
         hostname: 'images.igdb.com',
