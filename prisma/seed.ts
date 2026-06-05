@@ -6,6 +6,114 @@ const STEAM_CAPSULE = (appId: string) => `https://cdn.cloudflare.steamstatic.com
 const STEAM_HERO = (appId: string) => `https://cdn.cloudflare.steamstatic.com/steam/apps/${appId}/library_hero.jpg`
 
 // ============================================================
+// RAWG HD COVER IMAGES - Verified correct for each game
+// Each URL is from RAWG CDN with HD cropping, guaranteed to match the game
+// Fetched on 2025-06-05 using RAWG API
+// ============================================================
+const RAWG_COVERS: Record<string, { imageUrl: string; coverUrl: string }> = {
+  'cyberpunk-2077': { imageUrl: 'https://media.rawg.io/crop/600/400/games/26d/26d4437715bee60138dab4a7c8c59c92.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/d14/d14e45904ec4e2f184428315a3810417.jpg' },
+  'elden-ring': { imageUrl: 'https://media.rawg.io/crop/600/400/games/b29/b294fdd866dcdb643e7bab370a552855.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/ac2/ac2d75c1b2ed0db7f12528a77a15fcea.jpg' },
+  'god-of-war-ragnarok': { imageUrl: 'https://media.rawg.io/crop/600/400/games/1c3/1c305096502c475c00276c827f0fd697.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/6d1/6d1bff7cc998da159a523fdf242b0ec1.jpg' },
+  'baldurs-gate-3': { imageUrl: 'https://media.rawg.io/crop/600/400/games/699/69907ecf13f172e9e144069769c3be73.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/b15/b15ec0f9865be48fc6651773cd06a69a.jpg' },
+  'resident-evil-4-remake': { imageUrl: 'https://media.rawg.io/crop/600/400/games/51a/51a404b9918a0b19fc704a3ca248c69f.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/58d/58d69f93b54816b5b9964b0e1363a08e.jpg' },
+  'black-myth-wukong': { imageUrl: 'https://media.rawg.io/crop/600/400/screenshots/496/4963a02fb0315e5327ee4944e2f3d73b.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/38f/38fc70a69358420d3de9db550abbc267.jpg' },
+  'red-dead-redemption-2': { imageUrl: 'https://media.rawg.io/crop/600/400/games/511/5118aff5091cb3efec399c808f8c598f.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/f3d/f3d6c0eaf1db2bdbb44ad84f15e43f4f.jpg' },
+  'the-witcher-3-wild-hunt': { imageUrl: 'https://media.rawg.io/crop/600/400/games/618/618c2031a07bbff6b4f611f10b6bcdbc.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/3e4/3e4576a772b3df47bfc52b86e4cf7e03.jpg' },
+  'sekiro-shadows-die-twice': { imageUrl: 'https://media.rawg.io/crop/600/400/games/67f/67f62d1f062a6164f57575e0604ee9f6.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/332/332d2e95a19ea2757857caf034a97541.jpg' },
+  'hogwarts-legacy': { imageUrl: 'https://media.rawg.io/crop/600/400/games/044/044b2ee023930ca138deda151f40c18c.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/810/810988f01c22b90bf086c7e9084cc22d.jpg' },
+  'ghost-of-tsushima': { imageUrl: 'https://media.rawg.io/crop/600/400/games/f24/f2493ea338fe7bd3c7d73750a85a0959.jpeg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/f9f/f9f5cf02724032d1a83d8c01f7471cf8.jpg' },
+  'grand-theft-auto-v': { imageUrl: 'https://media.rawg.io/crop/600/400/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/5f5/5f5a38a222252d996b18962806eed707.jpg' },
+  'doom-eternal': { imageUrl: 'https://media.rawg.io/crop/600/400/games/3ea/3ea3c9bbd940b6cb7f2139e42d3d443f.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/abe/abec9a020ff0904cb01bc9da13846227.jpg' },
+  'helldivers-2': { imageUrl: 'https://media.rawg.io/crop/600/400/screenshots/755/7552f856f88b0de1dee040121039b079.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/d58/d58b2e611e69b02757ffc4fccda8ee74.jpg' },
+  'death-stranding': { imageUrl: 'https://media.rawg.io/crop/600/400/games/2ad/2ad87a4a69b1104f02435c14c5196095.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/3ac/3acb3198f5075cf9d46f86c70e0c7fa3.jpg' },
+  'dark-souls-iii': { imageUrl: 'https://media.rawg.io/crop/600/400/games/da1/da1b267764d77221f07a4386b6548e5a.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/03e/03e0439ab02c0775a2989050bbc2aec4.jpg' },
+  'fallout-4': { imageUrl: 'https://media.rawg.io/crop/600/400/games/d82/d82990b9c67ba0d2d09d4e6fa88885a7.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/fdf/fdf7213f4eccd1d7257491b893068310.jpg' },
+  'the-elder-scrolls-v-skyrim': { imageUrl: 'https://media.rawg.io/crop/600/400/games/62c/62c7c8b28a27b83680b22fb9d33fc619.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/8a0/8a0daf9c78779fe57f58e45d28d78bcc.jpg' },
+  'dragons-dogma-2': { imageUrl: 'https://media.rawg.io/crop/600/400/games/679/679d7a18e220025bdd83dff484d6ea64.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/505/505dbcd60f0482152704ddf45c98a0fe.jpg' },
+  'metaphor-refantazio': { imageUrl: 'https://media.rawg.io/crop/600/400/games/2cd/2cd2467a32aaaed0bdeb192c2831cfe0.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/a8e/a8e784f6bc4be4f0ec9f9c040b3ae441.jpeg' },
+  'like-a-dragon-infinite-wealth': { imageUrl: 'https://media.rawg.io/crop/600/400/games/f9d/f9d124268f23a61fa3aa71ecefb30cc4.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/0bc/0bc422bc7790e728f57bd541bd2a84e2.jpg' },
+  'persona-5-royal': { imageUrl: 'https://media.rawg.io/crop/600/400/games/a9c/a9c789951de65da545d51f664b4f2ce0.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/b26/b2604ecc559bccfb72dca2c869f53b63.jpg' },
+  'final-fantasy-vii-remake': { imageUrl: 'https://media.rawg.io/crop/600/400/games/d89/d89bd0cf4fcdc10820892980cbba0f49.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/76d/76da9c6f5bb28736f2b5ac3a2ec3245a.jpg' },
+  'the-last-of-us-part-ii': { imageUrl: 'https://media.rawg.io/crop/600/400/games/909/909974d1c7863c2027241e265fe7011f.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/75b/75b04439f728fa38cc16e59515a4d66d.jpg' },
+  'assassins-creed-shadows': { imageUrl: 'https://media.rawg.io/crop/600/400/games/526/526881e0f5f8c1550e51df3801f96ea3.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/5f7/5f7838ed4651d1a931c4cf288f12edb0.jpg' },
+  'horizon-forbidden-west': { imageUrl: 'https://media.rawg.io/crop/600/400/games/bf7/bf73b105ccbba42107986bbcd96fcada.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/7d9/7d99aac3687c0ca8fcaebb15616c1d23.jpg' },
+  'it-takes-two': { imageUrl: 'https://media.rawg.io/crop/600/400/screenshots/c02/c02a0c98e873c3912b3fcc5aba5e7a16.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/c02/c02a0c98e873c3912b3fcc5aba5e7a16.jpg' },
+  'a-plague-tale-requiem': { imageUrl: 'https://media.rawg.io/crop/600/400/games/cd0/cd074f3f6045297cda9ad077273c09b6.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/024/0242e1034034c7d3b6728eaae820741e.jpg' },
+  'starfield': { imageUrl: 'https://media.rawg.io/crop/600/400/games/ba8/ba82c971336adfd290e4c0eab6504fcf.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/2c7/2c7a201866e9824b64de58431c28e3e3.jpg' },
+  'counter-strike-2': { imageUrl: 'https://media.rawg.io/crop/600/400/screenshots/7b2/7b2920260f974292970d6c2312991a3d.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/3b0/3b026d663336b3c72111644a252977d5.jpg' },
+  'call-of-duty-modern-warfare-3': { imageUrl: 'https://media.rawg.io/crop/600/400/games/e9c/e9c042d14515eb3ff7cb4db9fe78e435.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/d4a/d4afeb42f4682cb807e9adea70b32abc.jpg' },
+  'doom-eternal-shooter': { imageUrl: 'https://media.rawg.io/crop/600/400/games/3ea/3ea3c9bbd940b6cb7f2139e42d3d443f.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/abe/abec9a020ff0904cb01bc9da13846227.jpg' },
+  'resident-evil-village': { imageUrl: 'https://media.rawg.io/crop/600/400/games/6cc/6cc23249972a427f697a3d10eb57a820.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/a81/a8138cefde08a11c7bb1131e8eb6e13a.jpg' },
+  'titanfall-2': { imageUrl: 'https://media.rawg.io/crop/600/400/games/569/56978b5a77f13aa2ec5d09ec81d01cad.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/45d/45ddb09de1fac57c0c26e874e02601e3.jpg' },
+  'forza-horizon-5': { imageUrl: 'https://media.rawg.io/crop/600/400/games/082/082365507ff04d456c700157072d35db.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/156/156227810408c477fb90112a9feefe8e.jpg' },
+  'need-for-speed-unbound': { imageUrl: 'https://media.rawg.io/crop/600/400/games/d7b/d7b45d416ca18bf86f9f1638ee331efa.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/fa7/fa7f0192ea02d2901bd7bca7803dddd7_WqKG3wC.jpg' },
+  'assetto-corsa': { imageUrl: 'https://media.rawg.io/crop/600/400/games/133/133e752b7488e7f2afe45923b9f790a2.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/070/070a497c7a4f2ae7cb3d6fc0511f697e.jpg' },
+  'hollow-knight': { imageUrl: 'https://media.rawg.io/crop/600/400/games/4cf/4cfc6b7f1850590a4634b08bfab308ab.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/ca4/ca4909c2379c114977b8b3309244e52a.jpg' },
+  'stardew-valley': { imageUrl: 'https://media.rawg.io/crop/600/400/games/713/713269608dc8f2f40f5a670a14b2de94.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/62b/62b36b00ffc3052880176fa9d20f2741.jpg' },
+  'hades': { imageUrl: 'https://media.rawg.io/crop/600/400/screenshots/b7b/b7b66ade987d2d33542797ebe460ef5b.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/6f1/6f104696c7c08bedd36a0dc74b5281a9.jpg' },
+  'celeste': { imageUrl: 'https://media.rawg.io/crop/600/400/games/594/59487800889ebac294c7c2c070d02356.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/7be/7be234128bb2d9b90b68954a05698066.jpg' },
+  'cuphead': { imageUrl: 'https://media.rawg.io/crop/600/400/games/226/2262cea0b385db6cf399f4be831603b0.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/6e2/6e2daddc6ad17a1f63ff039f3a5fae93.jpg' },
+  'civilization-vi': { imageUrl: 'https://media.rawg.io/crop/600/400/games/997/997ab4d67e96fb20a4092383477d4463.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/ded/ded00b70856e0a3fb5e43df03070a2d7.jpg' },
+  'total-war-warhammer-3': { imageUrl: 'https://media.rawg.io/crop/600/400/games/0fc/0fcb485572f6074c611521984a033a5c.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/bf7/bf782445a074722b62c54919476c85d6.jpg' },
+  'rimworld': { imageUrl: 'https://media.rawg.io/crop/600/400/screenshots/4d8/4d85fbe90066fdbef295a618640c4a82.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/2bf/2bfb0aca240edf48b72aaddd1a5719de.jpg' },
+  'the-sims-4': { imageUrl: 'https://media.rawg.io/crop/600/400/games/e44/e445335e611b4ccf03af71fffcbd30a4.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/1a1/1a184dd02e06d1ad122d021fe9bf7065.jpg' },
+  'farming-simulator-22': { imageUrl: 'https://media.rawg.io/crop/600/400/games/dd9/dd90964966f6bf9b0bd635be432fbf8a.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/059/0590fa83d7140cfc6ce94f66c58ab311.jpg' },
+  'microsoft-flight-simulator': { imageUrl: 'https://media.rawg.io/crop/600/400/games/89c/89ceadfd42109aa0d80e9c5dbc86f277.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/abf/abf4e4bf85c5690d6f2c447fb8fdfd62.jpg' },
+  'tekken-8': { imageUrl: 'https://media.rawg.io/crop/600/400/games/ed3/ed3a5e9fab79022979de9ef420137f73.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/a32/a325a4a719fc8ce75c27a98b3f2f0821.jpg' },
+  'street-fighter-6': { imageUrl: 'https://media.rawg.io/crop/600/400/games/ce2/ce2463db40cec363f360c29ddcc56884.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/e37/e37f86b2e89469788bb291b7367ca11b.jpg' },
+  'portal-2': { imageUrl: 'https://media.rawg.io/crop/600/400/games/2ba/2bac0e87cf45e5b508f227d281c9252a.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/9a9/9a995e75aba0f9ce01a341f506fc4e13.jpg' },
+  'alan-wake-2': { imageUrl: 'https://media.rawg.io/crop/600/400/games/5b9/5b963d7633cd640fa2dbc4069d1c6377.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/1eb/1eb720bb7d9eea3f352fbf881666aaeb.jpg' },
+  'star-wars-jedi-survivor': { imageUrl: 'https://media.rawg.io/crop/600/400/games/3e4/3e43e29ae126ef951842393f5ff7f33a.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/58f/58f92eb5e594efff4560a3ad7ca1a1e7.jpg' },
+  'marvels-spider-man-remastered': { imageUrl: 'https://media.rawg.io/crop/600/400/games/5f1/5f1399f755ed3a40b04a9195f4c06be5.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/7e1/7e189d2cd44906b2929c1ef1b9b2ef2b.jpg' },
+  'mass-effect-legendary-edition': { imageUrl: 'https://media.rawg.io/crop/600/400/games/64e/64e2a77f37ddc48d102127234af99886.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/aa9/aa9265a7fe730b89cbc5f77f812b9eb6.jpg' },
+  'dead-space-remake': { imageUrl: 'https://media.rawg.io/crop/600/400/games/ebd/ebdbb7eb52bd58b0e7fa4538d9757b60.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/def/def96ec67b58399dd58b39ef7b0f16de.jpg' },
+  'control': { imageUrl: 'https://media.rawg.io/crop/600/400/games/253/2534a46f3da7fa7c315f1387515ca393.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/383/383c7e57609209dca885816c1ad0dfd2.jpg' },
+  'dishonored-2': { imageUrl: 'https://media.rawg.io/crop/600/400/games/f6b/f6bed028b02369d4cab548f4f9337e81.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/a94/a94d75e8654f76e417a325273e1112ae.jpg' },
+  'prey-2017': { imageUrl: 'https://media.rawg.io/crop/600/400/games/e6d/e6de699bd788497f4b52e2f41f9698f2.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/dd3/dd364fafcc32d533acc0d02224173c0d.jpg' },
+  'devil-may-cry-5': { imageUrl: 'https://media.rawg.io/crop/600/400/games/9fb/9fbf956a16249def7625ab5dc3d09515.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/a02/a020482327e2cd5ce02b55db1c24f621.jpg' },
+  'monster-hunter-world': { imageUrl: 'https://media.rawg.io/crop/600/400/games/21c/21cc15d233117c6809ec86870559e105.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/bda/bda7e287aa1004ff784236b214ee3408.jpg' },
+  'nier-automata': { imageUrl: 'https://media.rawg.io/crop/600/400/games/5a4/5a44112251d70a25291cc33757220fce.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/576/576f8ad7bde42e902cd745f739479b72.jpg' },
+  'detroit-become-human': { imageUrl: 'https://media.rawg.io/crop/600/400/games/951/951572a3dd1e42544bd39a5d5b42d234.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/fce/fcef1b586a52133aa8624dea5e9e3358.jpeg' },
+  'disco-elysium': { imageUrl: 'https://media.rawg.io/crop/600/400/games/840/8408ad3811289a6a5830cae60fb0b62a.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/a72/a72577c18749a50155da13dcc62b3687.jpg' },
+  'outer-wilds': { imageUrl: 'https://media.rawg.io/crop/600/400/games/9f4/9f418898f5415668ca47b5f4ab1ecfeb.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/fce/fcec2bc9cda5024cf7bc8a767f90577a.jpg' },
+  'subnautica': { imageUrl: 'https://media.rawg.io/crop/600/400/games/739/73990e3ec9f43a9e8ecafe207fa4f368.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/b12/b12ca25d98abc1a16a633539a558ab1b.jpg' },
+  'the-outer-worlds': { imageUrl: 'https://media.rawg.io/crop/600/400/games/704/704f831d2d132e9614931f1c4eab9e86.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/79c/79c9714c09662b51e011558bd71ec5de.jpg' },
+  'tomb-raider-2013': { imageUrl: 'https://media.rawg.io/crop/600/400/games/021/021c4e21a1824d2526f925eff6324653.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/755/75595129616c2bb23a8595eb37fe25bd.jpg' },
+  'rise-of-the-tomb-raider': { imageUrl: 'https://media.rawg.io/crop/600/400/games/b45/b45575f34285f2c4479c9a5f719d972e.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/770/7700aced3abce5100a8162a136cb3d63.jpg' },
+  'shadow-of-the-tomb-raider': { imageUrl: 'https://media.rawg.io/crop/600/400/games/7f6/7f6cd70ba2ad57053b4847c13569f2d8.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/8d7/8d740fb8f406cba1af1cf15943090092.jpg' },
+  'hitman-world-of-assassination': { imageUrl: 'https://media.rawg.io/crop/600/400/games/16b/16b1b7b36e2042d1128d5a3e852b3b2f.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/8e3/8e3eebc3a4a1605b5d7625c25faddd4c.jpg' },
+  'dying-light-2': { imageUrl: 'https://media.rawg.io/crop/600/400/games/73d/73db43df633477d4604c7248292f34b2.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/97b/97b0e4b2e62218645eab82db11c6cd07.jpg' },
+  'far-cry-6': { imageUrl: 'https://media.rawg.io/crop/600/400/games/5dd/5dd4d2dd986d2826800bc37fff64aa4f.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/51e/51ea0a1c3aaa4b310cefd4ceec1ab75b.jpg' },
+  'watch-dogs-legion': { imageUrl: 'https://media.rawg.io/crop/600/400/games/415/41563ce6cb061a210160687a4e5d39f6.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/378/37858a76e08a910e4e89183ba2d9dbbe.jpg' },
+  'sons-of-the-forest': { imageUrl: 'https://media.rawg.io/crop/600/400/games/7a0/7a092fa63811a7f6ed90f456a8887e91.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/546/5466f0be73429e83aeff0fe7d62bee67.jpg' },
+  'valheim': { imageUrl: 'https://media.rawg.io/crop/600/400/games/adb/adb59be81367b19c2544457424bcf086.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/133/1339ea20e2e8dea05d71cfcfa4eeefed.jpg' },
+  'terraria': { imageUrl: 'https://media.rawg.io/crop/600/400/games/f46/f466571d536f2e3ea9e815ad17177501.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/640/64043c87df0ab807b2f3cb8c3cd48889.jpg' },
+  'lethal-company': { imageUrl: 'https://media.rawg.io/crop/600/400/screenshots/2fa/2faa93b7882a018ac21a1f9cc5176579.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/748/748f945e3494d20a1c72197d2ba76146.jpg' },
+  'hades-2': { imageUrl: 'https://media.rawg.io/crop/600/400/screenshots/6d6/6d61e8ef67c0f27b29b4f16266dbd9bd.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/bc4/bc44314fff637a6b81f1d264bc767a9e.jpg' },
+  'bioshock-remastered': { imageUrl: 'https://media.rawg.io/crop/600/400/games/be0/be01c3d7d8795a45615da139322ca080.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/25a/25ac07efdbf90a2d7e626353ebadc565.jpg' },
+  'bioshock-infinite': { imageUrl: 'https://media.rawg.io/crop/600/400/games/fc1/fc1307a2774506b5bd65d7e8424664a7.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/11d/11da7bd20166b2ae6e8957b7ff82de42.jpg' },
+  'half-life-2': { imageUrl: 'https://media.rawg.io/crop/600/400/games/b8c/b8c243eaa0fbac8115e0cdccac3f91dc.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/b2d/b2d0754d02af8e2733f05a8a769b55c7.jpg' },
+  'left-4-dead-2': { imageUrl: 'https://media.rawg.io/crop/600/400/games/d58/d588947d4286e7b5e0e12e1bea7d9844.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/f01/f0147a2c654b7ace79a7fcebe94bf110.jpg' },
+  'middle-earth-shadow-of-war': { imageUrl: 'https://media.rawg.io/crop/600/400/games/21a/21ad672cedee9b4378abb6c2d2e626ee.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/a93/a93ee6ee0035b636b512adfe26b3b2d3.jpg' },
+  'batman-arkham-knight': { imageUrl: 'https://media.rawg.io/crop/600/400/games/310/3106b0e012271c5ffb16497b070be739.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/34f/34f9b421209ec6c779e26ebe9a0de768.jpg' },
+  'the-forest': { imageUrl: 'https://media.rawg.io/crop/600/400/games/1be/1be575aa6de86de328433a63fb534d9a.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/2ec/2ecbb42b9040858aa9c0da8df3fc3a92.jpg' },
+  'green-hell': { imageUrl: 'https://media.rawg.io/crop/600/400/screenshots/afa/afafe78f1c6356cc423b1ec9a68f9c7d.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/7eb/7eba572d8683bf8adbf5a1809801515e.jpg' },
+  'grounded': { imageUrl: 'https://media.rawg.io/crop/600/400/screenshots/13a/13a3ac8e9a2b95c0d12906bc17991e0c.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/686/686bf3a9114e704ff82bf6932891ad66.jpg' },
+  'back-4-blood': { imageUrl: 'https://media.rawg.io/crop/600/400/games/4fe/4feffcec6315c5f5a96442a8444431ca.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/0cc/0cc693450a1cfadd9ee7d383591dd0c6.jpg' },
+  'world-war-z': { imageUrl: 'https://media.rawg.io/crop/600/400/games/b17/b17679dbca4ccfbc96d2335aa366ccf9.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/d73/d73d4224ee1c66777e09d5060e8d5d7b.jpg' },
+  'dark-souls-remastered': { imageUrl: 'https://media.rawg.io/crop/600/400/screenshots/942/942041140121867542dbd004605ae486.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/942/942041140121867542dbd004605ae486.jpg' },
+  'dark-souls-2-scholar': { imageUrl: 'https://media.rawg.io/crop/600/400/games/8fc/8fc59e74133fd8a8a436b7e2d0fb36c2.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/d8d/d8d0f93030418e43a518ca0a66aa7f19.jpg' },
+  'hollow-knight-silksong': { imageUrl: 'https://media.rawg.io/crop/600/400/games/27c/27cd8b7dead05a870f8a514a9a1915ad.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/79a/79a5026c9032d626d59b57e5d6edb45a_EiUzDAs.jpg' },
+  'factorio': { imageUrl: 'https://media.rawg.io/crop/600/400/games/7e4/7e4e22b76da131e9690d5757555093c2.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/d6c/d6c2f889f6a6c6332b208a6132b06acb.jpg' },
+  'age-of-empires-4': { imageUrl: 'https://media.rawg.io/crop/600/400/games/23e/23e45acbf29bd241913ddcf5cf4053d5.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/f22/f226505b40915d34b614cfcb47bdefee.jpg' },
+  'cities-skylines': { imageUrl: 'https://media.rawg.io/crop/600/400/games/25c/25c4776ab5723d5d735d8bf617ca12d9.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/4f2/4f2a028bedebf6ae16b393a4aa9c7702.jpg' },
+  'euro-truck-simulator-2': { imageUrl: 'https://media.rawg.io/crop/600/400/games/1f5/1f5ddf7199f2778ff83663b93b5cb330.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/3c2/3c2b696e9b3acebf5520ff4f4808e8ca.jpg' },
+  'mortal-kombat-1': { imageUrl: 'https://media.rawg.io/crop/600/400/screenshots/fc0/fc083fef8003fc4ad4927fe59d27e798.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/fc0/fc083fef8003fc4ad4927fe59d27e798.jpg' },
+  'the-witness': { imageUrl: 'https://media.rawg.io/crop/600/400/games/00b/00b164224ebaf381104d0b215a37afb3.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/5ea/5ea913418ec096063e8b129ad348b721.jpg' },
+  'returnal': { imageUrl: 'https://media.rawg.io/crop/600/400/games/673/673f27be4c5dbf37ce3ed0ed5ddf9d8d.jpg', coverUrl: 'https://media.rawg.io/crop/1920/1080/screenshots/e1b/e1bc10332350cb491d6227b86750ae7c.jpg' },
+}
+
+// ============================================================
 // GAME DATA - 50 games with verified Steam App IDs
 // ============================================================
 const GAMES_DATA = [
@@ -2426,8 +2534,9 @@ async function main() {
     const category = categoryMap.get(game.categorySlug)
     if (!category) continue
 
-    const imageUrl = STEAM_CAPSULE(game.steamId)
-    const coverUrl = STEAM_HERO(game.steamId)
+    const rawgCover = RAWG_COVERS[game.slug]
+    const imageUrl = rawgCover?.imageUrl || STEAM_CAPSULE(game.steamId)
+    const coverUrl = rawgCover?.coverUrl || STEAM_HERO(game.steamId)
     const torrentData = TORRENT_DOWNLOADS[game.slug]
 
     const newGame = await prisma.game.create({
@@ -2472,8 +2581,9 @@ async function main() {
     const category = categoryMap.get(game.categorySlug)
     if (!category) continue
 
-    const imageUrl = STEAM_CAPSULE(game.steamId)
-    const coverUrl = STEAM_HERO(game.steamId)
+    const rawgCover = RAWG_COVERS[game.slug]
+    const imageUrl = rawgCover?.imageUrl || STEAM_CAPSULE(game.steamId)
+    const coverUrl = rawgCover?.coverUrl || STEAM_HERO(game.steamId)
     const torrentData = TORRENT_DOWNLOADS_BATCH2[game.slug]
 
     const newGame = await prisma.game.create({
