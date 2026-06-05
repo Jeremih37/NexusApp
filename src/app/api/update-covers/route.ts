@@ -6,18 +6,32 @@ import { rawgService } from '@/services/rawg-service'
 // Each game is fetched by its slug, so the cover ALWAYS matches the game
 // Body: { slugs?: string[] } (optional - if not provided, updates all games)
 export async function POST(request: NextRequest) {
-  const rawgApiKey = process.env.RAWG_API_KEY
+  let rawgApiKey = process.env.RAWG_API_KEY
+  let requestBody: Record<string, unknown> = {}
+
+  try {
+    requestBody = await request.json()
+  } catch {
+    requestBody = {}
+  }
+
+  // Fallback: accept apiKey in request body (for one-time setup)
+  if (!rawgApiKey) {
+    rawgApiKey = requestBody.apiKey as string | undefined
+  }
 
   if (!rawgApiKey) {
     return NextResponse.json(
-      { error: 'RAWG_API_KEY not configured. Add it to your environment variables to update covers.' },
+      { error: 'RAWG_API_KEY not configured. Add it to your environment variables or provide apiKey in request body.' },
       { status: 400 }
     )
   }
 
+  // Set the API key for the rawgService to use
+  process.env.RAWG_API_KEY = rawgApiKey
+
   try {
-    const body = await request.json().catch(() => ({}))
-    const customSlugs = body.slugs as string[] | undefined
+    const customSlugs = requestBody.slugs as string[] | undefined
 
     // Get all games from database
     const games = await db.game.findMany({
