@@ -357,8 +357,9 @@ function getAllGenres(games: RawgGame[]): Map<string, { name: string; slug: stri
 }
 
 // Get the best trailer URL for a game (YouTube embed)
-async function getBestTrailerUrl(gameId: number): Promise<string | null> {
-  // First try YouTube trailers
+// Tries RAWG YouTube endpoint first, then RAWG movies, then YouTube search as fallback
+async function getBestTrailerUrl(gameId: number, gameName?: string): Promise<string | null> {
+  // Strategy 1: Try RAWG YouTube trailers endpoint
   const youtubeVideos = await getGameTrailers(gameId)
 
   for (const video of youtubeVideos) {
@@ -372,6 +373,44 @@ async function getBestTrailerUrl(gameId: number): Promise<string | null> {
   // If no trailer found, use the first YouTube video if available
   if (youtubeVideos.length > 0) {
     return `https://www.youtube.com/embed/${youtubeVideos[0].video_id}`
+  }
+
+  // Strategy 2: Try RAWG movies (official video clips)
+  const movies = await getGameMovies(gameId)
+  if (movies.length > 0) {
+    // Prefer movies with "trailer" in the name
+    for (const movie of movies) {
+      const name = movie.name.toLowerCase()
+      if (name.includes('trailer') || name.includes('official') || name.includes('launch')) {
+        return movie.data.max || movie.data['480'] || null
+      }
+    }
+    // Fallback to first movie (these are MP4 URLs, not YouTube embeds)
+    // We'll use the max quality version
+    const first = movies[0]
+    return first.data.max || first.data['480'] || null
+  }
+
+  // Strategy 3: Search YouTube directly as last resort
+  if (gameName) {
+    try {
+      const searchQuery = `${gameName} official trailer`
+      const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(searchQuery)}`
+      const response = await fetch(searchUrl, {
+        headers: { 'User-Agent': 'Mozilla/5.0' },
+        signal: AbortSignal.timeout(10000),
+      })
+      const html = await response.text()
+      const videoIds = html.match(/"videoId":"([a-zA-Z0-9_-]{11})"/g)
+      if (videoIds && videoIds.length > 0) {
+        const match = videoIds[0].match(/"videoId":"([a-zA-Z0-9_-]{11})"/)
+        if (match) {
+          return `https://www.youtube.com/embed/${match[1]}`
+        }
+      }
+    } catch (error) {
+      console.warn(`YouTube search fallback failed for "${gameName}":`, error)
+    }
   }
 
   return null

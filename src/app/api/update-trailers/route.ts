@@ -96,11 +96,11 @@ export async function POST(request: NextRequest) {
           continue
         }
 
-        // Get trailer URL from RAWG YouTube endpoint
-        const trailerUrl = await rawgService.getBestTrailerUrl(rawgGame.id)
+        // Get trailer URL from RAWG (with YouTube search fallback)
+        const trailerUrl = await rawgService.getBestTrailerUrl(rawgGame.id, rawgGame.name)
 
         if (!trailerUrl) {
-          errors.push(`${game.slug}: no trailer available on RAWG`)
+          errors.push(`${game.slug}: no trailer available from RAWG or YouTube`)
           continue
         }
 
