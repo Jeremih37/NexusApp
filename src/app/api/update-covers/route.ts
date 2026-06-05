@@ -61,13 +61,10 @@ export async function POST(request: NextRequest) {
         }
 
         // Use HD image URLs from RAWG CDN
-        // imageUrl = card thumbnail (600x400 crop)
-        // coverUrl = HD background for detail page (1920x1080 crop)
+        // imageUrl = card thumbnail (600x400 crop - works on RAWG CDN)
+        // coverUrl = HD background for detail page (full-size original, since crop > 600/400 doesn't work)
         const imageUrl = rawgService.getHdImageUrl(rawgGame.background_image, 600, 400) || rawgGame.background_image
-        const coverUrl = rawgService.getHdImageUrl(
-          rawgGame.background_image_additional || rawgGame.background_image,
-          1920, 1080
-        ) || rawgGame.background_image_additional || rawgGame.background_image
+        const coverUrl = rawgGame.background_image_additional || rawgGame.background_image
 
         // Also get trailer URL if game doesn't have one
         let trailerUrl: string | null = null

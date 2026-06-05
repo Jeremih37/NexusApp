@@ -240,22 +240,25 @@ async function getGameMovies(gameId: number): Promise<RawgMovie[]> {
 
 /**
  * Convert a RAWG image URL to an HD version.
- * RAWG CDN supports crop/resize parameters in the URL path.
- * Original: https://media.rawg.io/media/games/abc/abc123.jpg
- * HD 1920:  https://media.rawg.io/media/crop/1920/1080/games/abc/abc123.jpg
- * HD 1280:  https://media.rawg.io/media/crop/1280/720/games/abc/abc123.jpg
- * Cover:    https://media.rawg.io/media/crop/600/400/games/abc/abc123.jpg
+ * RAWG CDN only supports /crop/600/400/ reliably. Larger crops return 307→404.
+ * Original:    https://media.rawg.io/media/games/abc/abc123.jpg
+ * Thumbnail:   https://media.rawg.io/media/crop/600/400/games/abc/abc123.jpg  (works)
+ * HD cover:    https://media.rawg.io/media/screenshots/abc/abc123.jpg          (full-size, works)
  */
-function getHdImageUrl(rawgUrl: string | null | undefined, width: number = 1920, height: number = 1080): string {
+function getHdImageUrl(rawgUrl: string | null | undefined, width: number = 600, height: number = 400): string {
   if (!rawgUrl) return ''
-  // Insert /crop/WIDTH/HEIGHT before /games/ or /screenshots/ etc.
+  // Only /crop/600/400/ works reliably on RAWG CDN
+  // For larger sizes, return the original full-size image instead
+  if (width > 600 || height > 400) {
+    // Return the original /media/ URL without crop (full resolution, already HD)
+    return rawgUrl
+  }
+  // Insert /crop/600/400 before /games/ or /screenshots/ etc.
   const cropPath = `/crop/${width}/${height}`
-  const mediaIndex = rawgUrl.indexOf('/media/games/')
-  if (mediaIndex !== -1) {
+  if (rawgUrl.includes('/media/games/')) {
     return rawgUrl.replace('/media/games/', `${cropPath}/games/`)
   }
-  const screenshotsIndex = rawgUrl.indexOf('/media/screenshots/')
-  if (screenshotsIndex !== -1) {
+  if (rawgUrl.includes('/media/screenshots/')) {
     return rawgUrl.replace('/media/screenshots/', `${cropPath}/screenshots/`)
   }
   // If we can't parse the URL, return as-is
@@ -292,9 +295,9 @@ function mapRawgGameToGameData(
 
   // Use HD image URLs from RAWG CDN
   // imageUrl = main cover (card thumbnail) - use 600x400 crop for clean cards
-  // coverUrl = HD background for detail page - use 1920x1080 crop
+  // coverUrl = HD background for detail page - full-size original image (crop > 600/400 doesn't work on RAWG)
   const imageUrl = getHdImageUrl(rawgGame.background_image, 600, 400) || rawgGame.background_image || ''
-  const coverUrl = getHdImageUrl(rawgGame.background_image_additional || rawgGame.background_image, 1920, 1080) || rawgGame.background_image_additional || rawgGame.background_image || ''
+  const coverUrl = rawgGame.background_image_additional || rawgGame.background_image || ''
 
   // Clean up description - remove excessive whitespace
   let description = rawgGame.description_raw || ''
